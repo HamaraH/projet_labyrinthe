@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.project.labyrinth.model.Labyrinth;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -13,6 +14,7 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		Labyrinth labyrinth = new Labyrinth(21, 21);
 	}
 
 	@Override
