@@ -4,6 +4,8 @@
 *.war
 *.ear
 hs_err_pid*
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
 
 ## Robovm
 /ios/robovm-build/

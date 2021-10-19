@@ -1,0 +1,14 @@
+Arno:
+	- Mise en place de la musique : 
+	- Gestion des sprites
+
+Manon:
+	- Affichage du labyrinthe
+	- Gestion des sprites
+
+Lindsay:
+	- Affichage + gestion des mouvements du joueur
+
+
+Guillaume:
+	- Génération du labyrinthe

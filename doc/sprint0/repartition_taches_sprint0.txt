@@ -1,0 +1,11 @@
+Arno + Manon : 
+	- Génération du labyrinthe sous forme de tableau : 40 min
+	- Test création dans le main : 10 min
+
+Lindsay:
+	- Organisation des branches sur le Git : 30 min
+	- Génération des monstres : 
+
+Guillaume:
+	- Génération du joueur : 20 min
+	- Création d'un listener pour gérer les input : 30 min
