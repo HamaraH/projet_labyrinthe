@@ -3,7 +3,7 @@ package com.project.labyrinth.model;
 import java.util.*;
 
 public class Labyrinth {
-    private int sizeX, sizeY, nbMonsters = 5;
+    private int sizeX, sizeY, nbMonsters = 1;
     private int[][] map; //the map is made of zeroes and ones, as to show where the walls are
     private Player player;
     List<Monster> monsters = new ArrayList<Monster>();
@@ -44,18 +44,11 @@ public class Labyrinth {
 
     private void mazeRecursion(int x, int y){
         // Creation of an array to contain the 4 directions in which we can create the maze
-        ArrayList<Integer> dir = new ArrayList<>(4);
-        for(int i = 0; i < 4; i++){
-            dir.add(i);
-        }
-        // Shuffling the directions to get a random maze creation
-        Collections.shuffle(dir);
-        Integer[] dirsTab = new Integer[4];
-        dirsTab = dir.toArray(new Integer[4]);
+        Integer[] dir = randomDirection();
 
         //We go through the directions array to find our next path
         for(int i = 0; i < 4; i++){
-            switch(dirsTab[i]){
+            switch(dir[i]){
                 case 0 : // up
                     // We skip if we're out of the maze
                     if(y - 2 <= 0)
@@ -99,15 +92,85 @@ public class Labyrinth {
         }
     }
 
+    public void actionMonsters(){
+        Integer[] dir;
+        for(Monster m : monsters){
+            // Creation of an array to contain the 4 directions in which the monster could move
+            dir = randomDirection();
+            // Get the monster's position
+            int mX = m.getPosX();
+            int mY = m.getPosY();
+            //StringBuilder sb = new StringBuilder();
+            //sb.append("Monster ( ").append(mX).append(" ; ").append(mY).append(" ) -> ( ");
+            for(int i = 0; i < 4; i++) {
+                switch (dir[i]){
+                    case 0: // up
+                        //System.out.println("Trying up");
+                        if(mY + 1 >= 0 && map[mX][mY - 1] != 1) {
+                            //System.out.println("Moving");
+                            map[mX][mY] = 0;
+                            m.move(0, -1);
+                            i = 4;
+                            //continue;
+                        }
+                        break;
+                    case 1: // down
+                        //System.out.println("Trying down");
+                        if(mY + 1 < sizeY && map[mX][mY + 1] != 1) {
+                            //System.out.println("Moving");
+                            map[mX][mY] = 0;
+                            m.move(0, 1);
+                            i = 4;
+                            //continue;
+                        }
+                        break;
+                    case 2: // left
+                        //System.out.println("Trying left");
+                        if(mX - 1 >= 0 && map[mX - 1][mY] != 1) {
+                            //System.out.println("Moving");
+                            map[mX][mY] = 0;
+                            m.move(-1, 0);
+                            i = 4;
+                            //continue;
+                        }
+                        break;
+                    case 3: // right
+                        //System.out.println("Trying right");
+                        if(mY + 1 < sizeX && map[mX + 1][mY] != 1) {
+                            //System.out.println("Moving");
+                            map[mX][mY] = 0;
+                            m.move(1, 0);
+                            i = 4;
+                            //continue;
+                        }
+                        break;
+                }
+                map[m.getPosX()][m.getPosY()] = 2;
+            }
+            //sb.append(m.getPosX()).append(" ; ").append(m.getPosY()).append(" )");
+            //System.out.println(sb.toString());
+        }
+    }
+
+    private Integer[] randomDirection(){
+        ArrayList<Integer> dir = new ArrayList<>(4);
+        for(int i = 0; i < 4; i++){
+            dir.add(i);
+        }
+        // Shuffling the directions to get a random direction
+        Collections.shuffle(dir);
+        return dir.toArray(new Integer[4]);
+    }
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0 ; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++)
-                if (map[i][j] == 1)
+                if (map[j][i] == 1)
                     sb.append("# ");
-                else if (map[i][j] == 0)
+                else if (map[j][i] == 0)
                     sb.append("; ");
-                else if (map[i][j] == 2)
+                else if (map[j][i] == 2)
                     sb.append("k ");
             sb.append("\n");
         }

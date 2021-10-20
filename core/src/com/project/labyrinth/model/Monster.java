@@ -7,8 +7,8 @@ public class Monster extends Entity {
         this.posY = y;
     }
 
-    private void move(int x, int y){
-        this.posX += x;
-        this.posY += y;
+    public void move(int depX, int depY){
+        this.posX += depX;
+        this.posY += depY;
     }
 }

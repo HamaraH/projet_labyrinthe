@@ -9,12 +9,12 @@ import com.project.labyrinth.model.Labyrinth;
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	Labyrinth labyrinth = new Labyrinth(9, 9);
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		Labyrinth labyrinth = new Labyrinth(21, 21);
 	}
 
 	@Override
@@ -23,6 +23,9 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();
+		//System.out.println("\n-----------------------------------------------------\n");
+		//labyrinth.actionMonsters();
+		//System.out.println(labyrinth.toString());
 	}
 	
 	@Override
