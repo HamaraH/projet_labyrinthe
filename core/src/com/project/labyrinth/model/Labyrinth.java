@@ -3,14 +3,15 @@ package com.project.labyrinth.model;
 import java.util.*;
 
 public class Labyrinth {
-    private int sizeX, sizeY;
+    private int sizeX, sizeY, nbMonsters = 5;
     private int[][] map; //the map is made of zeroes and ones, as to show where the walls are
     private Player player;
-    List<Monster> monsters;
+    List<Monster> monsters = new ArrayList<Monster>();
 
     public Labyrinth(int sizeX, int sizeY){
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        Random rand = new Random();
 
         // Initialize the maze
         map = new int[this.sizeX][this.sizeY];
@@ -23,6 +24,19 @@ public class Labyrinth {
         // Generate the maze
         map[1][1] = 0;
         mazeRecursion(1, 1);
+
+        //Place the monsters randomly
+        for(int i = 0; i < nbMonsters; i++){
+            int x = -1;
+            int y = -1;
+            while((x <= 0 || map[x][y] != 0) && (y <= 0 || map[x][y] != 0)){
+                x = rand.nextInt(sizeX-1) + 1;
+                y = rand.nextInt(sizeY-1) + 1;
+            }
+            Monster newMonster = new Monster(x, y);
+            monsters.add(newMonster);
+            map[x][y] = 2;
+        }
 
         // Print the maze
         System.out.println(this.toString());
@@ -72,7 +86,7 @@ public class Labyrinth {
                         mazeRecursion(x - 2, y);
                     }
                     break;
-                case 3 : // up
+                case 3 : // right
                     if(x + 2 >= sizeX-1)
                         continue;
                     if(map[x + 2][y] == 1){
@@ -91,8 +105,10 @@ public class Labyrinth {
             for (int j = 0; j < sizeY; j++)
                 if (map[i][j] == 1)
                     sb.append("# ");
-                else
+                else if (map[i][j] == 0)
                     sb.append("; ");
+                else if (map[i][j] == 2)
+                    sb.append("k ");
             sb.append("\n");
         }
         return sb.toString();
