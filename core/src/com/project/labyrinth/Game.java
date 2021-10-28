@@ -2,16 +2,18 @@ package com.project.labyrinth;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Game extends ApplicationAdapter {
+
 	SpriteBatch map_batch;
 	Texture map_texture;
 	SpriteBatch player_batch;
 	Texture player_texture;
-
+	Music background_music;
 	
 	@Override
 	public void create () {
@@ -24,6 +26,13 @@ public class Game extends ApplicationAdapter {
 		player_batch = new SpriteBatch();
 		player_texture= new Texture("player_standing.png");
 
+		// music
+
+		background_music = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
+		background_music.setLooping(true);
+		background_music.play();
+
+		Gdx.graphics.setTitle("PokéRPG");
 	}
 
 	@Override
