@@ -24,6 +24,9 @@ public class Game extends ApplicationAdapter {
 	SpriteBatch monster_batch2;
 	Texture monster_texture2;
 
+	SpriteBatch obstacle_batch;
+	Texture obstacle_texture;
+
 	int random_positionX1;
 	int random_positionY1;
 
@@ -68,6 +71,11 @@ public class Game extends ApplicationAdapter {
 
 		random_positionX2 = (int)(Math.random() * (Gdx.graphics.getWidth()-50)+25);
 		random_positionY2 = (int) (Math.random() * (Gdx.graphics.getHeight()-50)+25);
+
+		//obstacle
+
+		obstacle_batch = new SpriteBatch();
+		obstacle_texture = new Texture("obstacle.png");
 	}
 
 	@Override
@@ -88,7 +96,6 @@ public class Game extends ApplicationAdapter {
 		player_batch.draw(player_texture, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 30, 30);
 		player_batch.end();
 
-
 		monster_batch1.begin();
 		monster_batch1.draw(monster_texture1, random_positionX1, random_positionY1, 30, 30);
 		monster_batch1.end();
@@ -96,6 +103,10 @@ public class Game extends ApplicationAdapter {
 		monster_batch2.begin();
 		monster_batch2.draw(monster_texture2, random_positionX2, random_positionY2, 50, 50);
 		monster_batch2.end();
+
+		obstacle_batch.begin();
+		obstacle_batch.draw(obstacle_texture,Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
+		obstacle_batch.end();
 	}
 	
 	@Override
