@@ -17,7 +17,19 @@ public class Game extends ApplicationAdapter {
 	Texture wall_texture;
 	Texture wall_texture_rotated;
 	Music background_music;
-	
+
+	SpriteBatch monster_batch1;
+	Texture monster_texture1;
+
+	SpriteBatch monster_batch2;
+	Texture monster_texture2;
+
+	int random_positionX1;
+	int random_positionY1;
+
+	int random_positionX2;
+	int random_positionY2;
+
 	@Override
 	public void create () {
 
@@ -43,6 +55,19 @@ public class Game extends ApplicationAdapter {
 		// changing the window name and size
 		Gdx.graphics.setTitle("PokéRPG");
 
+		//creating the monsters
+
+		monster_batch1 = new SpriteBatch();
+		monster_texture1 = new Texture("monster1.png");
+
+		monster_batch2 = new SpriteBatch();
+		monster_texture2 = new Texture("monster2.png");
+
+		random_positionX1 = (int)(Math.random() * (Gdx.graphics.getWidth()-50)+25);
+		random_positionY1 = (int) (Math.random() * (Gdx.graphics.getHeight()-50)+25);
+
+		random_positionX2 = (int)(Math.random() * (Gdx.graphics.getWidth()-50)+25);
+		random_positionY2 = (int) (Math.random() * (Gdx.graphics.getHeight()-50)+25);
 	}
 
 	@Override
@@ -62,6 +87,15 @@ public class Game extends ApplicationAdapter {
 		player_batch.begin();
 		player_batch.draw(player_texture, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 30, 30);
 		player_batch.end();
+
+
+		monster_batch1.begin();
+		monster_batch1.draw(monster_texture1, random_positionX1, random_positionY1, 30, 30);
+		monster_batch1.end();
+
+		monster_batch2.begin();
+		monster_batch2.draw(monster_texture2, random_positionX2, random_positionY2, 50, 50);
+		monster_batch2.end();
 	}
 	
 	@Override
