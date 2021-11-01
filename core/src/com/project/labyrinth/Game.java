@@ -90,9 +90,6 @@ public class Game extends ApplicationAdapter {
 		//labyrinth.actionMonsters();
 		//System.out.println(labyrinth.toString());
 
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
 
 		map_batch.begin();
 		map_batch.draw(map_texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
