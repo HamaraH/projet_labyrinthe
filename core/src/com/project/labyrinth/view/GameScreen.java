@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.project.labyrinth.controller.Keyboard;
+import com.project.labyrinth.factory.SoundFactory;
 import com.project.labyrinth.model.Labyrinth;
 
 public class GameScreen extends ScreenAdapter {
@@ -29,6 +30,10 @@ public class GameScreen extends ScreenAdapter {
         spriteBatch.setProjectionMatrix(camera.combined);
         keyboard = new Keyboard();
         Gdx.input.setInputProcessor(keyboard);
+        Gdx.graphics.setTitle("PokéRPG");
+
+        SoundFactory.getInstance().getBackground_music().setLooping(true);
+        SoundFactory.getInstance().getBackground_music().play();
 
 
     }

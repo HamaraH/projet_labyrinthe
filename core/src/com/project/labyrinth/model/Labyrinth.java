@@ -1,12 +1,10 @@
 package com.project.labyrinth.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-
+import com.project.labyrinth.factory.TextureFactory;
 import java.util.*;
 
 public class Labyrinth {
@@ -15,27 +13,6 @@ public class Labyrinth {
     private Player player;
     List<Monster> monsters = new ArrayList<Monster>();
     World world;
-
-
-    Labyrinth labyrinth ;
-
-    SpriteBatch map_batch;
-    Texture map_texture;
-    SpriteBatch player_batch;
-    Texture player_texture;
-    SpriteBatch wall;
-    Texture wall_texture;
-    Texture wall_texture_rotated;
-    Music background_music;
-
-    SpriteBatch monster_batch1;
-    Texture monster_texture1;
-
-    SpriteBatch monster_batch2;
-    Texture monster_texture2;
-
-    SpriteBatch obstacle_batch;
-    Texture obstacle_texture;
 
     int random_positionX1;
     int random_positionY1;
@@ -46,49 +23,11 @@ public class Labyrinth {
     public Labyrinth(int sizeX, int sizeY){
 
 
-        // creating the map
-        map_batch = new SpriteBatch();
-        map_texture= new Texture("grass.png");
-
-        //creating the player object
-
-        player_batch = new SpriteBatch();
-        player_texture= new Texture("player_standing.png");
-
-        // creating the texture of walls
-        wall = new SpriteBatch();
-        wall_texture = new Texture("wall_texture.png");
-        wall_texture_rotated = new Texture("wall_texture_rotated.png");
-        // music
-
-        background_music = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
-        background_music.setLooping(true);
-        background_music.play();
-
-        // changing the window name and size
-        Gdx.graphics.setTitle("PokéRPG");
-
-        //creating the monsters
-
-        monster_batch1 = new SpriteBatch();
-        monster_texture1 = new Texture("monster1.png");
-
-        monster_batch2 = new SpriteBatch();
-        monster_texture2 = new Texture("monster2.png");
-
         random_positionX1 = (int)(Math.random() * (Gdx.graphics.getWidth()-50)+25);
         random_positionY1 = (int) (Math.random() * (Gdx.graphics.getHeight()-50)+25);
 
         random_positionX2 = (int)(Math.random() * (Gdx.graphics.getWidth()-50)+25);
         random_positionY2 = (int) (Math.random() * (Gdx.graphics.getHeight()-50)+25);
-
-        //obstacle
-
-        obstacle_batch = new SpriteBatch();
-        obstacle_texture = new Texture("obstacle.png");
-
-
-
 
 
         world = new World(new Vector2(0, 0), true);
@@ -268,30 +207,25 @@ public class Labyrinth {
     public void draw(SpriteBatch spriteBatch){
 
 
-        spriteBatch.draw(map_texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+        spriteBatch.draw(TextureFactory.getInstance().getMap_texture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         display_walls(spriteBatch);
-
-        spriteBatch.draw(player_texture, player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
-
-        spriteBatch.draw(monster_texture1, random_positionX1, random_positionY1, 30, 30);
-
-        spriteBatch.draw(monster_texture2, random_positionX2, random_positionY2, 50, 50);
-
-        spriteBatch.draw(obstacle_texture,Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
+        spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
+        spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), random_positionX1, random_positionY1, 30, 30);
+        spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
+        spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
 
     }
 
     public void display_walls(SpriteBatch spriteBatch){
 
         for(int i =0 ; i<Gdx.graphics.getWidth() ; i = i+25){
-            spriteBatch.draw(wall_texture,i,0 , 25, 25);
-            spriteBatch.draw(wall_texture,i,Gdx.graphics.getHeight()-25 , 25, 25);
+            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(),i,0 , 25, 25);
+            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(),i,Gdx.graphics.getHeight()-25 , 25, 25);
         }
 
         for(int i =0 ; i<Gdx.graphics.getHeight() ; i = i+25){
-            spriteBatch.draw(wall_texture_rotated,0,i , 25, 25);
-            spriteBatch.draw(wall_texture_rotated,Gdx.graphics.getWidth()-25,i , 25, 25);
+            spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),0,i , 25, 25);
+            spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),Gdx.graphics.getWidth()-25,i , 25, 25);
         }
 
 
