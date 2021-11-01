@@ -34,7 +34,7 @@ public class TextureFactory {
 
         //obstacle
         obstacle_texture = new Texture("obstacle.png");
-        
+
 
     }
 
