@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class Monster extends Entity {
 
-    private int id;
     private int size;
     private Body body ;
     private Shape shape;

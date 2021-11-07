@@ -239,7 +239,6 @@ public class Labyrinth {
 
     public void attack(){
 
-
         playerAttack.set(true);
         world.setContactListener(new ContactListener() {
 
@@ -250,11 +249,11 @@ public class Labyrinth {
                     if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()){
                         if(playerAttack.get()) {
                             m.hp = m.hp - player.attackPoints;
-                            System.out.println(m.hp);
+
                             playerAttack.set(false);
 
-                        }
 
+                        }
                     }
                 }
 
@@ -278,6 +277,15 @@ public class Labyrinth {
 
         });
 
+        //delete body monster
+        for(Monster m : monsters) {
+            if (m.hp <= 0) {
+                world.destroyBody(m.getBody());
+            }
+        }
+
+        //delete monster in arraylist
+        monsters.removeIf(m -> m.hp <= 0);
 
     }
 
