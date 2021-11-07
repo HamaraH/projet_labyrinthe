@@ -3,9 +3,10 @@ package com.project.labyrinth.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Labyrinth {
     private int sizeX, sizeY, nbMonsters = 1;
@@ -13,6 +14,7 @@ public class Labyrinth {
     private Player player;
     List<Monster> monsters = new ArrayList<Monster>();
     World world;
+    AtomicBoolean playerAttack = new AtomicBoolean(false);
 
     int random_positionX1;
     int random_positionY1;
@@ -58,7 +60,7 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Monster newMonster = new Monster(x, y);
+            Monster newMonster = new Monster(world, 0, 0, 50, 30);
             monsters.add(newMonster);
             map[x][y] = 2;
         }
@@ -210,8 +212,12 @@ public class Labyrinth {
         spriteBatch.draw(TextureFactory.getInstance().getMap_texture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         display_walls(spriteBatch);
         spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
-        spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), random_positionX1, random_positionY1, 30, 30);
-        spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
+
+        for(Monster m : monsters) {
+
+            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getPositionX() , m.getPositionY(), m.getSize(), m.getSize());
+        }
+       // spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
         spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
 
     }
@@ -227,6 +233,50 @@ public class Labyrinth {
             spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),0,i , 25, 25);
             spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),Gdx.graphics.getWidth()-25,i , 25, 25);
         }
+
+
+    }
+
+    public void attack(){
+
+
+        playerAttack.set(true);
+        world.setContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact contact) {
+
+                for(Monster m : monsters) {
+                    if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()){
+                        if(playerAttack.get()) {
+                            m.hp = m.hp - player.attackPoints;
+                            System.out.println(m.hp);
+                            playerAttack.set(false);
+
+                        }
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+
+
+        });
 
 
     }

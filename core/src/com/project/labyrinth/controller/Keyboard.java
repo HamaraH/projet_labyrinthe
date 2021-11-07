@@ -3,6 +3,7 @@ package com.project.labyrinth.controller;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.project.labyrinth.model.Labyrinth;
 
 public class Keyboard implements InputProcessor {
 
@@ -12,12 +13,14 @@ public class Keyboard implements InputProcessor {
     int coeff; //vitesse
     Boolean debug ;
 
-    public Keyboard(){
+    Labyrinth labyrinth;
+
+    public Keyboard(Labyrinth labyrinth){
         acc = new Vector2(0f, 0f);
 
-
-        coeff = 10000;
+        coeff = 1000;
         debug = false;
+        this.labyrinth = labyrinth;
     }
 
     @Override
@@ -48,6 +51,7 @@ public class Keyboard implements InputProcessor {
             default:
 
 
+
         }
 
         return true;
@@ -65,6 +69,9 @@ public class Keyboard implements InputProcessor {
             case Input.Keys.F:
                 acc.x = 0;
                 break;
+
+
+
 
             default:
 
@@ -85,6 +92,11 @@ public class Keyboard implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(button == Input.Buttons.LEFT){
+                labyrinth.attack();
+                return true;
+        }
+
         return false;
     }
 

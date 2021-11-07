@@ -14,6 +14,7 @@ public class Player extends Entity {
    public Player(World world, int x, int y){
 
 
+       this.attackPoints = 10;
         size = 30;
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -25,11 +26,11 @@ public class Player extends Entity {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1 ;
+        fixtureDef.density = 0 ;
         fixtureDef.restitution = 0.25f ;
 
         body.createFixture(fixtureDef);
-        body.setLinearDamping(1.5f);
+        body.setLinearDamping(3f);
         body.setUserData("Player");
 
         shape.dispose();
@@ -53,8 +54,11 @@ public class Player extends Entity {
     }
 
 
-    public float getSize() {
+    public int getSize() {
         return size;
     }
 
+    public Body getBody() {
+        return body;
+    }
 }
