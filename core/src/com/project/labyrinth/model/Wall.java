@@ -14,7 +14,7 @@ public class Wall {
         this.posX = posX * size;
         this.posY = posY * size;
 
-        this.size = 30;
+        this.size = size;
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -22,7 +22,10 @@ public class Wall {
         body = world.createBody(bodyDef);
         shape = new PolygonShape();
 
-        ((PolygonShape) shape).set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
+        ((PolygonShape) shape).set(new float[]{this.posX, this.posY,
+                this.posX+size,  this.posY,
+                this.posX + size,  this.posY +size,
+                this.posX, this.posY+size});
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -42,5 +45,9 @@ public class Wall {
 
     public int getPosY() {
         return posY;
+    }
+
+    public int getSize() {
+        return size;
     }
 }
