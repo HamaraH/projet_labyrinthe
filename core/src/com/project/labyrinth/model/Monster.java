@@ -28,11 +28,11 @@ public class Monster extends Entity {
         this.size = size;
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(relativePosX + 5, relativePosY + 5);
         body = world.createBody(bodyDef);
 
         shape = new PolygonShape();
-        ((PolygonShape) shape).set(new float[]{x, y, x, size, size, size, size, y});
+        ((PolygonShape) shape).set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
