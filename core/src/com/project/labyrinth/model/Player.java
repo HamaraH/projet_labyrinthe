@@ -45,7 +45,6 @@ public class Player extends Entity {
     }
 
     public float getPositionX(){
-
         return body.getPosition().x;
     }
 

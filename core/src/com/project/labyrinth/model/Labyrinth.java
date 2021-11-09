@@ -12,10 +12,10 @@ public class Labyrinth {
     private int sizeX, sizeY, nbMonsters = 1;
     private int[][] map; //the map is made of zeroes and ones, as to show where the walls are
     private Player player;
-    List<Monster> monsters = new ArrayList<Monster>();
-    List<Wall> walls = new ArrayList<Wall>();
-    World world;
-    AtomicBoolean playerAttack = new AtomicBoolean(false);
+    private List<Monster> monsters = new ArrayList<Monster>();
+    private List<Wall> walls = new ArrayList<Wall>();
+    private World world;
+    private AtomicBoolean playerAttack = new AtomicBoolean(false);
 
     int random_positionX1;
     int random_positionY1;
@@ -74,6 +74,15 @@ public class Labyrinth {
 
         // Print the maze
         System.out.println(this.toString());
+
+        new Timer().scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        //System.out.println("timer");
+                        actionMonsters();
+                    }
+                }, 1000, 1000);
     }
 
     private void mazeRecursion(int x, int y){
@@ -132,8 +141,15 @@ public class Labyrinth {
             // Creation of an array to contain the 4 directions in which the monster could move
             dir = randomDirection();
             // Get the monster's position
+            float mX1 = m.getPositionX();
+            float mY1 = m.getPositionY();
+            //System.out.println(mX1 + " ; " + mY1 + " -> " + mX1/m.getRatio() + " ; " + mY1/m.getRatio());
+            m.setPosX((int)mX1/m.getRatio());
+            m.setPosY((int)mY1/m.getRatio());
+
             int mX = m.getPosX();
             int mY = m.getPosY();
+
             //StringBuilder sb = new StringBuilder();
             //sb.append("Monster ( ").append(mX).append(" ; ").append(mY).append(" ) -> ( ");
             for(int i = 0; i < 4; i++) {
@@ -145,6 +161,7 @@ public class Labyrinth {
                             map[mX][mY] = 0;
                             m.move(0, -1);
                             i = 4;
+                            m.setDirection(0);
                             //continue;
                         }
                         break;
@@ -155,6 +172,7 @@ public class Labyrinth {
                             map[mX][mY] = 0;
                             m.move(0, 1);
                             i = 4;
+                            m.setDirection(1);
                             //continue;
                         }
                         break;
@@ -165,6 +183,7 @@ public class Labyrinth {
                             map[mX][mY] = 0;
                             m.move(-1, 0);
                             i = 4;
+                            m.setDirection(2);
                             //continue;
                         }
                         break;
@@ -175,12 +194,18 @@ public class Labyrinth {
                             map[mX][mY] = 0;
                             m.move(1, 0);
                             i = 4;
+                            m.setDirection(3);
                             //continue;
                         }
                         break;
                 }
                 map[m.getPosX()][m.getPosY()] = 2;
             }
+            /*try{
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
+
+            }*/
             //sb.append(m.getPosX()).append(" ; ").append(m.getPosY()).append(" )");
             //System.out.println(sb.toString());
         }
@@ -215,7 +240,6 @@ public class Labyrinth {
 
     public void draw(SpriteBatch spriteBatch){
 
-
         spriteBatch.draw(TextureFactory.getInstance().getMap_texture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         for(Wall w : walls){
@@ -225,6 +249,20 @@ public class Labyrinth {
 
         for(Monster m : monsters) {
             spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getRelativePosX() + 5, m.getRelativePosY() + 5, m.getSize(), m.getSize());
+            switch (m.getDirection()){
+                case 0:
+                    m.applyForce(new Vector2(.0f, -500.0f));
+                    break;
+                case 1:
+                    m.applyForce(new Vector2(.0f, 500.0f));
+                    break;
+                case 2:
+                    m.applyForce(new Vector2(-500.0f, 0.0f));
+                    break;
+                case 3:
+                    m.applyForce(new Vector2(500.0f, .0f));
+                    break;
+            }
             //System.out.println(m.getPositionX() + " ; " + m.getPositionY());
         }
        // spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);

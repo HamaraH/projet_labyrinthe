@@ -1,5 +1,6 @@
 package com.project.labyrinth;
-import com.badlogic.gdx.Gdx;
+import java.util.Timer;
+import java.util.TimerTask;
 import com.project.labyrinth.model.Labyrinth;
 import com.project.labyrinth.view.GameScreen;
 
@@ -22,7 +23,6 @@ public class Game extends com.badlogic.gdx.Game {
 	@Override
 	public void render () {
 		super.render();
-
 	}
 
 	@Override
