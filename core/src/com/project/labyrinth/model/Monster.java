@@ -4,20 +4,30 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class Monster extends Entity {
 
-    private int size;
+    private int size, relativePosX, relativePosY;
     private Body body ;
     private Shape shape;
     private BodyDef bodyDef;
 
-    public Monster(World world, int x, int y, int hp, int size){
+    public int getRelativePosX() {
+        return relativePosX;
+    }
+
+    public int getRelativePosY() {
+        return relativePosY;
+    }
+
+    public Monster(World world, int x, int y, int hp, int size, int ratio){
 
         this.posX = x;
         this.posY = y;
         this.hp = hp;
+        relativePosX = posX * ratio;
+        relativePosY = posY * ratio;
 
         this.size = size;
         bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
         body = world.createBody(bodyDef);
 

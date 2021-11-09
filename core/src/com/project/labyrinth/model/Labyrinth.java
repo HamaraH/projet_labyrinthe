@@ -54,23 +54,21 @@ public class Labyrinth {
         mazeRecursion(1, 1);
         for(int i = 0; i < sizeY; i++)
             for(int j = 0; j < sizeX ; j++)
-                if(map[j][i] == 1) {
-
-
-
+                if(map[j][i] == 1)
                     walls.add(new Wall(world, j, i, Gdx.graphics.getHeight() / sizeY));
-                }
 
         //Place the monsters randomly
+        nbMonsters = sizeX / 3;
         for(int i = 0; i < nbMonsters; i++){
             int x = -1;
             int y = -1;
-            while((x <= 0 || map[x][y] != 0) && (y <= 0 || map[x][y] != 0)){
+            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-          //  Monster newMonster = new Monster(world, 0, 0, 50, 30);
-           // monsters.add(newMonster);
+            Monster nM = new Monster(world, x, y, 50, 15/*(Gdx.graphics.getHeight() / sizeY)*/, Gdx.graphics.getHeight()/sizeY);
+            //System.out.println(nM.getPositionX() + " -> " + nM.getRelativePosX() + " ; " + nM.getPositionY() + " -> " + nM.getRelativePosY());
+            monsters.add(nM);
             map[x][y] = 2;
         }
 
@@ -223,7 +221,8 @@ public class Labyrinth {
         spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
 
         for(Monster m : monsters) {
-            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getPositionX()*(Gdx.graphics.getWidth()/sizeX) , m.getPositionY()*(Gdx.graphics.getHeight()/sizeY), m.getSize(), m.getSize());
+            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getRelativePosX() , m.getRelativePosY(), m.getSize(), m.getSize());
+            //System.out.println(m.getPositionX() + " ; " + m.getPositionY());
         }
        // spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
         //spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
