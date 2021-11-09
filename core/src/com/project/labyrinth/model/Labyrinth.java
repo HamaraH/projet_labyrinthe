@@ -66,8 +66,8 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Monster nM = new Monster(world, x, y, 50, 15/*(Gdx.graphics.getHeight() / sizeY)*/, Gdx.graphics.getHeight()/sizeY);
-            //System.out.println(nM.getPositionX() + " -> " + nM.getRelativePosX() + " ; " + nM.getPositionY() + " -> " + nM.getRelativePosY());
+            Monster nM = new Monster(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            System.out.println(nM.getPositionX() + " ; " + nM.getPositionY());
             monsters.add(nM);
             map[x][y] = 2;
         }
@@ -217,35 +217,18 @@ public class Labyrinth {
 
 
         spriteBatch.draw(TextureFactory.getInstance().getMap_texture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        display_walls(spriteBatch);
+
+        for(Wall w : walls){
+            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
+        }
         spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
 
         for(Monster m : monsters) {
-            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getRelativePosX() , m.getRelativePosY(), m.getSize(), m.getSize());
+            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getRelativePosX() + 5, m.getRelativePosY() + 5, m.getSize(), m.getSize());
             //System.out.println(m.getPositionX() + " ; " + m.getPositionY());
         }
        // spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
         //spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
-
-    }
-
-    public void display_walls(SpriteBatch spriteBatch){
-
-        for(Wall w : walls){
-
-            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
-        }
-
-        /*for(int i =0 ; i<Gdx.graphics.getWidth() ; i = i+25){
-            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(),i,0 , 25, 25);
-            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(),i,Gdx.graphics.getHeight()-25 , 25, 25);
-        }
-
-        for(int i =0 ; i<Gdx.graphics.getHeight() ; i = i+25){
-            spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),0,i , 25, 25);
-            spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),Gdx.graphics.getWidth()-25,i , 25, 25);
-        }*/
-
 
     }
 
