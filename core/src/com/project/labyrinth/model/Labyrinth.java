@@ -13,6 +13,7 @@ public class Labyrinth {
     private int[][] map; //the map is made of zeroes and ones, as to show where the walls are
     private Player player;
     List<Monster> monsters = new ArrayList<Monster>();
+    List<Wall> walls = new ArrayList<Wall>();
     World world;
     AtomicBoolean playerAttack = new AtomicBoolean(false);
 
@@ -51,6 +52,10 @@ public class Labyrinth {
         // Generate the maze
         map[1][1] = 0;
         mazeRecursion(1, 1);
+        for(int i = 0; i < sizeY; i++)
+            for(int j = 0; j < sizeX ; j++)
+                if(map[j][i] == 1)
+                    walls.add(new Wall(world, j, i, Gdx.graphics.getWidth()/sizeX));
 
         //Place the monsters randomly
         for(int i = 0; i < nbMonsters; i++){
@@ -215,7 +220,7 @@ public class Labyrinth {
 
         for(Monster m : monsters) {
 
-            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getPositionX() , m.getPositionY(), m.getSize(), m.getSize());
+            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getPositionX()*(Gdx.graphics.getWidth()/sizeX) , m.getPositionY()*(Gdx.graphics.getHeight()/sizeY), m.getSize(), m.getSize());
         }
        // spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
         spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
@@ -224,7 +229,11 @@ public class Labyrinth {
 
     public void display_walls(SpriteBatch spriteBatch){
 
-        for(int i =0 ; i<Gdx.graphics.getWidth() ; i = i+25){
+        for(Wall w : walls){
+            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(), w.getPosX(), w.getPosY());
+        }
+
+        /*for(int i =0 ; i<Gdx.graphics.getWidth() ; i = i+25){
             spriteBatch.draw(TextureFactory.getInstance().getWall_texture(),i,0 , 25, 25);
             spriteBatch.draw(TextureFactory.getInstance().getWall_texture(),i,Gdx.graphics.getHeight()-25 , 25, 25);
         }
@@ -232,7 +241,7 @@ public class Labyrinth {
         for(int i =0 ; i<Gdx.graphics.getHeight() ; i = i+25){
             spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),0,i , 25, 25);
             spriteBatch.draw(TextureFactory.getInstance().getWall_texture_rotated(),Gdx.graphics.getWidth()-25,i , 25, 25);
-        }
+        }*/
 
 
     }
