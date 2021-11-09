@@ -229,7 +229,7 @@ public class Labyrinth {
     public void display_walls(SpriteBatch spriteBatch){
 
         for(Wall w : walls){
-            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(), w.getPosX(), w.getPosY());
+            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
         }
 
         /*for(int i =0 ; i<Gdx.graphics.getWidth() ; i = i+25){

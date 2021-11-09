@@ -25,7 +25,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         this.labyrinth = labyrinth;
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        camera = new OrthographicCamera(Gdx.graphics.getHeight(),Gdx.graphics.getHeight());
         spriteBatch = new SpriteBatch();
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
