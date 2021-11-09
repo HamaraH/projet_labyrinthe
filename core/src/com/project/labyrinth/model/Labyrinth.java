@@ -34,7 +34,7 @@ public class Labyrinth {
 
 
         world = new World(new Vector2(0, 0), true);
-        player = new Player(world, Gdx.graphics.getWidth()/sizeX + Gdx.graphics.getHeight()/sizeY/2 - 30, Gdx.graphics.getHeight()/sizeY + Gdx.graphics.getHeight()/sizeY/2 - 15);
+        player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
 
 
         this.sizeX = sizeX;
@@ -54,8 +54,12 @@ public class Labyrinth {
         mazeRecursion(1, 1);
         for(int i = 0; i < sizeY; i++)
             for(int j = 0; j < sizeX ; j++)
-                if(map[j][i] == 1)
-                    walls.add(new Wall(world, j, i, Gdx.graphics.getHeight()/sizeY));
+                if(map[j][i] == 1) {
+
+
+
+                    walls.add(new Wall(world, j, i, Gdx.graphics.getHeight() / sizeY));
+                }
 
         //Place the monsters randomly
         for(int i = 0; i < nbMonsters; i++){
@@ -65,8 +69,8 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Monster newMonster = new Monster(world, 0, 0, 50, 30);
-            monsters.add(newMonster);
+          //  Monster newMonster = new Monster(world, 0, 0, 50, 30);
+           // monsters.add(newMonster);
             map[x][y] = 2;
         }
 
@@ -229,6 +233,7 @@ public class Labyrinth {
     public void display_walls(SpriteBatch spriteBatch){
 
         for(Wall w : walls){
+
             spriteBatch.draw(TextureFactory.getInstance().getWall_texture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
         }
 
@@ -310,7 +315,7 @@ public class Labyrinth {
     }
 
     public int getSizeX() {
-        return sizeX;
+        return sizeX * Gdx.graphics.getHeight() / sizeX;
     }
 
     public void setSizeX(int sizeX) {

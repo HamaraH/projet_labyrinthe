@@ -11,11 +11,11 @@ public class Player extends Entity {
     private BodyDef bodyDef;
     private int size ;
 
-   public Player(World world, int x, int y){
+   public Player(World world, int x, int y, int size){
 
 
         this.attackPoints = 10;
-        size = 30;
+        this.size = size;
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
