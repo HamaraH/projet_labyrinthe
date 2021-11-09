@@ -1,4 +1,5 @@
 package com.project.labyrinth;
+import com.badlogic.gdx.Gdx;
 import com.project.labyrinth.model.Labyrinth;
 import com.project.labyrinth.view.GameScreen;
 

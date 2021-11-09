@@ -34,7 +34,7 @@ public class Labyrinth {
 
 
         world = new World(new Vector2(0, 0), true);
-        player = new Player(world, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        player = new Player(world, Gdx.graphics.getWidth()/sizeX + Gdx.graphics.getHeight()/sizeY/2 - 30, Gdx.graphics.getHeight()/sizeY + Gdx.graphics.getHeight()/sizeY/2 - 15);
 
 
         this.sizeX = sizeX;
@@ -55,7 +55,7 @@ public class Labyrinth {
         for(int i = 0; i < sizeY; i++)
             for(int j = 0; j < sizeX ; j++)
                 if(map[j][i] == 1)
-                    walls.add(new Wall(world, j, i, Gdx.graphics.getWidth()/sizeX));
+                    walls.add(new Wall(world, j, i, Gdx.graphics.getHeight()/sizeY));
 
         //Place the monsters randomly
         for(int i = 0; i < nbMonsters; i++){
@@ -219,11 +219,10 @@ public class Labyrinth {
         spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
 
         for(Monster m : monsters) {
-
             spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getPositionX()*(Gdx.graphics.getWidth()/sizeX) , m.getPositionY()*(Gdx.graphics.getHeight()/sizeY), m.getSize(), m.getSize());
         }
        // spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
-        spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
+        //spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
 
     }
 
