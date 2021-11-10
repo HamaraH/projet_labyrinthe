@@ -248,7 +248,7 @@ public class Labyrinth {
         spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
 
         for(Monster m : monsters) {
-            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getRelativePosX() + 5, m.getRelativePosY() + 5, m.getSize(), m.getSize());
+            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getPositionX() , m.getPositionY() , m.getSize(), m.getSize());
             switch (m.getDirection()){
                 case 0:
                     m.applyForce(new Vector2(.0f, -500.0f));

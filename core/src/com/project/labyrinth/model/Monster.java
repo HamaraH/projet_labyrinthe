@@ -21,7 +21,7 @@ public class Monster extends Entity {
         this.size = size;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(relativePosX + 5, relativePosY + 5);
+        bodyDef.position.set(relativePosX , relativePosY );
         body = world.createBody(bodyDef);
 
         Shape shape = new PolygonShape();
