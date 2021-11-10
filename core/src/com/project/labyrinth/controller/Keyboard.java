@@ -7,10 +7,10 @@ import com.project.labyrinth.model.Labyrinth;
 
 public class Keyboard implements InputProcessor {
 
-    Vector2 acc;
-    int coeff; //speed
-    Boolean debug ;
-    Labyrinth labyrinth;
+    private Vector2 acc;
+    private int coeff; //speed
+    private Boolean debug ;
+    private Labyrinth labyrinth;
 
 
     /**
@@ -63,7 +63,7 @@ public class Keyboard implements InputProcessor {
     /**
      *detects a key to release on the keyboard
      * @param keycode, key code to release
-     * @return
+     * @return ,always true
      */
     @Override
     public boolean keyUp(int keycode) {
@@ -91,7 +91,7 @@ public class Keyboard implements InputProcessor {
      * @param screenY, The y coordinate, origin is in the upper left corner
      * @param pointer, the pointer for the event
      * @param button, button click
-     * @return
+     * @return ,true if left click, false else
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {

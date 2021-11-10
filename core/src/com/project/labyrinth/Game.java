@@ -1,6 +1,4 @@
 package com.project.labyrinth;
-import java.util.Timer;
-import java.util.TimerTask;
 import com.project.labyrinth.model.Labyrinth;
 import com.project.labyrinth.view.GameScreen;
 

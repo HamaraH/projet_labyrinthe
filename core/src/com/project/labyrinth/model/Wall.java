@@ -2,10 +2,9 @@ package com.project.labyrinth.model;
 
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Wall {
+class Wall {
     private int posX;
     private int posY;
-    private Body body ;
     private int size ;
 
 
@@ -16,7 +15,7 @@ public class Wall {
      * @param posY ,position in y
      * @param size ,size wall
      */
-    public Wall(World world, int posX, int posY, int size){
+    Wall(World world, int posX, int posY, int size){
 
         this.posX = posX * size ;
         this.posY = posY * size ;
@@ -24,7 +23,7 @@ public class Wall {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        body = world.createBody(bodyDef);
+        Body body = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
 
         shape.set(new float[]{this.posX, this.posY,
@@ -41,15 +40,15 @@ public class Wall {
 
     }
 
-    public int getPosX() {
+    int getPosX() {
         return posX;
     }
 
-    public int getPosY() {
+    int getPosY() {
         return posY;
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 }

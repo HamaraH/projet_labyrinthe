@@ -7,12 +7,12 @@ import com.badlogic.gdx.audio.Music;
 public class SoundFactory {
 
     private Music backgroundMusic ;
-    public static SoundFactory instance = new SoundFactory();
+    private static SoundFactory instance = new SoundFactory();
 
     /**
      * brings together the music of the game
      */
-    public SoundFactory(){
+    private SoundFactory(){
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
 

@@ -9,14 +9,14 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Labyrinth {
-    private int sizeX, sizeY, nbMonsters;
+    private int sizeX;
+    private int sizeY;
     private int[][] map; //the map is made of zeroes and ones, as to show where the walls are
     private Player player;
     private List<Monster> monsters;
     private List<Wall> walls;
     private World world;
     private AtomicBoolean playerAttack ;
-    private Random rand;
 
 
     /**
@@ -34,7 +34,7 @@ public class Labyrinth {
         player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        rand = new Random();
+        Random rand = new Random();
 
         // Initialize the maze
         map = new int[this.sizeX][this.sizeY];
@@ -53,7 +53,7 @@ public class Labyrinth {
                     walls.add(new Wall(world, j, i, Gdx.graphics.getHeight() / sizeY));
 
         //Place the monsters randomly
-        nbMonsters = sizeX / 3;
+        int nbMonsters = sizeX / 3;
         for(int i = 0; i < nbMonsters; i++){
             int x = -1;
             int y = -1;
@@ -78,8 +78,8 @@ public class Labyrinth {
 
     /**
      *
-     * @param x
-     * @param y
+     * @param x, number of cases in map
+     * @param y, number of cases in map
      */
     private void mazeRecursion(int x, int y){
         // Creation of an array to contain the 4 directions in which we can create the maze
@@ -134,7 +134,7 @@ public class Labyrinth {
     /**
      *
      */
-    public void actionMonsters(){
+    private void actionMonsters(){
         Integer[] dir;
         for(Monster m : monsters){
             // Creation of an array to contain the 4 directions in which the monster could move
@@ -206,7 +206,7 @@ public class Labyrinth {
 
     /**
      *
-     * @return
+     * @return ,Integer table
      */
     private Integer[] randomDirection(){
         ArrayList<Integer> dir = new ArrayList<>(4);

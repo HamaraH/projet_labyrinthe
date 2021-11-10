@@ -3,9 +3,11 @@ package com.project.labyrinth.model;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Monster extends Entity {
+class Monster extends Entity {
 
-    private int size, relativePosX, relativePosY, direction, ratio;
+    private int size;
+    private int direction;
+    private int ratio;
     private Body body ;
 
 
@@ -18,20 +20,20 @@ public class Monster extends Entity {
      * @param size ,size world
      * @param ratio ,screen ratio
      */
-    public Monster(World world, int x, int y, int hp, int size, int ratio){
+    Monster(World world, int x, int y, int hp, int size, int ratio){
 
         this.posX = x;
         this.posY = y;
         this.hp = hp;
         this.ratio = ratio;
         this.direction = -1;
-        this.relativePosX = posX * ratio;
-        this.relativePosY = posY * ratio;
+        int relativePosX = posX * ratio;
+        int relativePosY = posY * ratio;
 
         this.size = size;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(relativePosX , relativePosY );
+        bodyDef.position.set(relativePosX, relativePosY);
         body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
@@ -57,7 +59,7 @@ public class Monster extends Entity {
      * @param depX ,position in X
      * @param depY ,position in Y
      */
-    public void move(int depX, int depY){
+    void move(int depX, int depY){
         this.posX += depX;
         this.posY += depY;
     }
@@ -67,47 +69,38 @@ public class Monster extends Entity {
      * apply force to the monster to move it
      * @param vector ,of force
      */
-    public void applyForce(Vector2 vector){
+    void applyForce(Vector2 vector){
         body.applyLinearImpulse(vector,  body.getWorldCenter(),true);
     }
 
-    public float getPositionX(){
+    float getPositionX(){
 
         return body.getPosition().x;
     }
 
-    public float getPositionY(){
+    float getPositionY(){
         return body.getPosition().y;
     }
 
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public Body getBody() {
+    Body getBody() {
         return body;
     }
 
-    public int getRatio() {
+    int getRatio() {
         return ratio;
     }
 
 
-
-    public int getRelativePosX() {
-        return relativePosX;
-    }
-
-    public int getRelativePosY() {
-        return relativePosY;
-    }
-
-    public int getDirection() {
+    int getDirection() {
         return direction;
     }
 
-    public void setDirection(int direction) {
+    void setDirection(int direction) {
         this.direction = direction;
     }
 }

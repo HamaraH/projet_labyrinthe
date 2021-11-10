@@ -18,7 +18,7 @@ public class Player extends Entity {
      * @param size ,size player
      */
 
-   public Player(World world, int x, int y, int size){
+    Player(World world, int x, int y, int size){
 
 
         this.attackPoints = 10;
@@ -55,20 +55,20 @@ public class Player extends Entity {
 
     }
 
-    public float getPositionX(){
+    float getPositionX(){
         return body.getPosition().x;
     }
 
-    public float getPositionY(){
+    float getPositionY(){
         return body.getPosition().y;
     }
 
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public Body getBody() {
+    Body getBody() {
         return body;
     }
 }

@@ -4,38 +4,24 @@ package com.project.labyrinth.model;
 /**
  * factors common elements between the monster and the player
  */
-public abstract class Entity {
-    protected int posX, posY, hp, attackPoints;
+abstract class Entity {
 
-    public int getPosX() {
+    int posX, posY, hp, attackPoints;
+
+    int getPosX() {
         return posX;
     }
 
-    public void setPosX(int posX) {
+    void setPosX(int posX) {
         this.posX = posX;
     }
 
-    public int getPosY() {
+    int getPosY() {
         return posY;
     }
 
-    public void setPosY(int posY) {
+    void setPosY(int posY) {
         this.posY = posY;
     }
 
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public int getAttackPoints() {
-        return attackPoints;
-    }
-
-    public void setAttackPoints(int attackPoints) {
-        this.attackPoints = attackPoints;
-    }
 }
