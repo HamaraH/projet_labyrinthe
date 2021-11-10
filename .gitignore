@@ -6,6 +6,8 @@
 hs_err_pid*
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+!desktop/src/com/project/labyrinth/desktop/DesktopLauncher.java
+!build.gradle
 
 ## Robovm
 /ios/robovm-build/
