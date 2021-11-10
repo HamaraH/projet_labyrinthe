@@ -1,14 +1,21 @@
-Arno:
-	- Mise en place de la musique : 
-	- Gestion des sprites
+Arno et Manon :
+	- Mise en place de la musique
+	- Afficher le plateau de jeu
+    - Le héros est affiché sur le plateau
+	- Affichage des murs sur le plateau
 
-Manon:
-	- Affichage du labyrinthe
-	- Gestion des sprites
+	- Le labyrinthe les obstacles le héros et les monstres sont texturés
 
 Lindsay:
-	- Affichage + gestion des mouvements du joueur
+	- Le héros peut se déplacer sur le plateau
+	- Le héros peut attaquer les monstres qui perdent des points de vie
+
 
 
 Guillaume:
-	- Génération du labyrinthe
+
+
+	- Les monstres se déplacent aléatoirement
+	- Des monstres sont placés aléatoirement sur le labyrinthe
+	- Le labyrinthe est généré aléatoirement
+	- Le héros ne peut pas traverser les murs
