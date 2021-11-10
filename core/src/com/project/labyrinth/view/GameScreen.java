@@ -41,15 +41,6 @@ public class GameScreen extends ScreenAdapter {
         SoundFactory.getInstance().getBackgroundMusic().play();
     }
 
-    /**
-     *update player movements
-     */
-    private void updateMove(){
-
-        labyrinth.getWorld().step(1/60f, 6, 2);
-        labyrinth.getPlayer().applyForce(new Vector2(keyboard.getAcc().x, keyboard.getAcc().y));
-    }
-
 
     /**
      *  ------- javadoc of the interface screen -----
@@ -59,7 +50,9 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        updateMove();
+        labyrinth.getWorld().step(1/60f, 6, 2);
+        labyrinth.movePlayer(new Vector2(keyboard.getAcc().x, keyboard.getAcc().y));
+        labyrinth.moveMonsters();
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

@@ -1,5 +1,4 @@
 package com.project.labyrinth.model;
-
 import com.badlogic.gdx.physics.box2d.*;
 
 class Wall {

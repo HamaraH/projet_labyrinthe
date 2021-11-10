@@ -249,6 +249,16 @@ public class Labyrinth {
 
         for(Monster m : monsters) {
             spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture1(), m.getPositionX() , m.getPositionY() , m.getSize(), m.getSize());
+
+        }
+    }
+
+
+    /**
+     * move the monsters, apply the force of monsters
+     */
+    public void moveMonsters(){
+        for(Monster m : monsters) {
             switch (m.getDirection()){
                 case 0:
                     m.applyForce(new Vector2(.0f, -500.0f));
@@ -264,6 +274,11 @@ public class Labyrinth {
                     break;
             }
         }
+
+    }
+
+    public void movePlayer(Vector2 vector2){
+        player.applyForce(vector2);
     }
 
 
@@ -326,9 +341,6 @@ public class Labyrinth {
 
     }
 
-    public Player getPlayer() {
-        return player;
-    }
 
     public World getWorld(){
         return world;

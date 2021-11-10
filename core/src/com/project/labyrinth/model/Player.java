@@ -1,13 +1,7 @@
 package com.project.labyrinth.model;
-
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Player extends Entity {
-
-
-    private Body body ;
-    private int size ;
+class Player extends Entity {
 
 
     /**
@@ -44,31 +38,4 @@ public class Player extends Entity {
 
     }
 
-
-    /**
-     * apply force to the monster to move it
-     * @param vector ,of force
-     */
-    public void applyForce(Vector2 vector){
-
-        body.applyLinearImpulse(vector,  body.getWorldCenter(),true);
-
-    }
-
-    float getPositionX(){
-        return body.getPosition().x;
-    }
-
-    float getPositionY(){
-        return body.getPosition().y;
-    }
-
-
-    int getSize() {
-        return size;
-    }
-
-    Body getBody() {
-        return body;
-    }
 }
