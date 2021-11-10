@@ -6,25 +6,37 @@ import com.project.labyrinth.view.GameScreen;
 
 public class Game extends com.badlogic.gdx.Game {
 
-	Labyrinth labyrinth ;
 
-	public GameScreen gameScreen;
+	private GameScreen gameScreen;
 
+	/**
+	 * create the labyrinth and the screen game
+	 */
 	@Override
 	public void create () {
 
-		labyrinth = new Labyrinth(19, 19);
+		Labyrinth labyrinth = new Labyrinth(19, 19);
 		gameScreen = new GameScreen(labyrinth);
 		this.setScreen(gameScreen);
-
 	}
 
 
+	/**
+	 * --- javadoc of game ----
+	 * Called when the Application should render itself.
+	 */
 	@Override
 	public void render () {
 		super.render();
 	}
 
+
+	/**
+	 * ----- javacdoc of game -----
+	 * Called when the Application is resized
+	 * @param width ,the new width in pixels
+	 * @param height ,the new height in pixels
+	 */
 	@Override
 	public void resize(int width, int height){
 		super.resize(width,height);
@@ -32,6 +44,10 @@ public class Game extends com.badlogic.gdx.Game {
 	}
 
 
+	/**
+	 * ---- javadoc of game -----
+	 * Called when the Application is destroyed
+	 */
 	@Override
 	public void dispose () {
 		gameScreen.dispose();

@@ -6,12 +6,15 @@ import com.badlogic.gdx.audio.Music;
 
 public class SoundFactory {
 
-    private Music background_music ;
+    private Music backgroundMusic ;
     public static SoundFactory instance = new SoundFactory();
 
+    /**
+     * brings together the music of the game
+     */
     public SoundFactory(){
 
-        background_music = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
 
     }
 
@@ -20,7 +23,7 @@ public class SoundFactory {
         return instance;
     }
 
-    public Music getBackground_music() {
-        return background_music;
+    public Music getBackgroundMusic() {
+        return backgroundMusic;
     }
 }

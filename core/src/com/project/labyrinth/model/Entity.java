@@ -1,5 +1,9 @@
 package com.project.labyrinth.model;
 
+
+/**
+ * factors common elements between the monster and the player
+ */
 public abstract class Entity {
     protected int posX, posY, hp, attackPoints;
 

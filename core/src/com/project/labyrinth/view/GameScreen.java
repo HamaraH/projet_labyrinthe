@@ -15,12 +15,16 @@ import com.project.labyrinth.model.Labyrinth;
 public class GameScreen extends ScreenAdapter {
 
 
-    Keyboard keyboard;
-    Labyrinth labyrinth;
-    OrthographicCamera camera ;
-    SpriteBatch spriteBatch;
+    private Keyboard keyboard;
+    private Labyrinth labyrinth;
+    private OrthographicCamera camera ;
+    private SpriteBatch spriteBatch;
 
 
+    /**
+     * create game display
+     * @param labyrinth, model
+     */
     public GameScreen(Labyrinth labyrinth) {
 
 
@@ -33,28 +37,30 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(keyboard);
         Gdx.graphics.setTitle("PokéRPG");
 
-        SoundFactory.getInstance().getBackground_music().setLooping(true);
-        SoundFactory.getInstance().getBackground_music().play();
-
-
+        //play music in loop
+        SoundFactory.getInstance().getBackgroundMusic().setLooping(true);
+        SoundFactory.getInstance().getBackgroundMusic().play();
     }
 
-
+    /**
+     *update player movements
+     */
     private void updateMove(){
 
         labyrinth.getWorld().step(1/60f, 6, 2);
-        labyrinth.getPlayer().applyForce(new Vector2(keyboard.getAccG().x, keyboard.getAccG().y));
-
-
+        labyrinth.getPlayer().applyForce(new Vector2(keyboard.getAcc().x, keyboard.getAcc().y));
     }
 
 
-
+    /**
+     *  ------- javadoc of the interface screen -----
+     * Called when the screen should render itself.
+     * @param delta The time in seconds since the last render
+     */
     @Override
     public void render(float delta) {
 
         updateMove();
-
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -63,6 +69,7 @@ public class GameScreen extends ScreenAdapter {
         labyrinth.draw(spriteBatch);
 
 
+        //display bodies
         if(keyboard.isDebug()) {
 
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -72,11 +79,14 @@ public class GameScreen extends ScreenAdapter {
 
         spriteBatch.end();
 
-
-
     }
 
 
+    /**
+     * resize of screen
+     * @param width ,of screen
+     * @param height ,of screen
+     */
     @Override
     public void resize(int width, int height) {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -85,11 +95,14 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+
+    /**
+     * ------- javadoc of the interface screen -----
+     * Called when this screen should release all resources.
+     */
     @Override
     public void dispose() {
         spriteBatch.dispose();
-
-
     }
 
 }

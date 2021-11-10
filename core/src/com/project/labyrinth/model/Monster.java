@@ -8,6 +8,16 @@ public class Monster extends Entity {
     private int size, relativePosX, relativePosY, direction, ratio;
     private Body body ;
 
+
+    /**
+     * create a monster
+     * @param world ,the world of game (manage all physics entities)
+     * @param x ,position in x
+     * @param y ,position in y
+     * @param hp ,life point
+     * @param size ,size world
+     * @param ratio ,screen ratio
+     */
     public Monster(World world, int x, int y, int hp, int size, int ratio){
 
         this.posX = x;
@@ -24,8 +34,8 @@ public class Monster extends Entity {
         bodyDef.position.set(relativePosX , relativePosY );
         body = world.createBody(bodyDef);
 
-        Shape shape = new PolygonShape();
-        ((PolygonShape) shape).set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
+        PolygonShape shape = new PolygonShape();
+        shape.set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -42,9 +52,23 @@ public class Monster extends Entity {
 
     }
 
+    /**
+     * position in the map
+     * @param depX ,position in X
+     * @param depY ,position in Y
+     */
     public void move(int depX, int depY){
         this.posX += depX;
         this.posY += depY;
+    }
+
+
+    /**
+     * apply force to the monster to move it
+     * @param vector ,of force
+     */
+    public void applyForce(Vector2 vector){
+        body.applyLinearImpulse(vector,  body.getWorldCenter(),true);
     }
 
     public float getPositionX(){
@@ -69,11 +93,7 @@ public class Monster extends Entity {
         return ratio;
     }
 
-    public void applyForce(Vector2 vector){
 
-        body.applyLinearImpulse(vector,  body.getWorldCenter(),true);
-
-    }
 
     public int getRelativePosX() {
         return relativePosX;

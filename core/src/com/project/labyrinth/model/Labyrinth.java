@@ -9,37 +9,32 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Labyrinth {
-    private int sizeX, sizeY, nbMonsters = 1;
+    private int sizeX, sizeY, nbMonsters;
     private int[][] map; //the map is made of zeroes and ones, as to show where the walls are
     private Player player;
-    private List<Monster> monsters = new ArrayList<Monster>();
-    private List<Wall> walls = new ArrayList<Wall>();
+    private List<Monster> monsters;
+    private List<Wall> walls;
     private World world;
-    private AtomicBoolean playerAttack = new AtomicBoolean(false);
+    private AtomicBoolean playerAttack ;
+    private Random rand;
 
-    int random_positionX1;
-    int random_positionY1;
 
-    int random_positionX2;
-    int random_positionY2;
-
+    /**
+     * create the maze
+     * @param sizeX ,size in X
+     * @param sizeY ,size in Y
+     */
     public Labyrinth(int sizeX, int sizeY){
 
 
-        random_positionX1 = (int)(Math.random() * (Gdx.graphics.getWidth()-50)+25);
-        random_positionY1 = (int) (Math.random() * (Gdx.graphics.getHeight()-50)+25);
-
-        random_positionX2 = (int)(Math.random() * (Gdx.graphics.getWidth()-50)+25);
-        random_positionY2 = (int) (Math.random() * (Gdx.graphics.getHeight()-50)+25);
-
-
+        monsters = new ArrayList<>();
+        walls = new ArrayList<>();
+        playerAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
         player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
-
-
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        Random rand = new Random();
+        rand = new Random();
 
         // Initialize the maze
         map = new int[this.sizeX][this.sizeY];
@@ -67,24 +62,25 @@ public class Labyrinth {
                 y = rand.nextInt(sizeY-1) + 1;
             }
             Monster nM = new Monster(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
-            System.out.println(nM.getPositionX() + " ; " + nM.getPositionY());
             monsters.add(nM);
             map[x][y] = 2;
         }
-
-        // Print the maze
-        System.out.println(this.toString());
 
         new Timer().scheduleAtFixedRate(
                 new TimerTask() {
                     @Override
                     public void run() {
-                        //System.out.println("timer");
                         actionMonsters();
                     }
                 }, 1000, 1000);
     }
 
+
+    /**
+     *
+     * @param x
+     * @param y
+     */
     private void mazeRecursion(int x, int y){
         // Creation of an array to contain the 4 directions in which we can create the maze
         Integer[] dir = randomDirection();
@@ -135,6 +131,9 @@ public class Labyrinth {
         }
     }
 
+    /**
+     *
+     */
     public void actionMonsters(){
         Integer[] dir;
         for(Monster m : monsters){
@@ -201,16 +200,14 @@ public class Labyrinth {
                 }
                 map[m.getPosX()][m.getPosY()] = 2;
             }
-            /*try{
-                Thread.sleep(1000);
-            }catch(InterruptedException e){
 
-            }*/
-            //sb.append(m.getPosX()).append(" ; ").append(m.getPosY()).append(" )");
-            //System.out.println(sb.toString());
         }
     }
 
+    /**
+     *
+     * @return
+     */
     private Integer[] randomDirection(){
         ArrayList<Integer> dir = new ArrayList<>(4);
         for(int i = 0; i < 4; i++){
@@ -237,18 +234,21 @@ public class Labyrinth {
     }
 
 
-
+    /**
+     * draw the sprites
+     * @param spriteBatch, base sprite
+     */
     public void draw(SpriteBatch spriteBatch){
 
-        spriteBatch.draw(TextureFactory.getInstance().getMap_texture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        spriteBatch.draw(TextureFactory.getInstance().getMapTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         for(Wall w : walls){
-            spriteBatch.draw(TextureFactory.getInstance().getWall_texture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
+            spriteBatch.draw(TextureFactory.getInstance().getWallTexture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
         }
         spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
 
         for(Monster m : monsters) {
-            spriteBatch.draw(TextureFactory.getInstance().getMonster_texture1(), m.getPositionX() , m.getPositionY() , m.getSize(), m.getSize());
+            spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture1(), m.getPositionX() , m.getPositionY() , m.getSize(), m.getSize());
             switch (m.getDirection()){
                 case 0:
                     m.applyForce(new Vector2(.0f, -500.0f));
@@ -263,16 +263,20 @@ public class Labyrinth {
                     m.applyForce(new Vector2(500.0f, .0f));
                     break;
             }
-            //System.out.println(m.getPositionX() + " ; " + m.getPositionY());
         }
-       // spriteBatch.draw(TextureFactory.getInstance().getMonster_texture2(), random_positionX2, random_positionY2, 50, 50);
-        //spriteBatch.draw(TextureFactory.getInstance().getObstacle_texture(),Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3, 100, 50);
-
     }
 
+
+    /**
+     * the player attacks the monster if a collision exists
+     *
+     */
     public void attack(){
 
+        //ready to attack
         playerAttack.set(true);
+
+        //test of contact
         world.setContactListener(new ContactListener() {
 
             @Override
@@ -326,10 +330,6 @@ public class Labyrinth {
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public World getWorld(){
         return world;
     }
@@ -338,15 +338,4 @@ public class Labyrinth {
         return sizeX * Gdx.graphics.getHeight() / sizeX;
     }
 
-    public void setSizeX(int sizeX) {
-        this.sizeX = sizeX;
-    }
-
-    public int getSizeY() {
-        return sizeY;
-    }
-
-    public void setSizeY(int sizeY) {
-        this.sizeY = sizeY;
-    }
 }

@@ -7,22 +7,29 @@ public class Player extends Entity {
 
 
     private Body body ;
-    private Shape shape;
-    private BodyDef bodyDef;
     private int size ;
+
+
+    /**
+     * create a player
+     * @param world ,the world of game (manage all physics entities)
+     * @param x ,position in x
+     * @param y ,position in y
+     * @param size ,size player
+     */
 
    public Player(World world, int x, int y, int size){
 
 
         this.attackPoints = 10;
         this.size = size;
-        bodyDef = new BodyDef();
+        BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
         body = world.createBody(bodyDef);
 
-        shape = new PolygonShape();
-        ((PolygonShape) shape).set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
+        PolygonShape shape = new PolygonShape();
+        shape.set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -38,6 +45,10 @@ public class Player extends Entity {
     }
 
 
+    /**
+     * apply force to the monster to move it
+     * @param vector ,of force
+     */
     public void applyForce(Vector2 vector){
 
         body.applyLinearImpulse(vector,  body.getWorldCenter(),true);

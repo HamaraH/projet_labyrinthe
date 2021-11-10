@@ -6,22 +6,28 @@ public class Wall {
     private int posX;
     private int posY;
     private Body body ;
-    private Shape shape;
-    private BodyDef bodyDef;
     private int size ;
 
+
+    /**
+     * create a wall
+     * @param world ,the world of game (manage all physics entities)
+     * @param posX ,position in x
+     * @param posY ,position in y
+     * @param size ,size wall
+     */
     public Wall(World world, int posX, int posY, int size){
 
         this.posX = posX * size ;
         this.posY = posY * size ;
         this.size = size;
 
-        bodyDef = new BodyDef();
+        BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         body = world.createBody(bodyDef);
-        shape = new PolygonShape();
+        PolygonShape shape = new PolygonShape();
 
-        ((PolygonShape) shape).set(new float[]{this.posX, this.posY,
+        shape.set(new float[]{this.posX, this.posY,
                 this.posX+size,  this.posY,
                 this.posX + size ,  this.posY +size,
                 this.posX, this.posY+size});
