@@ -1,0 +1,22 @@
+
+
+Arno et Manon
+    - Les monstres attaquent le héros qui perd des points de vie
+    - Les points de vie du joueur sont affichées
+
+Guillaume
+    - les monstres intégrent un déplacement intélligent vers le héros
+    - Le labyrinthe a un trésor (sortie) et une cases qui permet d'accéder au niveaux suivant
+    - Amélioration de l'algorithme de génération du labyrinthe
+    - placement des potions
+    - placement des aléatoire des fantomes
+    - placement des cases pièges
+    - makefile
+
+
+Lindsay :
+    - Intégration d'une potion qui permet au joueurs de récupérer des points de vie
+    - Intégration de nouveaux monstres qui peuvent traverser les murs
+    - Le joueur parcours plusieurs labyrinthe de plusieurs niveaux avant d'arrivée a la case du trésors (sortie)
+    - Intégration des cases pièges qui font subir des dégats à l'héros
+    - Le héros est dans le sens de sa direction
