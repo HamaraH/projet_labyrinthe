@@ -40,7 +40,7 @@ public class TextureFactory {
         return mapTexture;
     }
 
-    public Texture getPlayer_texture() {
+    public Texture getPlayerTexture() {
         return playerTexture;
     }
 

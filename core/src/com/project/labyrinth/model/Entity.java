@@ -9,8 +9,8 @@ import com.badlogic.gdx.physics.box2d.Body;
  */
 abstract class Entity {
 
-    int posX, posY, hp, attackPoints, size;
-    Body body ;
+    protected int posX, posY, hp, attackPoints, size;
+    protected Body body ;
 
     /**
      * apply force to the monster to move it
@@ -19,6 +19,30 @@ abstract class Entity {
     void applyForce(Vector2 vector){
 
         body.applyLinearImpulse(vector,  body.getWorldCenter(),true);
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getAttackPoints() {
+        return attackPoints;
+    }
+
+    public void setAttackPoints(int attackPoints) {
+        this.attackPoints = attackPoints;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
     }
 
     int getPosX() {

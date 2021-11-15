@@ -36,18 +36,18 @@ public class Keyboard implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         switch(keycode){
-            case Input.Keys.E:
+            case Input.Keys.Z:
                 acc.y += coeff;
                 break;
-            case Input.Keys.D:
+            case Input.Keys.S:
                 acc.y -= coeff;
 
                 break;
-            case Input.Keys.S:
+            case Input.Keys.Q:
                 acc.x -= coeff;
 
                 break;
-            case Input.Keys.F:
+            case Input.Keys.D:
                 acc.x +=coeff;
 
                 break;
@@ -68,13 +68,13 @@ public class Keyboard implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         switch(keycode) {
-            case Input.Keys.E:
-            case Input.Keys.D:
+            case Input.Keys.Z:
+            case Input.Keys.S:
                 acc.y = 0;
                 break;
 
-            case Input.Keys.S:
-            case Input.Keys.F:
+            case Input.Keys.Q:
+            case Input.Keys.D:
                 acc.x = 0;
                 break;
             default:

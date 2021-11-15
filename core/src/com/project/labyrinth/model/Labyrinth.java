@@ -245,7 +245,7 @@ public class Labyrinth {
         for(Wall w : walls){
             spriteBatch.draw(TextureFactory.getInstance().getWallTexture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
         }
-        spriteBatch.draw(TextureFactory.getInstance().getPlayer_texture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
+        spriteBatch.draw(TextureFactory.getInstance().getPlayerTexture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
 
         for(Monster m : monsters) {
             spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture1(), m.getPositionX() , m.getPositionY() , m.getSize(), m.getSize());
@@ -331,7 +331,7 @@ public class Labyrinth {
 
         //delete body monster
         for(Monster m : monsters) {
-            if (m.hp <= 0) {
+            if (m.getHp() <= 0) {
                 world.destroyBody(m.getBody());
             }
         }
