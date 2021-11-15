@@ -1,4 +1,9 @@
 
-
-
-
+    - Les monstres attaquent le héros qui perd des points de vie
+    - Les points de vie du joueur sont affichées
+    - les monstres intégrent un déplacement intélligent vers le héros
+    - Le labyrinthe a un trésor (sortie) et une cases qui permet d'accéder au niveaux suivant
+    - Intégration d'une potion qui permet au joueurs de récupérer des points de vie
+    - Intégration de nouveaux monstres qui peuvent traverser les murs
+    - Intégration des cases pièges qui font subir des dégats à l'héros
+    - Le héros avance dans le sens de sa direction
