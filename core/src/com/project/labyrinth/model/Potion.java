@@ -27,7 +27,8 @@ public class Potion {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-
+        fixtureDef.filter.categoryBits = Constante.CATEGORY_POTION;
+        fixtureDef.filter.maskBits = Constante.CATEGORY_PLAYER ;
         body.createFixture(fixtureDef);
         body.setUserData("Potion");
 
