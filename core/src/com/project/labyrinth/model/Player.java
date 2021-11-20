@@ -2,7 +2,7 @@ package com.project.labyrinth.model;
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.Constante;
 
-class Player extends Entity {
+public class Player extends Entity {
 
 
     /**

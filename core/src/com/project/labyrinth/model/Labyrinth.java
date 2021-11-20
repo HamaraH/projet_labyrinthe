@@ -11,6 +11,7 @@ import com.project.labyrinth.model.wall.Wall;
 import com.project.labyrinth.model.wall.WallLimit;
 import com.project.labyrinth.model.wall.WallObstacle;
 
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,6 +24,7 @@ public class Labyrinth {
     private List<Wall> walls;
     private World world;
     private AtomicBoolean playerAttack ;
+    private List<Potion> potions;
 
 
     /**
@@ -38,8 +40,10 @@ public class Labyrinth {
         playerAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
         player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
+        potions = new ArrayList<>();
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+
         Random rand = new Random();
 
         // Initialize the maze
@@ -57,7 +61,8 @@ public class Labyrinth {
             for(int j = 0; j < sizeX ; j++)
                 if(map[j][i] == 1)
                     if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
-                        walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+                          walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+
                     }
                     else {
                         walls.add(new WallObstacle(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
@@ -71,7 +76,7 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Monster nM = new Monster2(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            Monster nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             monsters.add(nM);
             map[x][y] = 2;
         }
@@ -261,6 +266,10 @@ public class Labyrinth {
             spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture1(), m.getPositionX() , m.getPositionY() , m.getSize(), m.getSize());
 
         }
+        for(Potion p : potions) {
+            spriteBatch.draw(TextureFactory.getInstance().getPotionOfLife(), p.getBodyPositionX(), p.getBodyPositionY(), p.getSize(), p.getSize());
+        }
+
     }
 
 
@@ -310,7 +319,8 @@ public class Labyrinth {
                 for(Monster m : monsters) {
                     if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()){
                         if(playerAttack.get()) {
-                            m.hp = m.hp - player.attackPoints;
+
+                            m.setHp(m.getHp() - player.getAttackPoints());
 
                             playerAttack.set(false);
 
@@ -340,6 +350,7 @@ public class Labyrinth {
 
         });
 
+
         //delete body monster
         for(Monster m : monsters) {
             if (m.getHp() <= 0) {
@@ -348,11 +359,22 @@ public class Labyrinth {
         }
 
         //delete monster in arraylist
-        monsters.removeIf(m -> m.hp <= 0);
+        monsters.removeIf(m -> m.getHp() <= 0);
 
     }
 
 
+    public void effectPotionDeVie(){
+        for(Potion p : potions) {
+            p.effectPotionOfLife(player);
+
+        }
+
+        //delete potion in arraylist
+        potions.removeIf(p -> !p.isActive());
+    }
+
+    
     public World getWorld(){
         return world;
     }
@@ -360,5 +382,6 @@ public class Labyrinth {
     public int getSizeX() {
         return sizeX * Gdx.graphics.getHeight() / sizeX;
     }
+
 
 }

@@ -53,7 +53,7 @@ public class GameScreen extends ScreenAdapter {
         labyrinth.getWorld().step(1/60f, 6, 2);
         labyrinth.movePlayer(new Vector2(keyboard.getAcc().x, keyboard.getAcc().y));
         labyrinth.moveMonsters();
-
+        labyrinth.effectPotionDeVie();
         Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
