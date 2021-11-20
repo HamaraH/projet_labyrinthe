@@ -61,7 +61,7 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Monster nM = new Monster(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            Monster nM = new Monster2(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             monsters.add(nM);
             map[x][y] = 2;
         }
@@ -306,6 +306,7 @@ public class Labyrinth {
 
 
                         }
+
                     }
                 }
 

@@ -1,5 +1,6 @@
 package com.project.labyrinth.model;
 import com.badlogic.gdx.physics.box2d.*;
+import com.project.labyrinth.factory.Constante;
 
 class Player extends Entity {
 
@@ -13,6 +14,7 @@ class Player extends Entity {
      */
 
     Player(World world, int x, int y, int size){
+
 
 
         this.attackPoints = 10;
@@ -29,6 +31,8 @@ class Player extends Entity {
         fixtureDef.shape = shape;
         fixtureDef.density = 0 ;
         fixtureDef.restitution = 0.25f ;
+        fixtureDef.filter.categoryBits = Constante.CATEGORY_PLAYER;
+
 
         body.createFixture(fixtureDef);
         body.setLinearDamping(3f);

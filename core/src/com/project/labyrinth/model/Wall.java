@@ -1,5 +1,6 @@
 package com.project.labyrinth.model;
 import com.badlogic.gdx.physics.box2d.*;
+import com.project.labyrinth.factory.Constante;
 
 class Wall {
     private int posX;
@@ -32,6 +33,10 @@ class Wall {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = Constante.CATEGORY_WALL;
+        System.out.println(posX + " " + posY);
+        fixtureDef.filter.maskBits = Constante.CATEGORY_MONSTER1 | Constante.CATEGORY_PLAYER ;
+
         body.createFixture(fixtureDef);
         body.setUserData("Wall");
 
