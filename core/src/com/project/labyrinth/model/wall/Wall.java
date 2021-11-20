@@ -1,11 +1,15 @@
-package com.project.labyrinth.model;
+package com.project.labyrinth.model.wall;
 import com.badlogic.gdx.physics.box2d.*;
-import com.project.labyrinth.factory.Constante;
 
-class Wall {
+
+public abstract class Wall {
+
     private int posX;
     private int posY;
     private int size ;
+    protected Body body;
+    protected PolygonShape shape;
+
 
 
     /**
@@ -15,7 +19,7 @@ class Wall {
      * @param posY ,position in y
      * @param size ,size wall
      */
-    Wall(World world, int posX, int posY, int size){
+    Wall(World world, int posX, int posY,int sizeX,int sizeY ,int size){
 
         this.posX = posX * size ;
         this.posY = posY * size ;
@@ -23,36 +27,36 @@ class Wall {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        Body body = world.createBody(bodyDef);
-        PolygonShape shape = new PolygonShape();
+        body = world.createBody(bodyDef);
+        shape = new PolygonShape();
 
         shape.set(new float[]{this.posX, this.posY,
                 this.posX+size,  this.posY,
                 this.posX + size ,  this.posY +size,
                 this.posX, this.posY+size});
 
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.filter.categoryBits = Constante.CATEGORY_WALL;
-        System.out.println(posX + " " + posY);
-        fixtureDef.filter.maskBits = Constante.CATEGORY_MONSTER1 | Constante.CATEGORY_PLAYER ;
-
-        body.createFixture(fixtureDef);
         body.setUserData("Wall");
-
-        shape.dispose();
-
     }
 
-    int getPosX() {
+
+
+    public int getPosX() {
         return posX;
     }
 
-    int getPosY() {
+    public int getPosY() {
         return posY;
     }
 
-    int getSize() {
+    public int getSize() {
         return size;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
     }
 }

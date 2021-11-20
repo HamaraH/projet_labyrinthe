@@ -2,11 +2,13 @@ package com.project.labyrinth.model;
 
 import com.badlogic.gdx.physics.box2d.*;
 
+
+
 abstract class Monster extends Entity {
 
     private int direction;
     private int ratio;
-    private  FixtureDef fixtureDef;
+    protected PolygonShape shape;
 
     /**
      * create a monster
@@ -18,15 +20,31 @@ abstract class Monster extends Entity {
      * @param ratio ,screen ratio
      */
     Monster(World world, int x, int y, int hp, int size, int ratio){
-        System.out.println("monster");
+
         this.posX = x;
         this.posY = y;
         this.hp = hp;
         this.ratio = ratio;
         this.direction = -1;
 
-
         this.size = size;
+
+        int relativePosX = posX * ratio;
+        int relativePosY = posY * ratio;
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(relativePosX, relativePosY);
+        body = world.createBody(bodyDef);
+
+        shape = new PolygonShape();
+        shape.set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
+
+
+        body.setLinearDamping(0f);
+
+        body.setUserData("Monster");
+
 
 
     }
@@ -54,4 +72,6 @@ abstract class Monster extends Entity {
     void setDirection(int direction) {
         this.direction = direction;
     }
+
+
 }

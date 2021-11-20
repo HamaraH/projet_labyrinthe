@@ -5,6 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
+
+
+import com.project.labyrinth.model.wall.Wall;
+import com.project.labyrinth.model.wall.WallLimit;
+import com.project.labyrinth.model.wall.WallObstacle;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -50,8 +56,12 @@ public class Labyrinth {
         for(int i = 0; i < sizeY; i++)
             for(int j = 0; j < sizeX ; j++)
                 if(map[j][i] == 1)
-                    walls.add(new Wall(world, j, i, Gdx.graphics.getHeight() / sizeY));
-
+                    if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
+                        walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+                    }
+                    else {
+                        walls.add(new WallObstacle(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+                    }
         //Place the monsters randomly
         int nbMonsters = sizeX / 3;
         for(int i = 0; i < nbMonsters; i++){
