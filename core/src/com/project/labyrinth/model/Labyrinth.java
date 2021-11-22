@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
 
 
+import com.project.labyrinth.model.CellEffect.CellNext;
 import com.project.labyrinth.model.CellEffect.CellTrap;
 import com.project.labyrinth.model.CellEffect.CellTreasure;
 import com.project.labyrinth.model.wall.Wall;
@@ -29,6 +30,8 @@ public class Labyrinth {
     private List<Potion> potions;
     private List<CellTrap> cellTrap;
     private CellTreasure cellTreasure;
+    private CellNext cellNext;
+    private int cptLaby ;
 
     /**
      * create the maze
@@ -37,62 +40,9 @@ public class Labyrinth {
      */
     public Labyrinth(int sizeX, int sizeY){
 
+        cptLaby = 1;
+        initialisation(sizeX, sizeY);
 
-        monsters = new ArrayList<>();
-        walls = new ArrayList<>();
-        playerAttack = new AtomicBoolean(false);
-        world = new World(new Vector2(0, 0), true);
-        player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
-        potions = new ArrayList<>();
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-        cellTrap = new ArrayList<>();
-        cellTreasure = new CellTreasure(world, Gdx.graphics.getWidth()/sizeX + 50 , Gdx.graphics.getHeight()/sizeY + 50 , (Gdx.graphics.getHeight() / sizeY) - 10);
-
-        Random rand = new Random();
-
-        // Initialize the maze
-        map = new int[this.sizeX][this.sizeY];
-        for(int i = 0 ; i < sizeX ; i++){
-            for(int j = 0 ; j < sizeY ; j++){
-                    map[i][j] = 1;
-            }
-        }
-
-        // Generate the maze
-        map[1][1] = 0;
-        mazeRecursion(1, 1);
-        for(int i = 0; i < sizeY; i++)
-            for(int j = 0; j < sizeX ; j++)
-                if(map[j][i] == 1)
-                    if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
-                          walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
-
-                    }
-                    else {
-                        walls.add(new WallObstacle(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
-                    }
-        //Place the monsters randomly
-        int nbMonsters = sizeX / 3;
-        for(int i = 0; i < nbMonsters; i++){
-            int x = -1;
-            int y = -1;
-            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
-                x = rand.nextInt(sizeX-1) + 1;
-                y = rand.nextInt(sizeY-1) + 1;
-            }
-            Monster nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
-            monsters.add(nM);
-            map[x][y] = 2;
-        }
-
-        new Timer().scheduleAtFixedRate(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        actionMonsters();
-                    }
-                }, 1000, 1000);
     }
 
 
@@ -274,8 +224,14 @@ public class Labyrinth {
         for(Potion p : potions) {
             spriteBatch.draw(TextureFactory.getInstance().getPotionOfLife(), p.getBodyPositionX(), p.getBodyPositionY(), p.getSize(), p.getSize());
         }
+        if(cellTreasure != null) {
+            spriteBatch.draw(TextureFactory.getInstance().getTreasure(), cellTreasure.getBodyPositionX(), cellTreasure.getBodyPositionY(), cellTreasure.getSize(), cellTreasure.getSize());
+        }
 
-        spriteBatch.draw(TextureFactory.getInstance().getTreasure(), cellTreasure.getBodyPositionX(), cellTreasure.getBodyPositionY(), cellTreasure.getSize(), cellTreasure.getSize());
+        if(cellNext != null){
+
+            spriteBatch.draw(TextureFactory.getInstance().getGangway(), cellNext.getBodyPositionX(), cellNext.getBodyPositionY(), cellNext.getSize(), cellNext.getSize());
+        }
     }
 
 
@@ -399,11 +355,22 @@ public class Labyrinth {
                     }
                 }
 
-                if (contact.getFixtureB().getBody() == cellTreasure.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                if(cellTreasure != null) {
+                    if (contact.getFixtureB().getBody() == cellTreasure.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
 
-                    cellTreasure.setTreasure(true);
+                        cellTreasure.setTreasure(true);
+
+                    }
+                }
+            if(cellNext != null) {
+                if (contact.getFixtureB().getBody() == cellNext.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+
+                    initialisation(sizeX, sizeY);
 
                 }
+            }
+
+
 
             }
 
@@ -431,8 +398,77 @@ public class Labyrinth {
 
     }
 
+    private void initialisation(int sizeX, int sizeY){
+        monsters = new ArrayList<>();
+        walls = new ArrayList<>();
+        playerAttack = new AtomicBoolean(false);
+        world = new World(new Vector2(0, 0), true);
+        player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
+        potions = new ArrayList<>();
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        cellTrap = new ArrayList<>();
+
+        if(cptLaby == 5) {
+            cellNext = null;
+            cellTreasure = new CellTreasure(world, Gdx.graphics.getWidth() / sizeX + 100, Gdx.graphics.getHeight() / sizeY + 100, (Gdx.graphics.getHeight() / sizeY) - 10);
+        }else{
+            cellNext= new CellNext(world, Gdx.graphics.getWidth()/sizeX + 50 , Gdx.graphics.getHeight()/sizeY + 50 , (Gdx.graphics.getHeight() / sizeY) - 10);
+        }
+        Random rand = new Random();
+
+        // Initialize the maze
+        map = new int[this.sizeX][this.sizeY];
+        for(int i = 0 ; i < sizeX ; i++){
+            for(int j = 0 ; j < sizeY ; j++){
+                map[i][j] = 1;
+            }
+        }
+
+        // Generate the maze
+        map[1][1] = 0;
+        mazeRecursion(1, 1);
+        for(int i = 0; i < sizeY; i++)
+            for(int j = 0; j < sizeX ; j++)
+                if(map[j][i] == 1)
+                    if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
+                        walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+
+                    }
+                    else {
+                        walls.add(new WallObstacle(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+                    }
+        //Place the monsters randomly
+        int nbMonsters = sizeX / 3;
+        for(int i = 0; i < nbMonsters; i++){
+            int x = -1;
+            int y = -1;
+            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
+                x = rand.nextInt(sizeX-1) + 1;
+                y = rand.nextInt(sizeY-1) + 1;
+            }
+            Monster nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            monsters.add(nM);
+            map[x][y] = 2;
+        }
+
+        new Timer().scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        actionMonsters();
+                    }
+                }, 1000, 1000);
+
+        cptLaby += 1;
+    }
+
     public boolean isTreasure(){
-        return cellTreasure.isTreasure();
+        if(cellTreasure != null) {
+            return cellTreasure.isTreasure();
+        }else{
+            return false;
+        }
     }
     
     public World getWorld(){

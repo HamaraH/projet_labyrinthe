@@ -11,6 +11,7 @@ public class TextureFactory {
     private Texture potionOfLife;
     private Texture win;
     private Texture treasure;
+    private Texture gangway;
 
 
     /**
@@ -38,6 +39,7 @@ public class TextureFactory {
         win = new Texture("win.png");
 
         treasure = new Texture("tresor.png");
+        gangway = new Texture("ladder.png");
 
     }
 
@@ -72,5 +74,9 @@ public class TextureFactory {
 
     public Texture getTreasure() {
         return treasure;
+    }
+
+    public Texture getGangway() {
+        return gangway;
     }
 }
