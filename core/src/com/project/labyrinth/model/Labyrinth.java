@@ -107,6 +107,8 @@ public class Labyrinth {
                         actionMonsters();
                     }
                 }, 1000, 1000);
+
+        //System.out.println(this);
     }
 
 
@@ -118,6 +120,8 @@ public class Labyrinth {
     private void mazeRecursion(int x, int y){
         // Creation of an array to contain the 4 directions in which we can create the maze
         Integer[] dir = randomDirection();
+
+        Random rand = new Random();
 
         //We go through the directions array to find our next path
         for(int i = 0; i < 4; i++){
@@ -132,6 +136,11 @@ public class Labyrinth {
                         map[x][y - 2] = 0;
                         // Recursive call to continue building the path on the next chosen tile
                         mazeRecursion(x, y - 2);
+                    }else{
+                        if(rand.nextInt(sizeY) == 0) {
+                            map[x][y - 1] = 0;
+                            mazeRecursion(x, y - 2);
+                        }
                     }
                     break;
                 case 1 : // down
@@ -141,6 +150,11 @@ public class Labyrinth {
                         map[x][y + 1] = 0;
                         map[x][y + 2] = 0;
                         mazeRecursion(x, y + 2);
+                    }else{
+                        if(rand.nextInt(sizeY) == 0) {
+                            map[x][y + 1] = 0;
+                            mazeRecursion(x, y + 2);
+                        }
                     }
                     break;
                 case 2 : // left
@@ -150,6 +164,11 @@ public class Labyrinth {
                         map[x - 1][y] = 0;
                         map[x - 2][y] = 0;
                         mazeRecursion(x - 2, y);
+                    }else{
+                        if(rand.nextInt(sizeX) == 0) {
+                            map[x - 1][y] = 0;
+                            mazeRecursion(x - 2, y);
+                        }
                     }
                     break;
                 case 3 : // right
@@ -159,6 +178,11 @@ public class Labyrinth {
                         map[x + 1][y] = 0;
                         map[x + 2][y] = 0;
                         mazeRecursion(x + 2, y);
+                    }else{
+                        if(rand.nextInt(sizeX) == 0) {
+                            map[x + 1][y] = 0;
+                            mazeRecursion(x + 2, y);
+                        }
                     }
                     break;
             }
