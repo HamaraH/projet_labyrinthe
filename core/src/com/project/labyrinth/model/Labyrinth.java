@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
 
 
+import com.project.labyrinth.model.CellEffect.CellEffect;
 import com.project.labyrinth.model.wall.Wall;
 import com.project.labyrinth.model.wall.WallLimit;
 import com.project.labyrinth.model.wall.WallObstacle;
@@ -25,7 +26,7 @@ public class Labyrinth {
     private World world;
     private AtomicBoolean playerAttack ;
     private List<Potion> potions;
-
+    private List<CellEffect> cellEffects;
 
     /**
      * create the maze
@@ -43,6 +44,7 @@ public class Labyrinth {
         potions = new ArrayList<>();
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        cellEffects = new ArrayList<>();
 
         Random rand = new Random();
 
@@ -372,6 +374,55 @@ public class Labyrinth {
 
         //delete potion in arraylist
         potions.removeIf(p -> !p.isActive());
+    }
+
+
+
+    public void effectCell(){
+        world.setContactListener(new ContactListener() {
+
+
+            @Override
+            public void beginContact(Contact contact) {
+
+                for(CellEffect c : cellEffects) {
+
+                    if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+
+                         c.getEffect(player);
+
+
+                    }
+                }
+            }
+
+
+            @Override
+            public void endContact(Contact contact) {
+
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+
+
+
+
+        });
+
+
+
+
+
+
     }
 
     

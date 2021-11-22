@@ -16,7 +16,7 @@ public class Player extends Entity {
     Player(World world, int x, int y, int size){
 
 
-
+        this.hp = 150;
         this.attackPoints = 10;
         this.size = size;
         BodyDef bodyDef = new BodyDef();
