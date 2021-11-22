@@ -7,7 +7,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
 
 
-import com.project.labyrinth.model.CellEffect.CellEffect;
+import com.project.labyrinth.model.CellEffect.CellTrap;
+import com.project.labyrinth.model.CellEffect.CellTreasure;
 import com.project.labyrinth.model.wall.Wall;
 import com.project.labyrinth.model.wall.WallLimit;
 import com.project.labyrinth.model.wall.WallObstacle;
@@ -26,7 +27,8 @@ public class Labyrinth {
     private World world;
     private AtomicBoolean playerAttack ;
     private List<Potion> potions;
-    private List<CellEffect> cellEffects;
+    private List<CellTrap> cellTrap;
+    private CellTreasure cellTreasure;
 
     /**
      * create the maze
@@ -44,7 +46,8 @@ public class Labyrinth {
         potions = new ArrayList<>();
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        cellEffects = new ArrayList<>();
+        cellTrap = new ArrayList<>();
+        cellTreasure = new CellTreasure(world, Gdx.graphics.getWidth()/sizeX + 50 , Gdx.graphics.getHeight()/sizeY + 50 , (Gdx.graphics.getHeight() / sizeY) - 10);
 
         Random rand = new Random();
 
@@ -272,6 +275,7 @@ public class Labyrinth {
             spriteBatch.draw(TextureFactory.getInstance().getPotionOfLife(), p.getBodyPositionX(), p.getBodyPositionY(), p.getSize(), p.getSize());
         }
 
+        spriteBatch.draw(TextureFactory.getInstance().getTreasure(), cellTreasure.getBodyPositionX(), cellTreasure.getBodyPositionY(), cellTreasure.getSize(), cellTreasure.getSize());
     }
 
 
@@ -385,7 +389,7 @@ public class Labyrinth {
             @Override
             public void beginContact(Contact contact) {
 
-                for(CellEffect c : cellEffects) {
+                for(CellTrap c : cellTrap) {
 
                     if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
 
@@ -394,6 +398,13 @@ public class Labyrinth {
 
                     }
                 }
+
+                if (contact.getFixtureB().getBody() == cellTreasure.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+
+                    cellTreasure.setTreasure(true);
+
+                }
+
             }
 
 
@@ -418,13 +429,11 @@ public class Labyrinth {
 
         });
 
-
-
-
-
-
     }
 
+    public boolean isTreasure(){
+        return cellTreasure.isTreasure();
+    }
     
     public World getWorld(){
         return world;

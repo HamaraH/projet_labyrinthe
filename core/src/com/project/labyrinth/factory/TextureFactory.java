@@ -9,6 +9,8 @@ public class TextureFactory {
     private Texture wallTexture;
     private Texture monsterTexture1;
     private Texture potionOfLife;
+    private Texture win;
+    private Texture treasure;
 
 
     /**
@@ -32,6 +34,10 @@ public class TextureFactory {
 
         //creating potions
         potionOfLife = new Texture("potionOfLife.png");
+
+        win = new Texture("win.png");
+
+        treasure = new Texture("tresor.png");
 
     }
 
@@ -58,5 +64,13 @@ public class TextureFactory {
 
     public Texture getPotionOfLife() {
         return potionOfLife;
+    }
+
+    public Texture getWin() {
+        return win;
+    }
+
+    public Texture getTreasure() {
+        return treasure;
     }
 }
