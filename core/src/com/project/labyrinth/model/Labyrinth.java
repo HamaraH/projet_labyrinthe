@@ -76,9 +76,28 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Monster nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            int ghost = rand.nextInt(3);
+            Monster nM;
+            if(ghost == 0)
+                nM = new Monster2(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            else
+                nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             monsters.add(nM);
             map[x][y] = 2;
+        }
+
+        //Place the potions randomly
+        int nbPotions = sizeX/4;
+        for(int i = 0; i < nbPotions; i++){
+            int x = -1;
+            int y = -1;
+            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
+                x = rand.nextInt(sizeX-1) + 1;
+                y = rand.nextInt(sizeY-1) + 1;
+            }
+            Potion nP = new Potion(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            potions.add(nP);
+            map[x][y] = 3;
         }
 
         new Timer().scheduleAtFixedRate(
