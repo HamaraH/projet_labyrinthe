@@ -27,11 +27,14 @@ public class Labyrinth {
     private List<Wall> walls;
     private World world;
     private AtomicBoolean playerAttack ;
+    private AtomicBoolean monsterAttack;
     private List<Potion> potions;
     private List<CellTrap> cellTrap;
     private CellTreasure cellTreasure;
     private CellNext cellNext;
     private int cptLaby ;
+    private Random rand;
+    private boolean gameOver;
 
     /**
      * create the maze
@@ -232,6 +235,11 @@ public class Labyrinth {
 
             spriteBatch.draw(TextureFactory.getInstance().getGangway(), cellNext.getBodyPositionX(), cellNext.getBodyPositionY(), cellNext.getSize(), cellNext.getSize());
         }
+
+        for(int i = 0; i < player.getHp(); i++){
+            spriteBatch.draw(TextureFactory.getInstance().getHeart(), 0, i*32, walls.get(0).getSize(), walls.get(0).getSize());
+        }
+
     }
 
 
@@ -263,6 +271,7 @@ public class Labyrinth {
     }
 
 
+
     /**
      * the player attacks the monster if a collision exists
      *
@@ -283,8 +292,8 @@ public class Labyrinth {
                         if(playerAttack.get()) {
 
                             m.setHp(m.getHp() - player.getAttackPoints());
-
                             playerAttack.set(false);
+                            System.out.println(m.getHp());
 
 
                         }
@@ -312,7 +321,6 @@ public class Labyrinth {
 
         });
 
-
         //delete body monster
         for(Monster m : monsters) {
             if (m.getHp() <= 0) {
@@ -322,6 +330,8 @@ public class Labyrinth {
 
         //delete monster in arraylist
         monsters.removeIf(m -> m.getHp() <= 0);
+
+
 
     }
 
@@ -335,6 +345,9 @@ public class Labyrinth {
         //delete potion in arraylist
         potions.removeIf(p -> !p.isActive());
     }
+
+
+
 
 
 
@@ -362,17 +375,31 @@ public class Labyrinth {
 
                     }
                 }
-            if(cellNext != null) {
-                if (contact.getFixtureB().getBody() == cellNext.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                if(cellNext != null) {
+                    if (contact.getFixtureB().getBody() == cellNext.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
 
-                    initialisation(sizeX, sizeY);
+                        initialisation(sizeX, sizeY);
+
+                    }
+                }
+
+                for(Monster m : monsters) {
+
+                        if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                            if(rand.nextInt(10) == 3) {
+                            player.setHp(player.getHp() - m.getAttackPoints());
+
+                        }
+                    }
+                }
+
+                if(player.getHp() < 0){
+                    gameOver = true;
+                }
+
 
                 }
-            }
 
-
-
-            }
 
 
             @Override
@@ -402,12 +429,15 @@ public class Labyrinth {
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         playerAttack = new AtomicBoolean(false);
+        monsterAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
         player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
         potions = new ArrayList<>();
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         cellTrap = new ArrayList<>();
+        gameOver = false;
+
 
         if(cptLaby == 5) {
             cellNext = null;
@@ -415,7 +445,7 @@ public class Labyrinth {
         }else{
             cellNext= new CellNext(world, Gdx.graphics.getWidth()/sizeX + 50 , Gdx.graphics.getHeight()/sizeY + 50 , (Gdx.graphics.getHeight() / sizeY) - 10);
         }
-        Random rand = new Random();
+        rand = new Random();
 
         // Initialize the maze
         map = new int[this.sizeX][this.sizeY];
@@ -447,7 +477,7 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Monster nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            Monster nM = new Monster1(world, x, y, 3, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             monsters.add(nM);
             map[x][y] = 2;
         }
@@ -480,4 +510,7 @@ public class Labyrinth {
     }
 
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }

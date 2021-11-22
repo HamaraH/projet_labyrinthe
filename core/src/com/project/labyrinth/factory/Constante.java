@@ -9,7 +9,7 @@ public class Constante {
     public static final short CATEGORY_MONSTER1 = 0x0004;
     public static final short CATEGORY_MONSTER2 = 0x0008;
     public static final short CATEGORY_POTION = 0x00016;
-
+    public static final short CATEGORY_GANGWAY = 0x00032;
 
 
 }

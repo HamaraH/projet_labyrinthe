@@ -64,17 +64,21 @@ public class GameScreen extends ScreenAdapter {
         labyrinth.effectCell();
 
 
+
         Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
         spriteBatch.begin();
         if(!labyrinth.isTreasure()) {
-            labyrinth.draw(spriteBatch);
+            if(!labyrinth.isGameOver()){
+                labyrinth.draw(spriteBatch);
+            }else{
+                game.setScreen(new GameOverScreen());
+            }
 
         }else{
-            Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
             game.setScreen(new WinScreen());
         }
 
@@ -88,8 +92,6 @@ public class GameScreen extends ScreenAdapter {
 
 
         camera.update();
-
-
         spriteBatch.end();
 
     }

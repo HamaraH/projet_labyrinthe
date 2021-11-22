@@ -12,7 +12,8 @@ public class TextureFactory {
     private Texture win;
     private Texture treasure;
     private Texture gangway;
-
+    private Texture heart;
+    private Texture gameOver;
 
     /**
      * brings together the textures of the game
@@ -39,7 +40,12 @@ public class TextureFactory {
         win = new Texture("win.png");
 
         treasure = new Texture("tresor.png");
+
         gangway = new Texture("ladder.png");
+
+        heart = new Texture("heart.png");
+
+        gameOver = new Texture("gameOver.png");
 
     }
 
@@ -78,5 +84,13 @@ public class TextureFactory {
 
     public Texture getGangway() {
         return gangway;
+    }
+
+    public Texture getHeart() {
+        return heart;
+    }
+
+    public Texture getGameOver() {
+        return gameOver;
     }
 }
