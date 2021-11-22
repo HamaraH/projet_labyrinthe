@@ -13,7 +13,7 @@ public class Game extends com.badlogic.gdx.Game {
 	@Override
 	public void create () {
 
-		Labyrinth labyrinth = new Labyrinth(19, 19);
+		Labyrinth labyrinth = new Labyrinth(25, 25);
 		gameScreen = new GameScreen(labyrinth);
 		this.setScreen(gameScreen);
 	}

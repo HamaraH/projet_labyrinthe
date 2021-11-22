@@ -10,6 +10,7 @@ import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.wall.Wall;
 import com.project.labyrinth.model.wall.WallLimit;
 import com.project.labyrinth.model.wall.WallObstacle;
+import com.project.labyrinth.pathfinding.AStar;
 
 
 import java.util.*;
@@ -25,6 +26,7 @@ public class Labyrinth {
     private World world;
     private AtomicBoolean playerAttack ;
     private List<Potion> potions;
+    private AStar pathfinder;
 
 
     /**
@@ -57,6 +59,38 @@ public class Labyrinth {
         // Generate the maze
         map[1][1] = 0;
         mazeRecursion(1, 1);
+
+        pathfinder = new AStar(map);
+
+        //Searching for the corner the furthest away from the player to place the exit
+        int lenOpt0 = pathfinder.getPathLength(new int[]{sizeX - 2, sizeY - 2}, new int[]{1, 1}); // top right
+        int lenOpt1 = pathfinder.getPathLength(new int[]{1, sizeY - 2}, new int[]{1, 1}); // top left
+        int lenOpt2 = pathfinder.getPathLength(new int[]{sizeX - 2, 1}, new int[]{1, 1}); // bottom right
+        int opt = -1;
+        if(lenOpt0 > lenOpt1)
+            opt = 0;
+        else
+            opt = 1;
+        if(opt == 0) {
+            if (lenOpt0 < lenOpt2)
+                opt = 2;
+        }else if (lenOpt1 < lenOpt2)
+                opt = 2;
+
+        switch (opt){
+            case 0:
+                //Place the exit in the top right corner
+                break;
+            case 1:
+                //place the exit in the top left corner
+                break;
+            case 2:
+                //place the exit int the bottom right corner
+                break;
+            default:
+                //place the exit in the top right corner
+        }
+
         for(int i = 0; i < sizeY; i++)
             for(int j = 0; j < sizeX ; j++)
                 if(map[j][i] == 1)
@@ -83,7 +117,7 @@ public class Labyrinth {
             else
                 nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             monsters.add(nM);
-            map[x][y] = 2;
+            //map[x][y] = 2;
         }
 
         //Place the potions randomly
@@ -97,7 +131,7 @@ public class Labyrinth {
             }
             Potion nP = new Potion(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             potions.add(nP);
-            map[x][y] = 3;
+            //map[x][y] = 3;
         }
 
         new Timer().scheduleAtFixedRate(
@@ -282,10 +316,8 @@ public class Labyrinth {
             for (int j = 0; j < sizeY; j++)
                 if (map[j][i] == 1)
                     sb.append("# ");
-                else if (map[j][i] == 0)
+                else
                     sb.append("; ");
-                else if (map[j][i] == 2)
-                    sb.append("k ");
             sb.append("\n");
         }
         return sb.toString();
