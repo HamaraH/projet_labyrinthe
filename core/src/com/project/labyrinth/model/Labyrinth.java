@@ -417,10 +417,11 @@ public class Labyrinth {
     }
 
 
-    public void effectPotionDeVie(){
-        for(Potion p : potions) {
-            p.effectPotionOfLife(player);
-
+    private void deletePotionOfLife(){
+        for(Potion p : potions){
+            if(!p.isActive()) {
+                world.destroyBody(p.getBody());
+            }
         }
 
         //delete potion in arraylist
@@ -474,6 +475,12 @@ public class Labyrinth {
                     }
                 }
 
+                for(Potion p : potions){
+                    if (contact.getFixtureB().getBody() == p.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                        player.setHp(player.getHp() + 1);
+                        p.setActive(false);}
+                }
+
                 if(player.getHp() < 0){
                     gameOver = true;
                 }
@@ -503,6 +510,8 @@ public class Labyrinth {
 
 
         });
+
+        deletePotionOfLife();
 
     }
 
