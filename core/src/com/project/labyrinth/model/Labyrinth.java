@@ -7,6 +7,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
 
 
+import com.project.labyrinth.model.CellEffect.CellNext;
+import com.project.labyrinth.model.CellEffect.CellTrap;
+import com.project.labyrinth.model.CellEffect.CellTreasure;
 import com.project.labyrinth.model.wall.Wall;
 import com.project.labyrinth.model.wall.WallLimit;
 import com.project.labyrinth.model.wall.WallObstacle;
@@ -25,10 +28,16 @@ public class Labyrinth {
     private List<Wall> walls;
     private World world;
     private AtomicBoolean playerAttack ;
+    private AtomicBoolean monsterAttack;
     private List<Potion> potions;
+    private List<CellTrap> cellTrap;
+    private CellTreasure cellTreasure;
+    private CellNext cellNext;
+    private int cptLaby ;
+    private Random rand;
+    private boolean gameOver;
     private AStar pathfinder;
     private int ratio;
-
 
     /**
      * create the maze
@@ -37,116 +46,9 @@ public class Labyrinth {
      */
     public Labyrinth(int sizeX, int sizeY){
 
+        cptLaby = 1;
+        initialisation(sizeX, sizeY);
 
-        monsters = new ArrayList<>();
-        walls = new ArrayList<>();
-        playerAttack = new AtomicBoolean(false);
-        world = new World(new Vector2(0, 0), true);
-        player = new Player(world, Gdx.graphics.getWidth()/sizeX + 5 , Gdx.graphics.getHeight()/sizeY + 5  , (Gdx.graphics.getHeight() / sizeY) - 10);
-        potions = new ArrayList<>();
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-        this.ratio = Gdx.graphics.getHeight()/sizeY;
-
-        Random rand = new Random();
-
-        // Initialize the maze
-        map = new int[this.sizeX][this.sizeY];
-        for(int i = 0 ; i < sizeX ; i++){
-            for(int j = 0 ; j < sizeY ; j++){
-                    map[i][j] = 1;
-            }
-        }
-
-        // Generate the maze
-        map[1][1] = 0;
-        mazeRecursion(1, 1);
-
-        pathfinder = new AStar(map);
-
-        //Searching for the corner the furthest away from the player to place the exit
-        int lenOpt0 = pathfinder.getPathLength(new int[]{sizeX - 2, sizeY - 2}, new int[]{1, 1}); // top right
-        int lenOpt1 = pathfinder.getPathLength(new int[]{1, sizeY - 2}, new int[]{1, 1}); // top left
-        int lenOpt2 = pathfinder.getPathLength(new int[]{sizeX - 2, 1}, new int[]{1, 1}); // bottom right
-        int opt = -1;
-        if(lenOpt0 > lenOpt1)
-            opt = 0;
-        else
-            opt = 1;
-        if(opt == 0) {
-            if (lenOpt0 < lenOpt2)
-                opt = 2;
-        }else if (lenOpt1 < lenOpt2)
-                opt = 2;
-
-        switch (opt){
-            case 0:
-                //Place the exit in the top right corner
-                break;
-            case 1:
-                //place the exit in the top left corner
-                break;
-            case 2:
-                //place the exit int the bottom right corner
-                break;
-            default:
-                //place the exit in the top right corner
-        }
-
-        for(int i = 0; i < sizeY; i++)
-            for(int j = 0; j < sizeX ; j++)
-                if(map[j][i] == 1)
-                    if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
-                          walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
-
-                    }
-                    else {
-                        walls.add(new WallObstacle(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
-                    }
-        //Place the monsters randomly
-        int nbMonsters = sizeX / 3;
-        for(int i = 0; i < nbMonsters; i++){
-            int x = -1;
-            int y = -1;
-            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
-                x = rand.nextInt(sizeX-1) + 1;
-                y = rand.nextInt(sizeY-1) + 1;
-            }
-            int ghost = rand.nextInt(3);
-            Monster nM;
-            if(ghost == 0)
-                nM = new Monster2(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
-            else
-                nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
-            monsters.add(nM);
-            //map[x][y] = 2;
-        }
-
-        //Place the potions randomly
-        int nbPotions = sizeX/4;
-        for(int i = 0; i < nbPotions; i++){
-            int x = -1;
-            int y = -1;
-            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
-                x = rand.nextInt(sizeX-1) + 1;
-                y = rand.nextInt(sizeY-1) + 1;
-            }
-            Potion nP = new Potion(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
-            potions.add(nP);
-            //map[x][y] = 3;
-        }
-
-        new Timer().scheduleAtFixedRate(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        actionMonsters();
-                    }
-                }, 250, 250);
-
-        actionMonsters();
-
-        //System.out.println(this);
     }
 
 
@@ -380,6 +282,18 @@ public class Labyrinth {
         for(Potion p : potions) {
             spriteBatch.draw(TextureFactory.getInstance().getPotionOfLife(), p.getBodyPositionX(), p.getBodyPositionY(), p.getSize(), p.getSize());
         }
+        if(cellTreasure != null) {
+            spriteBatch.draw(TextureFactory.getInstance().getTreasure(), cellTreasure.getBodyPositionX(), cellTreasure.getBodyPositionY(), cellTreasure.getSize(), cellTreasure.getSize());
+        }
+
+        if(cellNext != null){
+
+            spriteBatch.draw(TextureFactory.getInstance().getGangway(), cellNext.getBodyPositionX(), cellNext.getBodyPositionY(), cellNext.getSize(), cellNext.getSize());
+        }
+
+        for(int i = 0; i < player.getHp(); i++){
+            spriteBatch.draw(TextureFactory.getInstance().getHeart(), 0, i*32, walls.get(0).getSize(), walls.get(0).getSize());
+        }
 
     }
 
@@ -438,6 +352,7 @@ public class Labyrinth {
     }
 
 
+
     /**
      * the player attacks the monster if a collision exists
      *
@@ -458,8 +373,8 @@ public class Labyrinth {
                         if(playerAttack.get()) {
 
                             m.setHp(m.getHp() - player.getAttackPoints());
-
                             playerAttack.set(false);
+                            System.out.println(m.getHp());
 
 
                         }
@@ -487,7 +402,6 @@ public class Labyrinth {
 
         });
 
-
         //delete body monster
         for(Monster m : monsters) {
             if (m.getHp() <= 0) {
@@ -497,6 +411,8 @@ public class Labyrinth {
 
         //delete monster in arraylist
         monsters.removeIf(m -> m.getHp() <= 0);
+
+
 
     }
 
@@ -511,7 +427,215 @@ public class Labyrinth {
         potions.removeIf(p -> !p.isActive());
     }
 
-    
+
+
+
+
+
+    public void effectCell(){
+        world.setContactListener(new ContactListener() {
+
+
+            @Override
+            public void beginContact(Contact contact) {
+
+                for(CellTrap c : cellTrap) {
+
+                    if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+
+                         c.getEffect(player);
+
+
+                    }
+                }
+
+                if(cellTreasure != null) {
+                    if (contact.getFixtureB().getBody() == cellTreasure.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+
+                        cellTreasure.setTreasure(true);
+
+                    }
+                }
+                if(cellNext != null) {
+                    if (contact.getFixtureB().getBody() == cellNext.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+
+                        initialisation(sizeX, sizeY);
+
+                    }
+                }
+
+                for(Monster m : monsters) {
+
+                        if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                            if(rand.nextInt(10) == 3) {
+                            player.setHp(player.getHp() - m.getAttackPoints());
+
+                        }
+                    }
+                }
+
+                if(player.getHp() < 0){
+                    gameOver = true;
+                }
+
+
+                }
+
+
+
+            @Override
+            public void endContact(Contact contact) {
+
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+
+
+
+
+        });
+
+    }
+
+    private void initialisation(int sizeX, int sizeY){
+        monsters = new ArrayList<>();
+        walls = new ArrayList<>();
+        playerAttack = new AtomicBoolean(false);
+        monsterAttack = new AtomicBoolean(false);
+        world = new World(new Vector2(0, 0), true);
+        player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
+        potions = new ArrayList<>();
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.ratio = Gdx.graphics.getHeight()/sizeY;
+        cellTrap = new ArrayList<>();
+        gameOver = false;
+
+
+        if(cptLaby == 5) {
+            cellNext = null;
+            cellTreasure = new CellTreasure(world, Gdx.graphics.getWidth() / sizeX + 100, Gdx.graphics.getHeight() / sizeY + 100, (Gdx.graphics.getHeight() / sizeY) - 10);
+        }else{
+            cellNext= new CellNext(world, Gdx.graphics.getWidth()/sizeX + 50 , Gdx.graphics.getHeight()/sizeY + 50 , (Gdx.graphics.getHeight() / sizeY) - 10);
+        }
+        rand = new Random();
+
+        // Initialize the maze
+        map = new int[this.sizeX][this.sizeY];
+        for(int i = 0 ; i < sizeX ; i++){
+            for(int j = 0 ; j < sizeY ; j++){
+                map[i][j] = 1;
+            }
+        }
+
+        // Generate the maze
+        map[1][1] = 0;
+        mazeRecursion(1, 1);
+
+        pathfinder = new AStar(map);
+
+        //Searching for the corner the furthest away from the player to place the exit
+        int lenOpt0 = pathfinder.getPathLength(new int[]{sizeX - 2, sizeY - 2}, new int[]{1, 1}); // top right
+        int lenOpt1 = pathfinder.getPathLength(new int[]{1, sizeY - 2}, new int[]{1, 1}); // top left
+        int lenOpt2 = pathfinder.getPathLength(new int[]{sizeX - 2, 1}, new int[]{1, 1}); // bottom right
+        int opt = -1;
+        if(lenOpt0 > lenOpt1)
+            opt = 0;
+        else
+            opt = 1;
+        if(opt == 0) {
+            if (lenOpt0 < lenOpt2)
+                opt = 2;
+        }else if (lenOpt1 < lenOpt2)
+                opt = 2;
+
+        switch (opt){
+            case 0:
+                //Place the exit in the top right corner
+                break;
+            case 1:
+                //place the exit in the top left corner
+                break;
+            case 2:
+                //place the exit int the bottom right corner
+                break;
+            default:
+                //place the exit in the top right corner
+        }
+
+        for(int i = 0; i < sizeY; i++)
+            for(int j = 0; j < sizeX ; j++)
+                if(map[j][i] == 1)
+                    if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
+                        walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+
+                    }
+                    else {
+                        walls.add(new WallObstacle(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+                    }
+        //Place the monsters randomly
+        int nbMonsters = sizeX / 3;
+        for(int i = 0; i < nbMonsters; i++){
+            int x = -1;
+            int y = -1;
+            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
+                x = rand.nextInt(sizeX-1) + 1;
+                y = rand.nextInt(sizeY-1) + 1;
+            }
+            int ghost = rand.nextInt(3);
+            Monster nM;
+            if(ghost == 0)
+                nM = new Monster2(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            else
+                nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            monsters.add(nM);
+            //map[x][y] = 2;
+        }
+
+        //Place the potions randomly
+        int nbPotions = sizeX/4;
+        for(int i = 0; i < nbPotions; i++){
+            int x = -1;
+            int y = -1;
+            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
+                x = rand.nextInt(sizeX-1) + 1;
+                y = rand.nextInt(sizeY-1) + 1;
+            }
+            Potion nP = new Potion(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            potions.add(nP);
+            //map[x][y] = 3;
+        }
+
+        new Timer().scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        actionMonsters();
+                    }
+                }, 250, 250);
+
+        actionMonsters();
+
+        cptLaby += 1;
+    }
+
+    public boolean isTreasure(){
+        if(cellTreasure != null) {
+            return cellTreasure.isTreasure();
+        }else{
+            return false;
+        }
+    }
+
     public World getWorld(){
         return world;
     }
@@ -521,4 +645,7 @@ public class Labyrinth {
     }
 
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }

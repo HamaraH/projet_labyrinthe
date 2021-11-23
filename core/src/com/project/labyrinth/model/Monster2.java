@@ -9,6 +9,7 @@ public class Monster2 extends Monster {
     public Monster2(World world, int x, int y, int hp, int size, int ratio) {
         super(world, x, y, hp, size, ratio);
 
+        this.attackPoints = 1;
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0 ;
