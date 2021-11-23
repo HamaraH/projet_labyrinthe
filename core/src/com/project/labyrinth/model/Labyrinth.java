@@ -10,6 +10,9 @@ import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.CellEffect.CellNext;
 import com.project.labyrinth.model.CellEffect.CellTrap;
 import com.project.labyrinth.model.CellEffect.CellTreasure;
+import com.project.labyrinth.model.monster.Monster;
+import com.project.labyrinth.model.monster.Monster1;
+import com.project.labyrinth.model.monster.Monster2;
 import com.project.labyrinth.model.wall.Wall;
 import com.project.labyrinth.model.wall.WallLimit;
 import com.project.labyrinth.model.wall.WallObstacle;
@@ -445,7 +448,7 @@ public class Labyrinth {
                     if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
 
                         c.getEffect(player);
-                        
+
                     }
                 }
 

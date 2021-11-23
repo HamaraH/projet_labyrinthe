@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 /**
  * factors common elements between the monster and the player
  */
-abstract class Entity {
+public abstract class Entity {
 
     protected int posX, posY, hp, attackPoints, size;
     protected Body body ;
@@ -16,7 +16,7 @@ abstract class Entity {
      * apply force to the monster to move it
      * @param vector ,of force
      */
-    void applyForce(Vector2 vector){
+   public void applyForce(Vector2 vector){
         body.applyLinearImpulse(vector,  body.getWorldCenter(),true);
     }
 
@@ -44,36 +44,36 @@ abstract class Entity {
         this.body = body;
     }
 
-    int getPosX() {
+    public int getPosX() {
         return posX;
     }
 
-    void setPosX(int posX) {
+    public void setPosX(int posX) {
         this.posX = posX;
     }
 
-    int getPosY() {
+    public int getPosY() {
         return posY;
     }
 
-    void setPosY(int posY) {
+    public void setPosY(int posY) {
         this.posY = posY;
     }
 
-    float getPositionX(){
+   public float getPositionX(){
 
         return body.getPosition().x;
     }
 
-    float getPositionY(){
+   public float getPositionY(){
         return body.getPosition().y;
     }
 
-    int getSize() {
+    public int getSize() {
         return size;
     }
 
-    Body getBody() {
+    public Body getBody() {
         return body;
     }
 }

@@ -1,10 +1,10 @@
-package com.project.labyrinth.model;
+package com.project.labyrinth.model.monster;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.project.labyrinth.model.Entity;
 
 
-
-abstract class Monster extends Entity {
+public abstract class Monster extends Entity {
 
     private int[] goal;
     protected PolygonShape shape;
