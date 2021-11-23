@@ -12,11 +12,16 @@ public class Monster1 extends Monster {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0 ;
-        fixtureDef.restitution = 0f ;
+        fixtureDef.restitution = 0.f ;
         fixtureDef.filter.categoryBits = Constante.CATEGORY_MONSTER1;
 
         body.createFixture(fixtureDef);
         shape.dispose();
 
+    }
+
+    @Override
+    public boolean isMonster1() {
+        return true;
     }
 }

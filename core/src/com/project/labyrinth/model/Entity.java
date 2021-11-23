@@ -17,7 +17,6 @@ abstract class Entity {
      * @param vector ,of force
      */
     void applyForce(Vector2 vector){
-
         body.applyLinearImpulse(vector,  body.getWorldCenter(),true);
     }
 

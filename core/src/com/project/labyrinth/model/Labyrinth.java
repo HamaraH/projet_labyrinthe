@@ -27,6 +27,7 @@ public class Labyrinth {
     private AtomicBoolean playerAttack ;
     private List<Potion> potions;
     private AStar pathfinder;
+    private int ratio;
 
 
     /**
@@ -41,10 +42,11 @@ public class Labyrinth {
         walls = new ArrayList<>();
         playerAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
-        player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
+        player = new Player(world, Gdx.graphics.getWidth()/sizeX + 5 , Gdx.graphics.getHeight()/sizeY + 5  , (Gdx.graphics.getHeight() / sizeY) - 10);
         potions = new ArrayList<>();
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.ratio = Gdx.graphics.getHeight()/sizeY;
 
         Random rand = new Random();
 
@@ -140,7 +142,9 @@ public class Labyrinth {
                     public void run() {
                         actionMonsters();
                     }
-                }, 1000, 1000);
+                }, 250, 250);
+
+        actionMonsters();
 
         //System.out.println(this);
     }
@@ -227,16 +231,48 @@ public class Labyrinth {
      *
      */
     private void actionMonsters(){
-        Integer[] dir;
+        for(Monster m : monsters){
+            if(true) { // the monster isn't attacking and will move
+                if (m.isFinishedMoving()){
+                    m.setFinishedMoving(false);
+                    m.setPosX((int) (m.getPositionX() + (m.getSize() / 2)) / ratio);
+                    m.setPosY((int) (m.getPositionY() + (m.getSize() / 2)) / ratio);
+                    player.setPosX((int) (player.getPositionX() + (player.getSize() / 2)) / ratio);
+                    player.setPosY((int) (player.getPositionY() + (player.getSize() / 2)) / ratio);
+                    //System.out.println("Pos Monster = " + mX + " ; " + mY);
+                    //System.out.println("Player = " + pX + " ; " + pY);
+                    if (m.isMonster1()) {
+                        //System.out.println("Monster1");
+                        m.setGoal(pathfinder.getNextMove(new int[]{m.getPosX(), m.getPosY()}, new int[]{player.getPosX(), player.getPosY()}));
+                    } else {
+                        //System.out.println("Monster2");
+                        if (Math.abs(m.getPosX() - player.getPosX()) > Math.abs(m.getPosY() - player.getPosY())) {
+                            if (m.getPosX() > player.getPosX())
+                                m.setGoal(new int[]{m.getPosX() - 1, m.getPosY()});
+                            else
+                                m.setGoal(new int[]{m.getPosX() + 1, m.getPosY()});
+                        } else {
+                            if (m.getPosY() > player.getPosY())
+                                m.setGoal(new int[]{m.getPosX(), m.getPosY() - 1});
+                            else
+                                m.setGoal(new int[]{m.getPosX(), m.getPosY() + 1});
+                        }
+                    }
+                    //System.out.println("Player = " + player.getPosX() + " ; " + player.getPosY());
+                    //System.out.println("Monster = " + m.getPosX() + " ; " + m.getPosY() + " -> " + m.getGoal()[0] + " ; " + m.getGoal()[1]);
+                }
+            }
+        }
+        /*Integer[] dir;
         for(Monster m : monsters){
             // Creation of an array to contain the 4 directions in which the monster could move
             dir = randomDirection();
             // Get the monster's position
             float mX1 = m.getPositionX();
             float mY1 = m.getPositionY();
-            //System.out.println(mX1 + " ; " + mY1 + " -> " + mX1/m.getRatio() + " ; " + mY1/m.getRatio());
-            m.setPosX((int)mX1/m.getRatio());
-            m.setPosY((int)mY1/m.getRatio());
+            //System.out.println(mX1 + " ; " + mY1 + " -> " + mX1/ratio + " ; " + mY1/ratio);
+            m.setPosX((int)mX1/ratio);
+            m.setPosY((int)mY1/ratio);
 
             int mX = m.getPosX();
             int mY = m.getPosY();
@@ -293,7 +329,7 @@ public class Labyrinth {
                 map[m.getPosX()][m.getPosY()] = 2;
             }
 
-        }
+        }*/
     }
 
     /**
@@ -353,20 +389,46 @@ public class Labyrinth {
      */
     public void moveMonsters(){
         for(Monster m : monsters) {
-            switch (m.getDirection()){
-                case 0:
-                    m.applyForce(new Vector2(.0f, -500.0f));
-                    break;
-                case 1:
-                    m.applyForce(new Vector2(.0f, 500.0f));
-                    break;
-                case 2:
-                    m.applyForce(new Vector2(-500.0f, 0.0f));
-                    break;
-                case 3:
-                    m.applyForce(new Vector2(500.0f, .0f));
-                    break;
+            if (m.getGoal()[0] != -1 && m.getGoal()[1] != -1) {
+                float goalX = m.getGoal()[0] * ratio + 5;
+                float goalY = m.getGoal()[1] * ratio + 5;
+
+                if (Math.abs(m.getPositionY() - goalY) > Math.abs(m.getPositionX() - goalX)) {
+                    if (m.getPositionY() < goalY) //up
+                        //m.getBody().setLinearVelocity(0.f, 10.f);
+                        m.applyForce(new Vector2(0.f, 5.f/ratio));
+                    else if (m.getPositionY() > goalY) //down
+                        //m.getBody().setLinearVelocity(0.f, -10.f);
+                        m.applyForce(new Vector2(0.f, -5.f/ratio));
+                }else {
+                    if (m.getPositionX() > goalX) //left
+                        //m.getBody().setLinearVelocity(-10.f, 0.f);
+                        m.applyForce(new Vector2(-5.f/ratio, 0.f));
+                    else if (m.getPositionX() < goalX) //right
+                        //m.getBody().setLinearVelocity(10.f, 0.f);
+                        m.applyForce(new Vector2(5.f/ratio, 0.f));
+                }
+                if (goalX - 4 < m.getPositionX() && m.getPositionX() < goalX + 4 && goalY - 4 < m.getPositionY() && m.getPositionY() < goalY + 4) {
+                    m.getBody().setLinearVelocity(0.f, 0.f);
+                    //m.applyForce(new Vector2(0.f, 0.f));
+                    m.setFinishedMoving(true);
+                }
             }
+            /*m.setPosX((int)m.getPositionX() / ratio);
+            m.setPosY((int)m.getPositionY() / ratio);
+            if (m.getGoal()[0] != -1 && m.getGoal()[1] != -1) {
+                if (m.getGoal()[1] < m.getPosY()) //up
+                    m.applyForce(new Vector2(0.f, -0.5f));
+                else if (m.getGoal()[1] > m.getPosY())//down
+                    m.applyForce(new Vector2(0.f, 0.5f));
+                else
+                    m.applyForce(new Vector2(0.f, 0.f));
+                if (m.getGoal()[0] < m.getPosX()) //left
+                    m.applyForce(new Vector2(-0.5f, 0.f));
+                else if (m.getGoal()[0] > m.getPosX()) //right
+                    m.applyForce(new Vector2(0.5f, 0.f));
+            }*/
+
         }
 
     }

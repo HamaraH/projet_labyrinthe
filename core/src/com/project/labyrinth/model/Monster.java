@@ -6,9 +6,10 @@ import com.badlogic.gdx.physics.box2d.*;
 
 abstract class Monster extends Entity {
 
-    private int direction;
-    private int ratio;
+    private int[] goal;
     protected PolygonShape shape;
+    private boolean finishedMoving = true;
+
 
     /**
      * create a monster
@@ -24,13 +25,12 @@ abstract class Monster extends Entity {
         this.posX = x;
         this.posY = y;
         this.hp = hp;
-        this.ratio = ratio;
-        this.direction = -1;
 
         this.size = size;
+        this.goal = new int[]{-1, -1};
 
-        int relativePosX = posX * ratio;
-        int relativePosY = posY * ratio;
+        int relativePosX = posX * ratio + 5;
+        int relativePosY = posY * ratio + 5;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -49,29 +49,23 @@ abstract class Monster extends Entity {
 
     }
 
-    /**
-     * position in the map
-     * @param depX ,position in X
-     * @param depY ,position in Y
-     */
-    void move(int depX, int depY){
-        this.posX += depX;
-        this.posY += depY;
+    public int[] getGoal() {
+        return goal;
     }
 
-
-    int getRatio() {
-        return ratio;
+    public void setGoal(int[] goal) {
+        this.goal = goal;
     }
 
-
-    int getDirection() {
-        return direction;
+    public boolean isMonster1(){
+        return false;
     }
 
-    void setDirection(int direction) {
-        this.direction = direction;
+    public boolean isFinishedMoving() {
+        return finishedMoving;
     }
 
-
+    public void setFinishedMoving(boolean finishedMovingX) {
+        this.finishedMoving = finishedMoving;
+    }
 }

@@ -10,7 +10,7 @@ public class AStar {
         this.map = map;
     }
 
-    public int getNextMove(int[] start, int[] target){
+    public int[] getNextMove(int[] start, int[] target){
         Node startNode = new Node(0, start[0], start[1]);
         Node targetNode = new Node(0, target[0], target[1]);
         startNode.setWeightToGetHere(0);
@@ -20,18 +20,10 @@ public class AStar {
         Node pathEnd = aStar(startNode, targetNode);
         //System.out.println("pathEnd = " + pathEnd);
         Node next = nextStep(pathEnd);
-        System.out.println("Next Step = " + next);
-        int res = -1;
-        if(next != null) {
-            if (start[1] < next.getY()) // up
-                res = 0;
-            else if (start[1] > next.getY()) // down
-                res = 1;
-            else if (start[0] > next.getX()) // left
-                res = 2;
-            else if (start[0] < next.getX()) // right
-                res = 3;
-        }
+        //System.out.println("Next Step = " + next);
+        int[] res = new int[]{-1, -1};
+        if (next != null)
+            res = new int[]{next.getX(), next.getY()};
         return res;
     }
 
@@ -54,7 +46,7 @@ public class AStar {
     }
 
     private Node nextStep(Node target){
-        if(target != null)
+        if(target != null && target.getParent() != null)
             while(target.getParent().getParent() != null){
                 target = target.getParent();
             }
