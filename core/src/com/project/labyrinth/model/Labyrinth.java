@@ -521,12 +521,7 @@ public class Labyrinth {
         gameOver = false;
 
 
-        if(cptLaby == 5) {
-            cellNext = null;
-            cellTreasure = new CellTreasure(world, Gdx.graphics.getWidth() / sizeX + 100, Gdx.graphics.getHeight() / sizeY + 100, (Gdx.graphics.getHeight() / sizeY) - 10);
-        }else{
-            cellNext= new CellNext(world, Gdx.graphics.getWidth()/sizeX + 50 , Gdx.graphics.getHeight()/sizeY + 50 , (Gdx.graphics.getHeight() / sizeY) - 10);
-        }
+
         rand = new Random();
 
         // Initialize the maze
@@ -542,6 +537,12 @@ public class Labyrinth {
         mazeRecursion(1, 1);
 
         pathfinder = new AStar(map);
+
+        if(cptLaby == 5) {
+            cellNext = null;
+        }else{
+            cellTreasure = null;
+        }
 
         //Searching for the corner the furthest away from the player to place the exit
         int lenOpt0 = pathfinder.getPathLength(new int[]{sizeX - 2, sizeY - 2}, new int[]{1, 1}); // top right
@@ -559,17 +560,26 @@ public class Labyrinth {
                 opt = 2;
 
         switch (opt){
-            case 0:
-                //Place the exit in the top right corner
-                break;
             case 1:
                 //place the exit in the top left corner
+                if (cptLaby == 5)
+                    cellTreasure = new CellTreasure(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                else
+                    cellNext = new CellNext(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
                 break;
             case 2:
                 //place the exit int the bottom right corner
+                if (cptLaby == 5)
+                    cellTreasure = new CellTreasure(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                else
+                    cellNext = new CellNext(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
                 break;
             default:
                 //place the exit in the top right corner
+                if (cptLaby == 5)
+                    cellTreasure = new CellTreasure(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                else
+                    cellNext = new CellNext(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
         }
 
         for(int i = 0; i < sizeY; i++)
