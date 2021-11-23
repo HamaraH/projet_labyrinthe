@@ -61,6 +61,10 @@ public class Keyboard implements InputProcessor {
             case Input.Keys.C:
                 debug = !debug;
                 break;
+
+            case Input.Keys.SPACE:
+                labyrinth.attack();
+                break;
             default:
         }
         return true;

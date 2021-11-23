@@ -604,9 +604,9 @@ public class Labyrinth {
             int ghost = rand.nextInt(3);
             Monster nM;
             if(ghost == 0)
-                nM = new Monster2(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+                nM = new Monster2(world, x, y, 2, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             else
-                nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+                nM = new Monster1(world, x, y, 3, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             monsters.add(nM);
             map[x][y] = 2;
         }
