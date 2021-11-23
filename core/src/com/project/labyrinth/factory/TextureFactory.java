@@ -8,6 +8,7 @@ public class TextureFactory {
     private Texture playerTexture;
     private Texture wallTexture;
     private Texture monsterTexture1;
+    private Texture monsterTexture2;
     private Texture potionOfLife;
     private Texture win;
     private Texture treasure;
@@ -33,6 +34,7 @@ public class TextureFactory {
 
         //creating the monsters
         monsterTexture1 = new Texture("monster1.png");
+        monsterTexture2 = new Texture("monster4.png");
 
         //creating potions
         potionOfLife = new Texture("potionOfLife.png");
@@ -68,6 +70,10 @@ public class TextureFactory {
 
     public Texture getMonsterTexture1() {
         return monsterTexture1;
+    }
+
+    public Texture getMonsterTexture2() {
+        return monsterTexture2;
     }
 
     public Texture getPotionOfLife() {
