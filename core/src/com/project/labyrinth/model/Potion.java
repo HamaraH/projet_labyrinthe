@@ -39,42 +39,6 @@ public class Potion {
     }
 
 
-    public void effectPotionOfLife(Player player){
-        world.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-
-                if (contact.getFixtureB().getBody() == body && contact.getFixtureA().getBody() == player.getBody()) {
-                    player.setHp(player.getHp() + 10);
-                    setActive(false);}
-
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
-
-            }
-
-        });
-
-        //delete body potion
-    if(!active) {
-        world.destroyBody(body);
-    }
-
-    }
-
-
     public Boolean isActive() {
         return active;
     }

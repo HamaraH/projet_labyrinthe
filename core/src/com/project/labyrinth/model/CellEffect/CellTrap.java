@@ -6,7 +6,7 @@ import com.project.labyrinth.model.Player;
 public class CellTrap  {
 
 
-    private final static  int DAMAGE = 10;
+    private final static  int DAMAGE = 1;
 
     private Body body;
 
@@ -18,7 +18,7 @@ public class CellTrap  {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, y);
-        Body body = world.createBody(bodyDef);
+        this.body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         shape.set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});

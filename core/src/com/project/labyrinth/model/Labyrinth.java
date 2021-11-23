@@ -444,9 +444,8 @@ public class Labyrinth {
 
                     if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
 
-                         c.getEffect(player);
-
-
+                        c.getEffect(player);
+                        
                     }
                 }
 
