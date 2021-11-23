@@ -2,15 +2,12 @@ package com.project.labyrinth.model.cellEffect;
 
 import com.badlogic.gdx.physics.box2d.*;
 
-public class CellNext {
+public class CellEnd {
+    protected Body body;
+    protected int size;
 
-    private Body body;
-    private int size;
-
-   public CellNext(World world, int x, int y, int size) {
-
-
-       this.size = size;
+    public CellEnd(World world, int x, int y, int size) {
+        this.size = size;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, y);
@@ -23,10 +20,7 @@ public class CellNext {
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef);
         shape.dispose();
-
     }
-
-
 
     public Body getBody() {
         return body;
@@ -44,5 +38,9 @@ public class CellNext {
 
     public int getSize() {
         return size;
+    }
+
+    public boolean isTreasureCell() {
+        return false;
     }
 }

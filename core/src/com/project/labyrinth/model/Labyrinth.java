@@ -1,14 +1,13 @@
 package com.project.labyrinth.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
 
 
-import com.project.labyrinth.model.cellEffect.CellNext;
+import com.project.labyrinth.model.cellEffect.CellEnd;
 import com.project.labyrinth.model.cellEffect.CellTrap;
 import com.project.labyrinth.model.cellEffect.CellTreasure;
 import com.project.labyrinth.model.monster.Monster;
@@ -32,11 +31,10 @@ public class Labyrinth {
     private List<Wall> walls;
     private World world;
     private AtomicBoolean playerAttack ;
-    private AtomicBoolean monsterAttack;
+    //private AtomicBoolean monsterAttack;
     private List<Potion> potions;
     private List<CellTrap> traps;
-    private CellTreasure cellTreasure;
-    private CellNext cellNext;
+    private CellEnd endCell;
     private int cptLaby ;
     private Random rand;
     private boolean gameOver;
@@ -218,13 +216,10 @@ public class Labyrinth {
         for(Potion p : potions) {
             spriteBatch.draw(TextureFactory.getInstance().getPotionOfLife(), p.getBodyPositionX(), p.getBodyPositionY(), p.getSize(), p.getSize());
         }
-        if(cellTreasure != null) {
-            spriteBatch.draw(TextureFactory.getInstance().getTreasure(), cellTreasure.getBodyPositionX(), cellTreasure.getBodyPositionY(), cellTreasure.getSize(), cellTreasure.getSize());
-        }
-
-        if(cellNext != null){
-
-            spriteBatch.draw(TextureFactory.getInstance().getGangway(), cellNext.getBodyPositionX(), cellNext.getBodyPositionY(), cellNext.getSize(), cellNext.getSize());
+        if(endCell.isTreasureCell()) {
+            spriteBatch.draw(TextureFactory.getInstance().getTreasure(), endCell.getBodyPositionX(), endCell.getBodyPositionY(), endCell.getSize(), endCell.getSize());
+        }else{
+            spriteBatch.draw(TextureFactory.getInstance().getGangway(), endCell.getBodyPositionX(), endCell.getBodyPositionY(), endCell.getSize(), endCell.getSize());
         }
 
         for(int i = 0; i < player.getHp(); i++){
@@ -370,26 +365,19 @@ public class Labyrinth {
                     }
                 }
 
-                if(cellTreasure != null) {
-                    if (contact.getFixtureB().getBody() == cellTreasure.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                if (endCell.isTreasureCell()) {
 
-                        cellTreasure.setTreasure(true);
-
-                    }
-                }
-                if(cellNext != null) {
-                    if (contact.getFixtureB().getBody() == cellNext.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
-
+                    if (contact.getFixtureB().getBody() == endCell.getBody() && contact.getFixtureA().getBody() == player.getBody())
+                        ((CellTreasure) endCell).setTreasure(true);
+                }else
+                    if (contact.getFixtureB().getBody() == endCell.getBody() && contact.getFixtureA().getBody() == player.getBody())
                         initialisation(sizeX, sizeY);
-
-                    }
-                }
 
                 for(Monster m : monsters) {
 
-                        if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
-                            if(rand.nextInt(10) == 3) {
-                            player.setHp(player.getHp() - m.getAttackPoints());
+                    if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                        if(rand.nextInt(10) == 3) {
+                        player.setHp(player.getHp() - m.getAttackPoints());
 
                         }
                     }
@@ -441,7 +429,7 @@ public class Labyrinth {
         potions = new ArrayList<>();
         traps = new ArrayList<>();
         playerAttack = new AtomicBoolean(false);
-        monsterAttack = new AtomicBoolean(false);
+        //monsterAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
         player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
         this.sizeX = sizeX;
@@ -467,17 +455,17 @@ public class Labyrinth {
 
         pathfinder = new AStar(map);
 
-        if(cptLaby == 5) {
+        /*if(cptLaby == 5) {
             cellNext = null;
         }else{
             cellTreasure = null;
-        }
+        }*/
 
         //Searching for the corner the furthest away from the player to place the exit
         int lenOpt0 = pathfinder.getPathLength(new int[]{sizeX - 2, sizeY - 2}, new int[]{1, 1}); // top right
         int lenOpt1 = pathfinder.getPathLength(new int[]{1, sizeY - 2}, new int[]{1, 1}); // top left
         int lenOpt2 = pathfinder.getPathLength(new int[]{sizeX - 2, 1}, new int[]{1, 1}); // bottom right
-        int opt = -1;
+        int opt;
         if(lenOpt0 > lenOpt1)
             opt = 0;
         else
@@ -488,27 +476,28 @@ public class Labyrinth {
         }else if (lenOpt1 < lenOpt2)
                 opt = 2;
 
+        //System.out.println("cptLaby = " + cptLaby);
         switch (opt){
             case 1:
                 //place the exit in the top left corner
                 if (cptLaby == 5)
-                    cellTreasure = new CellTreasure(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellTreasure(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
                 else
-                    cellNext = new CellNext(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellEnd(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
                 break;
             case 2:
                 //place the exit int the bottom right corner
                 if (cptLaby == 5)
-                    cellTreasure = new CellTreasure(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
                 else
-                    cellNext = new CellNext(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
                 break;
             default:
                 //place the exit in the top right corner
                 if (cptLaby == 5)
-                    cellTreasure = new CellTreasure(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
                 else
-                    cellNext = new CellNext(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
         }
 
         for(int i = 0; i < sizeY; i++)
@@ -582,11 +571,10 @@ public class Labyrinth {
     }
 
     public boolean isTreasure(){
-        if(cellTreasure != null) {
-            return cellTreasure.isTreasure();
-        }else{
-            return false;
-        }
+        boolean res = false;
+        if(endCell.isTreasureCell())
+            res = ((CellTreasure)endCell).isTreasure();
+        return res;
     }
 
     public World getWorld(){
