@@ -1,0 +1,28 @@
+
+restropective :
+Manon et Arno ont arrêté le master leurs tâches ont été redistribuées,
+Mais cela a provoquer une surcharge de travail donc certaines des fonctionalités n'ont pas été réalisé
+Cependant la réorganitsation pendant le sprint c'est bien passé
+
+point positif :
+    - accord sur la conception
+    - efficacité du travail en groupe
+    - entre aide
+
+
+
+point négatif :
+    - ne pas faire la documentation au fur a mesure
+
+
+review :
+    - Les monstres attaquent le héros qui perd des points de vie (lindsay)
+    - Les points de vie du joueur sont affichées (lindsay)
+    - les monstres intégrent un déplacement intélligent vers le héros (guillaume)
+    - Le labyrinthe a un trésor (sortie) et une cases qui permet d'accéder au niveaux suivant (lindsay et guillaume)
+    - Intégration d'une potion qui permet au joueurs de récupérer des points de vie (lindsay et guillaume)
+    - Intégration de nouveaux monstres qui peuvent traverser les murs (lindsay)
+    - Intégration des cases pièges qui font subir des dégats à l'héros (lindsay et guillaume)
+    - Le héros avance dans le sens de sa direction (PAS FAIT)
+
+
