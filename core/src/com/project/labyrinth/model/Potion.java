@@ -17,8 +17,8 @@ public class Potion {
         this.size = size;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        x = x * ratio;
-        y = y * ratio;
+        x *= ratio;
+        y *= ratio;
         bodyDef.position.set(x, y);
         body = world.createBody(bodyDef);
         this.world = world;

@@ -30,7 +30,7 @@ public class Labyrinth {
     private AtomicBoolean playerAttack ;
     private AtomicBoolean monsterAttack;
     private List<Potion> potions;
-    private List<CellTrap> cellTrap;
+    private List<CellTrap> traps;
     private CellTreasure cellTreasure;
     private CellNext cellNext;
     private int cptLaby ;
@@ -77,7 +77,7 @@ public class Labyrinth {
                         // Recursive call to continue building the path on the next chosen tile
                         mazeRecursion(x, y - 2);
                     }else{
-                        if(rand.nextInt(sizeY) == 0) {
+                        if(rand.nextInt(sizeY/2) == 0) {
                             map[x][y - 1] = 0;
                             mazeRecursion(x, y - 2);
                         }
@@ -91,7 +91,7 @@ public class Labyrinth {
                         map[x][y + 2] = 0;
                         mazeRecursion(x, y + 2);
                     }else{
-                        if(rand.nextInt(sizeY) == 0) {
+                        if(rand.nextInt(sizeY/2) == 0) {
                             map[x][y + 1] = 0;
                             mazeRecursion(x, y + 2);
                         }
@@ -105,7 +105,7 @@ public class Labyrinth {
                         map[x - 2][y] = 0;
                         mazeRecursion(x - 2, y);
                     }else{
-                        if(rand.nextInt(sizeX) == 0) {
+                        if(rand.nextInt(sizeX/2) == 0) {
                             map[x - 1][y] = 0;
                             mazeRecursion(x - 2, y);
                         }
@@ -119,7 +119,7 @@ public class Labyrinth {
                         map[x + 2][y] = 0;
                         mazeRecursion(x + 2, y);
                     }else{
-                        if(rand.nextInt(sizeX) == 0) {
+                        if(rand.nextInt(sizeX/2) == 0) {
                             map[x + 1][y] = 0;
                             mazeRecursion(x + 2, y);
                         }
@@ -439,7 +439,7 @@ public class Labyrinth {
             @Override
             public void beginContact(Contact contact) {
 
-                for(CellTrap c : cellTrap) {
+                for(CellTrap c : traps) {
 
                     if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
 
@@ -509,15 +509,15 @@ public class Labyrinth {
     private void initialisation(int sizeX, int sizeY){
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
+        potions = new ArrayList<>();
+        traps = new ArrayList<>();
         playerAttack = new AtomicBoolean(false);
         monsterAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
         player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
-        potions = new ArrayList<>();
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.ratio = Gdx.graphics.getHeight()/sizeY;
-        cellTrap = new ArrayList<>();
         gameOver = false;
 
 
@@ -608,7 +608,7 @@ public class Labyrinth {
             else
                 nM = new Monster1(world, x, y, 50, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             monsters.add(nM);
-            //map[x][y] = 2;
+            map[x][y] = 2;
         }
 
         //Place the potions randomly
@@ -622,7 +622,21 @@ public class Labyrinth {
             }
             Potion nP = new Potion(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
             potions.add(nP);
-            //map[x][y] = 3;
+            map[x][y] = 2;
+        }
+
+        //Place the traps randomly
+        int nbTraps = sizeX/4;
+        for(int i = 0; i < nbTraps; i++){
+            int x = -1;
+            int y = -1;
+            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
+                x = rand.nextInt(sizeX-1) + 1;
+                y = rand.nextInt(sizeY-1) + 1;
+            }
+            CellTrap nT = new CellTrap(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, ratio);
+            traps.add(nT);
+            map[x][y] = 2;
         }
 
         new Timer().scheduleAtFixedRate(

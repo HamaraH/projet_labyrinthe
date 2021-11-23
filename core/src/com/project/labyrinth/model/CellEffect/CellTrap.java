@@ -10,8 +10,10 @@ public class CellTrap  {
 
     private Body body;
 
-    CellTrap(World world, int x, int y, int size) {
+    public CellTrap(World world, int x, int y, int size, int ratio) {
 
+        x *= ratio;
+        y *= ratio;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
