@@ -1,6 +1,7 @@
 package com.project.labyrinth.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -144,8 +145,6 @@ public class Labyrinth {
                     m.setPosY((int) (m.getPositionY() + (m.getSize() / 2)) / ratio);
                     player.setPosX((int) (player.getPositionX() + (player.getSize() / 2)) / ratio);
                     player.setPosY((int) (player.getPositionY() + (player.getSize() / 2)) / ratio);
-                    //System.out.println("Pos Monster = " + mX + " ; " + mY);
-                    //System.out.println("Player = " + pX + " ; " + pY);
                     if (m.isMonster1()) {
                         //System.out.println("Monster1");
                         m.setGoal(pathfinder.getNextMove(new int[]{m.getPosX(), m.getPosY()}, new int[]{player.getPosX(), player.getPosY()}));
@@ -163,78 +162,9 @@ public class Labyrinth {
                                 m.setGoal(new int[]{m.getPosX(), m.getPosY() + 1});
                         }
                     }
-                    //System.out.println("Player = " + player.getPosX() + " ; " + player.getPosY());
-                    //System.out.println("Monster = " + m.getPosX() + " ; " + m.getPosY() + " -> " + m.getGoal()[0] + " ; " + m.getGoal()[1]);
                 }
             }
         }
-        /*Integer[] dir;
-        for(Monster m : monsters){
-            // Creation of an array to contain the 4 directions in which the monster could move
-            dir = randomDirection();
-            // Get the monster's position
-            float mX1 = m.getPositionX();
-            float mY1 = m.getPositionY();
-            //System.out.println(mX1 + " ; " + mY1 + " -> " + mX1/ratio + " ; " + mY1/ratio);
-            m.setPosX((int)mX1/ratio);
-            m.setPosY((int)mY1/ratio);
-
-            int mX = m.getPosX();
-            int mY = m.getPosY();
-
-            //StringBuilder sb = new StringBuilder();
-            //sb.append("Monster ( ").append(mX).append(" ; ").append(mY).append(" ) -> ( ");
-            for(int i = 0; i < 4; i++) {
-                switch (dir[i]){
-                    case 0: // up
-                        //System.out.println("Trying up");
-                        if(mY + 1 >= 0 && map[mX][mY - 1] != 1) {
-                            //System.out.println("Moving");
-                            map[mX][mY] = 0;
-                            m.move(0, -1);
-                            i = 4;
-                            m.setDirection(0);
-                            //continue;
-                        }
-                        break;
-                    case 1: // down
-                        //System.out.println("Trying down");
-                        if(mY + 1 < sizeY && map[mX][mY + 1] != 1) {
-                            //System.out.println("Moving");
-                            map[mX][mY] = 0;
-                            m.move(0, 1);
-                            i = 4;
-                            m.setDirection(1);
-                            //continue;
-                        }
-                        break;
-                    case 2: // left
-                        //System.out.println("Trying left");
-                        if(mX - 1 >= 0 && map[mX - 1][mY] != 1) {
-                            //System.out.println("Moving");
-                            map[mX][mY] = 0;
-                            m.move(-1, 0);
-                            i = 4;
-                            m.setDirection(2);
-                            //continue;
-                        }
-                        break;
-                    case 3: // right
-                        //System.out.println("Trying right");
-                        if(mY + 1 < sizeX && map[mX + 1][mY] != 1) {
-                            //System.out.println("Moving");
-                            map[mX][mY] = 0;
-                            m.move(1, 0);
-                            i = 4;
-                            m.setDirection(3);
-                            //continue;
-                        }
-                        break;
-                }
-                map[m.getPosX()][m.getPosY()] = 2;
-            }
-
-        }*/
     }
 
     /**
@@ -279,7 +209,10 @@ public class Labyrinth {
         spriteBatch.draw(TextureFactory.getInstance().getPlayerTexture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
 
         for(Monster m : monsters) {
-            spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture1(), m.getPositionX() , m.getPositionY() , m.getSize(), m.getSize());
+            if (m.isMonster1())
+                spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture2(), m.getPositionX(), m.getPositionY(), m.getSize(), m.getSize());
+            else
+                spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture1(), m.getPositionX(), m.getPositionY() , m.getSize(), m.getSize());
 
         }
         for(Potion p : potions) {
@@ -331,21 +264,6 @@ public class Labyrinth {
                     m.setFinishedMoving(true);
                 }
             }
-            /*m.setPosX((int)m.getPositionX() / ratio);
-            m.setPosY((int)m.getPositionY() / ratio);
-            if (m.getGoal()[0] != -1 && m.getGoal()[1] != -1) {
-                if (m.getGoal()[1] < m.getPosY()) //up
-                    m.applyForce(new Vector2(0.f, -0.5f));
-                else if (m.getGoal()[1] > m.getPosY())//down
-                    m.applyForce(new Vector2(0.f, 0.5f));
-                else
-                    m.applyForce(new Vector2(0.f, 0.f));
-                if (m.getGoal()[0] < m.getPosX()) //left
-                    m.applyForce(new Vector2(-0.5f, 0.f));
-                else if (m.getGoal()[0] > m.getPosX()) //right
-                    m.applyForce(new Vector2(0.5f, 0.f));
-            }*/
-
         }
 
     }
@@ -377,7 +295,7 @@ public class Labyrinth {
 
                             m.setHp(m.getHp() - player.getAttackPoints());
                             playerAttack.set(false);
-                            System.out.println(m.getHp());
+                            //System.out.println(m.getHp());
 
 
                         }
