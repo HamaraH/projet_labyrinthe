@@ -15,8 +15,8 @@ public class WallLimit extends Wall {
      * @param posY ,position in y
      * @param size ,size wall
      */
-    public WallLimit(World world, int posX, int posY, int sizeX, int sizeY, int size){
-        super(world,posX,posY,sizeX,sizeY,size);
+    public WallLimit(World world, int posX, int posY,  int size){
+        super(world,posX,posY, size);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

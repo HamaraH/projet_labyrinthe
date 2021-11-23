@@ -1,21 +1,20 @@
-package com.project.labyrinth.model.CellEffect;
+package com.project.labyrinth.model.cellEffect;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.project.labyrinth.model.Player;
 
-public class CellNext {
+public class CellTreasure {
 
+
+    private boolean treasure;
     private Body body;
     private int size;
+    public CellTreasure(World world, int x, int y, int size){
 
-   public CellNext(World world, int x, int y, int size) {
-
-
-       this.size = size;
+        this.size = size;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, y);
-        body = world.createBody(bodyDef);
+         body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         shape.set(new float[]{0f, 0f, 0f, size, size, size, size, 0f});
@@ -25,9 +24,17 @@ public class CellNext {
         body.createFixture(fixtureDef);
         shape.dispose();
 
+        treasure = false;
     }
 
 
+    public boolean isTreasure() {
+        return treasure;
+    }
+
+    public void setTreasure(boolean treasure) {
+        this.treasure = treasure;
+    }
 
     public Body getBody() {
         return body;
@@ -35,7 +42,7 @@ public class CellNext {
 
     public float getBodyPositionX(){
 
-        return body.getPosition().x;
+     return body.getPosition().x;
     }
 
     public float getBodyPositionY(){
@@ -43,7 +50,9 @@ public class CellNext {
         return body.getPosition().y;
     }
 
+
     public int getSize() {
         return size;
     }
 }
+

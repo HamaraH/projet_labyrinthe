@@ -7,9 +7,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.TextureFactory;
 
 
-import com.project.labyrinth.model.CellEffect.CellNext;
-import com.project.labyrinth.model.CellEffect.CellTrap;
-import com.project.labyrinth.model.CellEffect.CellTreasure;
+import com.project.labyrinth.model.cellEffect.CellNext;
+import com.project.labyrinth.model.cellEffect.CellTrap;
+import com.project.labyrinth.model.cellEffect.CellTreasure;
 import com.project.labyrinth.model.monster.Monster;
 import com.project.labyrinth.model.monster.Monster1;
 import com.project.labyrinth.model.monster.Monster2;
@@ -597,11 +597,11 @@ public class Labyrinth {
             for(int j = 0; j < sizeX ; j++)
                 if(map[j][i] == 1)
                     if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
-                        walls.add(new WallLimit(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+                        walls.add(new WallLimit(world, j, i,  Gdx.graphics.getHeight() / sizeY));
 
                     }
                     else {
-                        walls.add(new WallObstacle(world, j, i, sizeX, sizeY, Gdx.graphics.getHeight() / sizeY));
+                        walls.add(new WallObstacle(world, j, i, Gdx.graphics.getHeight() / sizeY));
                     }
         //Place the monsters randomly
         int nbMonsters = sizeX / 3;

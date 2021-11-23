@@ -8,7 +8,6 @@ public class Potion {
 
     private int size;
     private Body body;
-    private World world;
     private Boolean active;
 
 
@@ -21,7 +20,6 @@ public class Potion {
         y *= ratio;
         bodyDef.position.set(x, y);
         body = world.createBody(bodyDef);
-        this.world = world;
         this.active = true;
 
         PolygonShape shape = new PolygonShape();

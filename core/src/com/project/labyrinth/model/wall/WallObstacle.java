@@ -13,12 +13,10 @@ public class WallObstacle extends Wall {
      * @param world ,the world of game (manage all physics entities)
      * @param posX  ,position in x
      * @param posY  ,position in y
-     * @param sizeX
-     * @param sizeY
      * @param size  ,size wall
      */
-    public WallObstacle(World world, int posX, int posY, int sizeX, int sizeY, int size) {
-        super(world, posX, posY, sizeX, sizeY, size);
+    public WallObstacle(World world, int posX, int posY, int size) {
+        super(world, posX, posY, size);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

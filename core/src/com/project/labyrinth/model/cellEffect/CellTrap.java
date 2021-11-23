@@ -1,4 +1,4 @@
-package com.project.labyrinth.model.CellEffect;
+package com.project.labyrinth.model.cellEffect;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.model.Player;
@@ -10,7 +10,7 @@ public class CellTrap  {
 
     private Body body;
 
-    public CellTrap(World world, int x, int y, int size, int ratio) {
+    public CellTrap(World world, int x, int y, int size, int ratio){
 
         x *= ratio;
         y *= ratio;

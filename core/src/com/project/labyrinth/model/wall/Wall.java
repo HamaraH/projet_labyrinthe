@@ -19,7 +19,7 @@ public abstract class Wall {
      * @param posY ,position in y
      * @param size ,size wall
      */
-    Wall(World world, int posX, int posY,int sizeX,int sizeY ,int size){
+    Wall(World world, int posX, int posY,int size){
 
         this.posX = posX * size ;
         this.posY = posY * size ;
