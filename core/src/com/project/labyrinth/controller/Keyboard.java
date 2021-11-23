@@ -35,15 +35,21 @@ public class Keyboard implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keycode) {
+
         switch(keycode){
             case Input.Keys.Z:
+            //Z in MacOs is W
+            case Input.Keys.W:
                 acc.y += coeff;
                 break;
             case Input.Keys.S:
+
                 acc.y -= coeff;
 
                 break;
             case Input.Keys.Q:
+            //Q in MacOS is A
+            case Input.Keys.A:
                 acc.x -= coeff;
 
                 break;
@@ -54,6 +60,10 @@ public class Keyboard implements InputProcessor {
 
             case Input.Keys.C:
                 debug = !debug;
+                break;
+
+            case Input.Keys.SPACE:
+                labyrinth.attack();
                 break;
             default:
         }
@@ -70,11 +80,13 @@ public class Keyboard implements InputProcessor {
         switch(keycode) {
             case Input.Keys.Z:
             case Input.Keys.S:
+            case Input.Keys.W:
                 acc.y = 0;
                 break;
 
             case Input.Keys.Q:
             case Input.Keys.D:
+            case Input.Keys.A:
                 acc.x = 0;
                 break;
             default:

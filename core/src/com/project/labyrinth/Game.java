@@ -14,7 +14,7 @@ public class Game extends com.badlogic.gdx.Game {
 	public void create () {
 
 		Labyrinth labyrinth = new Labyrinth(19, 19);
-		gameScreen = new GameScreen(labyrinth);
+		gameScreen = new GameScreen(labyrinth, this);
 		this.setScreen(gameScreen);
 	}
 
@@ -24,7 +24,9 @@ public class Game extends com.badlogic.gdx.Game {
 	 * Called when the Application should render itself.
 	 */
 	@Override
-	public void render () {
+	public void render ()
+	{
+
 		super.render();
 	}
 

@@ -8,7 +8,13 @@ public class TextureFactory {
     private Texture playerTexture;
     private Texture wallTexture;
     private Texture monsterTexture1;
-
+    private Texture monsterTexture2;
+    private Texture potionOfLife;
+    private Texture win;
+    private Texture treasure;
+    private Texture gangway;
+    private Texture heart;
+    private Texture gameOver;
 
     /**
      * brings together the textures of the game
@@ -28,6 +34,20 @@ public class TextureFactory {
 
         //creating the monsters
         monsterTexture1 = new Texture("monster1.png");
+        monsterTexture2 = new Texture("monster4.png");
+
+        //creating potions
+        potionOfLife = new Texture("potionOfLife.png");
+
+        win = new Texture("win.png");
+
+        treasure = new Texture("tresor.png");
+
+        gangway = new Texture("ladder.png");
+
+        heart = new Texture("heart.png");
+
+        gameOver = new Texture("gameOver.png");
 
     }
 
@@ -52,4 +72,31 @@ public class TextureFactory {
         return monsterTexture1;
     }
 
+    public Texture getMonsterTexture2() {
+        return monsterTexture2;
+    }
+
+    public Texture getPotionOfLife() {
+        return potionOfLife;
+    }
+
+    public Texture getWin() {
+        return win;
+    }
+
+    public Texture getTreasure() {
+        return treasure;
+    }
+
+    public Texture getGangway() {
+        return gangway;
+    }
+
+    public Texture getHeart() {
+        return heart;
+    }
+
+    public Texture getGameOver() {
+        return gameOver;
+    }
 }
