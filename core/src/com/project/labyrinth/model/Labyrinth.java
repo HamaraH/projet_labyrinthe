@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.project.labyrinth.factory.SoundFactory;
 import com.project.labyrinth.factory.TextureFactory;
 
 
@@ -287,11 +288,9 @@ public class Labyrinth {
                 for(Monster m : monsters) {
                     if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()){
                         if(playerAttack.get()) {
-
+                            SoundFactory.getInstance().getAttack().play();
                             m.setHp(m.getHp() - player.getAttackPoints());
                             playerAttack.set(false);
-                            //System.out.println(m.getHp());
-
 
                         }
 
@@ -377,6 +376,7 @@ public class Labyrinth {
 
                     if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
                         if(rand.nextInt(10) == 3) {
+                            SoundFactory.getInstance().getHurt().play();
                         player.setHp(player.getHp() - m.getAttackPoints());
 
                         }
@@ -385,8 +385,10 @@ public class Labyrinth {
 
                 for(Potion p : potions){
                     if (contact.getFixtureB().getBody() == p.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                        SoundFactory.getInstance().getPotion().play();
                         player.setHp(player.getHp() + 1);
                         p.setActive(false);}
+
                 }
 
                 if(player.getHp() < 0){
