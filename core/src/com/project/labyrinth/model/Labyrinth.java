@@ -589,4 +589,24 @@ public class Labyrinth {
     public boolean isGameOver() {
         return gameOver;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public List<Wall> getWalls() {
+        return walls;
+    }
+
+    public List<Potion> getPotions() {
+        return potions;
+    }
+
+    public CellEnd getEndCell() {
+        return endCell;
+    }
 }

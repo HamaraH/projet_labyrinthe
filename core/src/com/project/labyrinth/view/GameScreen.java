@@ -18,6 +18,7 @@ public class GameScreen extends ScreenAdapter {
 
     private Keyboard keyboard;
     private Labyrinth labyrinth;
+    private ViewLabyrinth viewLabyrinth;
     private OrthographicCamera camera ;
     private SpriteBatch spriteBatch;
     private Game game;
@@ -34,6 +35,7 @@ public class GameScreen extends ScreenAdapter {
 
         this.game = game;
         this.labyrinth = labyrinth;
+        this.viewLabyrinth = new ViewLabyrinth(labyrinth);
         camera = new OrthographicCamera(labyrinth.getSizeX(), labyrinth.getSizeX());
         spriteBatch = new SpriteBatch();
         camera.update();
@@ -71,7 +73,7 @@ public class GameScreen extends ScreenAdapter {
         spriteBatch.begin();
         if(!labyrinth.isTreasure()) {
             if(!labyrinth.isGameOver()){
-                labyrinth.draw(spriteBatch);
+                viewLabyrinth.draw(spriteBatch);
             }else{
                 game.setScreen(new GameOverScreen());
             }
