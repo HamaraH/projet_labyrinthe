@@ -47,7 +47,7 @@ public class Labyrinth {
      * @param sizeY ,size in Y
      */
     public Labyrinth(int sizeX, int sizeY){
-
+        this.ratio = Gdx.graphics.getHeight()/sizeY;
         cptLaby = 1;
         initialisation(sizeX, sizeY);
 
@@ -431,10 +431,10 @@ public class Labyrinth {
         playerAttack = new AtomicBoolean(false);
         //monsterAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
-        player = new Player(world, Gdx.graphics.getWidth()/sizeX , Gdx.graphics.getHeight()/sizeY  , (Gdx.graphics.getHeight() / sizeY) - 10);
+        player = new Player(world, ratio , ratio  , (ratio) - 10);
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.ratio = Gdx.graphics.getHeight()/sizeY;
+
         gameOver = false;
 
 
@@ -481,34 +481,34 @@ public class Labyrinth {
             case 1:
                 //place the exit in the top left corner
                 if (cptLaby == 5)
-                    endCell = new CellTreasure(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellTreasure(world, ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
                 else
-                    endCell = new CellEnd(world, ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellEnd(world, ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
                 break;
             case 2:
                 //place the exit int the bottom right corner
                 if (cptLaby == 5)
-                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, ratio + 5, ratio - 10);
                 else
-                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, ratio + 5, ratio - 10);
                 break;
             default:
                 //place the exit in the top right corner
                 if (cptLaby == 5)
-                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
                 else
-                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, (Gdx.graphics.getHeight() / sizeY) - 10);
+                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
         }
 
         for(int i = 0; i < sizeY; i++)
             for(int j = 0; j < sizeX ; j++)
                 if(map[j][i] == 1)
                     if(i==0 || j==0 || j == sizeX-1 || i == sizeX-1) {
-                        walls.add(new WallLimit(world, j, i,  Gdx.graphics.getHeight() / sizeY));
+                        walls.add(new WallLimit(world, j, i,  ratio));
 
                     }
                     else {
-                        walls.add(new WallObstacle(world, j, i, Gdx.graphics.getHeight() / sizeY));
+                        walls.add(new WallObstacle(world, j, i, ratio));
                     }
         //Place the monsters randomly
         int nbMonsters = sizeX / 3;
@@ -522,9 +522,9 @@ public class Labyrinth {
             int ghost = rand.nextInt(3);
             Monster nM;
             if(ghost == 0)
-                nM = new Monster2(world, x, y, 2, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+                nM = new Monster2(world, x, y, 2, ratio - 10, ratio);
             else
-                nM = new Monster1(world, x, y, 3, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+                nM = new Monster1(world, x, y, 3, ratio - 10, ratio);
             monsters.add(nM);
             map[x][y] = 2;
         }
@@ -538,7 +538,7 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            Potion nP = new Potion(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, Gdx.graphics.getHeight()/sizeY);
+            Potion nP = new Potion(world, x, y, ratio, ratio);
             potions.add(nP);
             map[x][y] = 2;
         }
@@ -552,7 +552,7 @@ public class Labyrinth {
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
-            CellTrap nT = new CellTrap(world, x, y, (Gdx.graphics.getHeight() / sizeY) - 10, ratio);
+            CellTrap nT = new CellTrap(world, x, y, ratio, ratio);
             traps.add(nT);
             map[x][y] = 2;
         }
