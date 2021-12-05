@@ -391,7 +391,7 @@ public class Labyrinth {
 
                 }
 
-                if(player.getHp() < 0){
+                if(player.getHp() <= 0){
                     gameOver = true;
                 }
 
