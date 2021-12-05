@@ -41,6 +41,7 @@ public class Labyrinth {
     private boolean gameOver;
     private AStar pathfinder;
     private int ratio;
+    private static final int NBLEVEL = 5 ;
 
     /**
      * create the maze
@@ -193,7 +194,7 @@ public class Labyrinth {
         return sb.toString();
     }
 
-    
+
     /**
      * move the monsters, apply the force of monsters
      */
@@ -441,25 +442,25 @@ public class Labyrinth {
         }else if (lenOpt1 < lenOpt2)
                 opt = 2;
 
-        //System.out.println("cptLaby = " + cptLaby);
+
         switch (opt){
             case 1:
                 //place the exit in the top left corner
-                if (cptLaby == 5)
+                if (cptLaby == NBLEVEL)
                     endCell = new CellTreasure(world, ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
                 else
                     endCell = new CellEnd(world, ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
                 break;
             case 2:
                 //place the exit int the bottom right corner
-                if (cptLaby == 5)
+                if (cptLaby == NBLEVEL)
                     endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, ratio + 5, ratio - 10);
                 else
                     endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, ratio + 5, ratio - 10);
                 break;
             default:
                 //place the exit in the top right corner
-                if (cptLaby == 5)
+                if (cptLaby == NBLEVEL)
                     endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
                 else
                     endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
