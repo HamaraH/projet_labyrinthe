@@ -45,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
         keyboard = new Keyboard(labyrinth);
         Gdx.input.setInputProcessor(keyboard);
         Gdx.graphics.setTitle("PokéRPG");
-        playerAnimate = new PlayerAnimate(labyrinth.getPlayer());
+        playerAnimate = new PlayerAnimate(labyrinth);
 
         //play music in loop
         SoundFactory.getInstance().getBackgroundMusic().setLooping(true);

@@ -27,13 +27,14 @@ public class PlayerAnimate extends Actor {
     private final static float SPEED = 0.100f;
     TextureRegion textureRegion;
     float stateTime;
-    Player player;
+
+    Labyrinth labyrinth;
 
 
-    public PlayerAnimate(Player player){
+    public PlayerAnimate(Labyrinth labyrinth){
 
 
-        this.player = player;
+        this.labyrinth =labyrinth ;
 
 
         Texture sheet = TextureFactory.getInstance().getPlayerTexture() ;
@@ -72,8 +73,8 @@ public class PlayerAnimate extends Actor {
         stateTime += delta;
 
 
-        if(player.getBody().getLinearVelocity().len() == 0){
-            switch (player.getSens()) {
+        if(labyrinth.getPlayer().getBody().getLinearVelocity().len() == 0){
+            switch (labyrinth.getPlayer().getSens()) {
                 case UP:
                     textureRegion = animationUp.getKeyFrame(0, false);
                     break;
@@ -91,7 +92,7 @@ public class PlayerAnimate extends Actor {
         }else {
 
 
-            switch (player.getSens()) {
+            switch (labyrinth.getPlayer().getSens()) {
                 case UP:
                     textureRegion = animationUp.getKeyFrame(stateTime, true);
                     break;
@@ -112,7 +113,7 @@ public class PlayerAnimate extends Actor {
 
     public void draw(Batch batch){
 
-        batch.draw(textureRegion,  player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
+        batch.draw(textureRegion,  labyrinth.getPlayer().getPositionX(), labyrinth.getPlayer().getPositionY(), labyrinth.getPlayer().getSize(), labyrinth.getPlayer().getSize());
     }
 
 
