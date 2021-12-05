@@ -16,6 +16,10 @@ public class ViewLabyrinth {
         this.labyrinth = l;
     }
 
+    /**
+     * draw the sprites
+     * @param spriteBatch, base sprite
+     */
     public void draw(SpriteBatch spriteBatch){
         spriteBatch.draw(TextureFactory.getInstance().getMapTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 

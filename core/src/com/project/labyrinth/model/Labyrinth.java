@@ -193,43 +193,7 @@ public class Labyrinth {
         return sb.toString();
     }
 
-
-    /**
-     * draw the sprites
-     * @param spriteBatch, base sprite
-     */
-    public void draw(SpriteBatch spriteBatch){
-
-        spriteBatch.draw(TextureFactory.getInstance().getMapTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        for(Wall w : walls){
-            spriteBatch.draw(TextureFactory.getInstance().getWallTexture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
-        }
-        spriteBatch.draw(TextureFactory.getInstance().getPlayerTexture(), player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
-
-        for(Monster m : monsters) {
-            if (m.isMonster1())
-                spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture2(), m.getPositionX(), m.getPositionY(), m.getSize(), m.getSize());
-            else
-                spriteBatch.draw(TextureFactory.getInstance().getMonsterTexture1(), m.getPositionX(), m.getPositionY() , m.getSize(), m.getSize());
-
-        }
-        for(Potion p : potions) {
-            spriteBatch.draw(TextureFactory.getInstance().getPotionOfLife(), p.getBodyPositionX(), p.getBodyPositionY(), p.getSize(), p.getSize());
-        }
-        if(endCell.isTreasureCell()) {
-            spriteBatch.draw(TextureFactory.getInstance().getTreasure(), endCell.getBodyPositionX(), endCell.getBodyPositionY(), endCell.getSize(), endCell.getSize());
-        }else{
-            spriteBatch.draw(TextureFactory.getInstance().getGangway(), endCell.getBodyPositionX(), endCell.getBodyPositionY(), endCell.getSize(), endCell.getSize());
-        }
-
-        for(int i = 0; i < player.getHp(); i++){
-            spriteBatch.draw(TextureFactory.getInstance().getHeart(), 0, i*32, walls.get(0).getSize(), walls.get(0).getSize());
-        }
-
-    }
-
-
+    
     /**
      * move the monsters, apply the force of monsters
      */
@@ -431,7 +395,6 @@ public class Labyrinth {
         potions = new ArrayList<>();
         traps = new ArrayList<>();
         playerAttack = new AtomicBoolean(false);
-        //monsterAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
         player = new Player(world, ratio , ratio  , (ratio) - 10);
         this.sizeX = sizeX;
