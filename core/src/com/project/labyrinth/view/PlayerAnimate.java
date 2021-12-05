@@ -20,54 +20,49 @@ import com.project.labyrinth.model.Player;
 
 public class PlayerAnimate extends Actor {
 
-    private static final int FRAME_COLS = 4, FRAME_ROWS = 4;
-    Animation<TextureRegion> walkAnimationDown, walkAnimationUp, walkAnimationRight, walkAnimationLeft;
+    private static final int COLS = 4, ROWS = 4;
+    Animation<TextureRegion> animationDown, animationUp, animationRight, animationLeft;
 
-    private final static int STARTING_X = 50;
-    private final static int STARTING_Y = 50;
+
     private final static float SPEED = 0.100f;
-    TextureRegion reg;
+    TextureRegion textureRegion;
     float stateTime;
     Player player;
 
 
     public PlayerAnimate(Player player){
-        createIdleAnimation();
-        this.setPosition(STARTING_X, STARTING_Y);
+
+
         this.player = player;
 
-    }
 
-    private void createIdleAnimation() {
-       Texture walkSheet = TextureFactory.getInstance().getPlayerTexture() ;
+        Texture sheet = TextureFactory.getInstance().getPlayerTexture() ;
 
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-                walkSheet.getWidth() / FRAME_COLS,
-                walkSheet.getHeight() / FRAME_ROWS);
+        TextureRegion[][] tmp = TextureRegion.split(sheet, sheet.getWidth() / COLS, sheet.getHeight() / ROWS);
 
-        TextureRegion[] walkFramesUp = new TextureRegion[FRAME_ROWS];
-        TextureRegion[] walkFramesDown = new TextureRegion[FRAME_ROWS];
-        TextureRegion[] walkFramesLeft = new TextureRegion[FRAME_ROWS];
-        TextureRegion[] walkFramesRight = new TextureRegion[FRAME_ROWS];
+        TextureRegion[] regionUp = new TextureRegion[ROWS];
+        TextureRegion[] regionDown = new TextureRegion[ROWS];
+        TextureRegion[] regionLeft = new TextureRegion[ROWS];
+        TextureRegion[] regionRight = new TextureRegion[ROWS];
 
         int index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
+        for (int i = 0; i < ROWS; i++) {
 
-            walkFramesDown[index] = tmp[0][i];
-            walkFramesRight[index] = tmp[2][i];
-            walkFramesLeft[index] = tmp[1][i];
-            walkFramesUp[index] = tmp[3][i];
+            regionDown[index] = tmp[0][i];
+            regionRight[index] = tmp[2][i];
+            regionLeft[index] = tmp[1][i];
+            regionUp[index] = tmp[3][i];
 
             index= index + 1;
         }
 
-        walkAnimationDown = new Animation<TextureRegion>(SPEED, walkFramesDown);
-        walkAnimationUp = new Animation<TextureRegion>(SPEED, walkFramesUp);
-        walkAnimationRight = new Animation<TextureRegion>(SPEED, walkFramesRight);
-        walkAnimationLeft = new Animation<TextureRegion>(SPEED, walkFramesLeft);
+        animationDown = new Animation<TextureRegion>(SPEED, regionDown);
+        animationUp = new Animation<TextureRegion>(SPEED, regionUp);
+        animationRight = new Animation<TextureRegion>(SPEED,regionRight);
+        animationLeft = new Animation<TextureRegion>(SPEED, regionLeft);
         stateTime = 0f;
 
-        reg=walkAnimationDown.getKeyFrame(0);
+        textureRegion = animationDown.getKeyFrame(0);
     }
 
     @Override
@@ -80,16 +75,16 @@ public class PlayerAnimate extends Actor {
         if(player.getBody().getLinearVelocity().len() == 0){
             switch (player.getSens()) {
                 case UP:
-                    reg = walkAnimationUp.getKeyFrame(0, false);
+                    textureRegion = animationUp.getKeyFrame(0, false);
                     break;
                 case DOWN:
-                    reg = walkAnimationDown.getKeyFrame(0, false);
+                    textureRegion = animationDown.getKeyFrame(0, false);
                     break;
                 case LEFT:
-                    reg = walkAnimationLeft.getKeyFrame(0, false);
+                    textureRegion = animationLeft.getKeyFrame(0, false);
                     break;
                 case RIGHT:
-                    reg = walkAnimationRight.getKeyFrame(0, false);
+                    textureRegion = animationRight.getKeyFrame(0, false);
                     break;
 
             }
@@ -98,16 +93,16 @@ public class PlayerAnimate extends Actor {
 
             switch (player.getSens()) {
                 case UP:
-                    reg = walkAnimationUp.getKeyFrame(stateTime, true);
+                    textureRegion = animationUp.getKeyFrame(stateTime, true);
                     break;
                 case DOWN:
-                    reg = walkAnimationDown.getKeyFrame(stateTime, true);
+                    textureRegion = animationDown.getKeyFrame(stateTime, true);
                     break;
                 case LEFT:
-                    reg = walkAnimationLeft.getKeyFrame(stateTime, true);
+                    textureRegion = animationLeft.getKeyFrame(stateTime, true);
                     break;
                 case RIGHT:
-                    reg = walkAnimationRight.getKeyFrame(stateTime, true);
+                    textureRegion = animationRight.getKeyFrame(stateTime, true);
                     break;
             }
 
@@ -116,9 +111,8 @@ public class PlayerAnimate extends Actor {
 
 
     public void draw(Batch batch){
-
-
-        batch.draw(reg,  player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
+        
+        batch.draw(textureRegion,  player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
     }
 
 
