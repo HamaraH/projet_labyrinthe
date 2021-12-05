@@ -49,7 +49,30 @@ public class TextureFactory {
 
         gameOver = new Texture("gameOver.png");
 
+
     }
+
+    public void dispose(){
+
+
+        mapTexture.dispose();
+        playerTexture.dispose();
+        wallTexture.dispose();
+        monsterTexture1.dispose();
+        monsterTexture2.dispose();
+        potionOfLife.dispose();
+        win.dispose();
+        treasure.dispose();
+        gangway.dispose();
+        heart.dispose();
+        gameOver.dispose();
+
+
+    }
+
+
+
+
 
     public static TextureFactory getInstance() {
         return instance;

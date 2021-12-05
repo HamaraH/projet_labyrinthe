@@ -26,6 +26,13 @@ public class SoundFactory {
     }
 
 
+    public void dispose(){
+        backgroundMusic.dispose();
+        potion.dispose();
+        hurt.dispose();
+        attack.dispose();
+    }
+
     public static SoundFactory getInstance() {
         return instance;
     }
@@ -45,4 +52,6 @@ public class SoundFactory {
     public Sound getAttack() {
         return attack;
     }
+
+
 }

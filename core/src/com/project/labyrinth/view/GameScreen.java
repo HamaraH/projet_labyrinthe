@@ -119,6 +119,8 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         spriteBatch.dispose();
+        TextureFactory.getInstance().dispose();
+        SoundFactory.getInstance().dispose();
     }
 
 }

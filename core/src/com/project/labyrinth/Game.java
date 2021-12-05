@@ -1,4 +1,5 @@
 package com.project.labyrinth;
+import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.Labyrinth;
 import com.project.labyrinth.view.GameScreen;
 
@@ -51,6 +52,7 @@ public class Game extends com.badlogic.gdx.Game {
 	@Override
 	public void dispose () {
 		gameScreen.dispose();
+
 		super.dispose();
 	}
 }
