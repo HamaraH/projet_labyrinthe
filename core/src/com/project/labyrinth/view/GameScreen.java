@@ -14,6 +14,9 @@ import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.Labyrinth;
 import com.project.labyrinth.model.Player;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameScreen extends ScreenAdapter {
 
 
@@ -24,6 +27,7 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch spriteBatch;
     private Game game;
     private PlayerAnimate playerAnimate;
+    private boolean backToMenu = false;
 
 
 
@@ -82,11 +86,12 @@ public class GameScreen extends ScreenAdapter {
                 playerAnimate.act(delta);
                 playerAnimate.draw(spriteBatch);
             }else{
+                timerMenu();
                 game.setScreen(new GameOverScreen());
             }
 
         }else{
-
+            timerMenu();
             game.setScreen(new WinScreen());
         }
 
@@ -135,4 +140,17 @@ public class GameScreen extends ScreenAdapter {
         SoundFactory.getInstance().dispose();
     }
 
+    private void timerMenu(){
+        new Timer().scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        backToMenu = true;
+                    }
+                }, 1500, 1500);
+    }
+
+    public boolean isBackToMenu() {
+        return backToMenu;
+    }
 }

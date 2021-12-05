@@ -17,8 +17,7 @@ public class Game extends com.badlogic.gdx.Game {
 	 */
 	@Override
 	public void create () {
-		menuScreen = new MenuScreen();
-		this.setScreen(menuScreen);
+		launchMenu();
 	}
 
 
@@ -32,18 +31,20 @@ public class Game extends com.badlogic.gdx.Game {
 
 		super.render();
 
-		if (menuScreen.isStart() && !started) {
-			Labyrinth labyrinth = new Labyrinth(19, 19);
-			gameScreen = new GameScreen(labyrinth, this);
-			this.setScreen(gameScreen);
-			started = true;
-			menuScreen.setStart(false);
+		if (started) {
+			if (gameScreen.isBackToMenu()){
+				launchMenu();
+				gameScreen.dispose();
+				started = false;
+			}
+		}else {
+			if (menuScreen.isStart() && !started) {
+				launchGame();
+			}
+			if (menuScreen.isQuit()) {
+				Gdx.app.exit();
+			}
 		}
-
-		if(menuScreen.isQuit()){
-			Gdx.app.exit();
-		}
-
 	}
 
 
@@ -72,5 +73,19 @@ public class Game extends com.badlogic.gdx.Game {
 			menuScreen.dispose();
 
 		super.dispose();
+	}
+
+	private void launchMenu(){
+		menuScreen = new MenuScreen();
+		this.setScreen(menuScreen);
+	}
+
+	private void launchGame(){
+		Labyrinth labyrinth = new Labyrinth(19, 19);
+		gameScreen = new GameScreen(labyrinth, this);
+		this.setScreen(gameScreen);
+		started = true;
+		menuScreen.setStart(false);
+		menuScreen.dispose();
 	}
 }
