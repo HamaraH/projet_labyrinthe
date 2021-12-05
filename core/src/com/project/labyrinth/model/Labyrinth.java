@@ -358,7 +358,7 @@ public class Labyrinth {
                 for(CellTrap c : traps) {
 
                     if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
-
+                        SoundFactory.getInstance().getHurt().play();
                         c.getEffect(player);
 
                     }
