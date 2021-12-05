@@ -87,18 +87,20 @@ public class Keyboard implements InputProcessor {
             case Input.Keys.S:
             case Input.Keys.W:
                 acc.y = 0;
+                labyrinth.getPlayer().stop();
                 break;
 
             case Input.Keys.Q:
             case Input.Keys.D:
             case Input.Keys.A:
                 acc.x = 0;
+                labyrinth.getPlayer().stop();
                 break;
             default:
         }
         return true ;
     }
-
+;
 
     /**
      * detects a click on the mouse

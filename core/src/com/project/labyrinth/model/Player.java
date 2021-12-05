@@ -53,4 +53,8 @@ public class Player extends Entity {
     public void setSens(direction sens) {
         this.sens = sens;
     }
+
+    public void stop(){
+        body.setLinearVelocity(0,0);
+    }
 }

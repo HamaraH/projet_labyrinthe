@@ -25,6 +25,7 @@ public class PlayerAnimate extends Actor {
 
     private final static int STARTING_X = 50;
     private final static int STARTING_Y = 50;
+    private final static float SPEED = 0.100f;
     TextureRegion reg;
     float stateTime;
     Player player;
@@ -60,10 +61,10 @@ public class PlayerAnimate extends Actor {
             index= index + 1;
         }
 
-        walkAnimationDown = new Animation<TextureRegion>(0.025f, walkFramesDown);
-        walkAnimationUp = new Animation<TextureRegion>(0.025f, walkFramesUp);
-        walkAnimationRight = new Animation<TextureRegion>(0.025f, walkFramesRight);
-        walkAnimationLeft = new Animation<TextureRegion>(0.025f, walkFramesLeft);
+        walkAnimationDown = new Animation<TextureRegion>(SPEED, walkFramesDown);
+        walkAnimationUp = new Animation<TextureRegion>(SPEED, walkFramesUp);
+        walkAnimationRight = new Animation<TextureRegion>(SPEED, walkFramesRight);
+        walkAnimationLeft = new Animation<TextureRegion>(SPEED, walkFramesLeft);
         stateTime = 0f;
 
         reg=walkAnimationDown.getKeyFrame(0);
@@ -76,7 +77,7 @@ public class PlayerAnimate extends Actor {
         stateTime += delta;
 
 
-        if(player.getBody().getLinearVelocity().len() < 100){
+        if(player.getBody().getLinearVelocity().len() == 0){
             switch (player.getSens()) {
                 case UP:
                     reg = walkAnimationUp.getKeyFrame(0, false);
