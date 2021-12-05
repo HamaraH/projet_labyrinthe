@@ -36,7 +36,7 @@ public class Labyrinth {
     //private AtomicBoolean monsterAttack;
     private List<Potion> potions;
     private List<CellTrap> traps;
-    private CellPath path;
+    private List<CellPath> paths;
     private CellEnd endCell;
     private int cptLaby ;
     private Random rand;
@@ -311,11 +311,18 @@ public class Labyrinth {
     }
 
 
-
+    private void testPaths(){
+        for(CellPath p : paths)
+            if(p.isActivated()){
+                p.getEffect(player);
+                p.setActivated(false);
+            }
+    }
 
 
 
     public void effectCell(){
+
         world.setContactListener(new ContactListener() {
 
 
@@ -358,9 +365,10 @@ public class Labyrinth {
 
                 }
 
-                if (contact.getFixtureB().getBody() == path.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
-                    path.getEffect(player);
-                }
+                for(CellPath cp : paths)
+                    if (contact.getFixtureB().getBody() == cp.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                        cp.setActivated(true);
+                    }
 
                 if(player.getHp() <= 0){
                     gameOver = true;
@@ -393,6 +401,7 @@ public class Labyrinth {
         });
 
         deletePotionOfLife();
+        testPaths();
 
     }
 
@@ -401,6 +410,7 @@ public class Labyrinth {
         walls = new ArrayList<>();
         potions = new ArrayList<>();
         traps = new ArrayList<>();
+        paths = new ArrayList<>();
         playerAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
         player = new Player(world, ratio , ratio  , (ratio) - 10);
@@ -450,39 +460,18 @@ public class Labyrinth {
         }
         if(opt == 0) {
             if (lenOpt0 < lenOpt2) {
-                opt = 2;
                 endX = sizeX - 2;
                 endY = 1;
             }
         }else if (lenOpt1 < lenOpt2) {
-            opt = 2;
             endX = sizeX - 2;
             endY = 1;
         }
-
-
-        switch (opt){
-            case 1:
-                //place the exit in the top left corner
-                if (cptLaby == NBLEVEL)
-                    endCell = new CellTreasure(world, ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
-                else
-                    endCell = new CellEnd(world, ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
-                break;
-            case 2:
-                //place the exit int the bottom right corner
-                if (cptLaby == NBLEVEL)
-                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, ratio + 5, ratio - 10);
-                else
-                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, ratio + 5, ratio - 10);
-                break;
-            default:
-                //place the exit in the top right corner
-                if (cptLaby == NBLEVEL)
-                    endCell = new CellTreasure(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
-                else
-                    endCell = new CellEnd(world, (sizeX - 2) * ratio + 5, (sizeY - 2) * ratio + 5, ratio - 10);
-        }
+        map[endX][endY] = 2;
+        if(cptLaby == NBLEVEL)
+            endCell = new CellTreasure(world, endX * ratio + 5, endY * ratio + 5, ratio - 10);
+        else
+            endCell = new CellEnd(world, endX * ratio + 5, endY * ratio + 5, ratio - 10);
 
         for(int i = 0; i < sizeY; i++)
             for(int j = 0; j < sizeX ; j++)
@@ -499,7 +488,7 @@ public class Labyrinth {
         for(int i = 0; i < nbMonsters; i++){
             int x = -1;
             int y = -1;
-            while((x <= 0 && y <= 0) || (map[x][y] != 0 || (x == 1 && y == 1))){
+            while((x <= 0 && y <= 0) || map[x][y] != 0 || (pathfinder.getPathLength(new int[]{x, y}, new int[]{1, 1}) <= sizeX/3)){
                 x = rand.nextInt(sizeX-1) + 1;
                 y = rand.nextInt(sizeY-1) + 1;
             }
@@ -542,31 +531,25 @@ public class Labyrinth {
         }
 
         //Place the secret passages randomly
-        int pathX = 1;
-        int pathY = 2;
-        if(map[1][2] != 0) {
-            pathX = 2;
-            pathY = 1;
-        }
-        map[pathX][pathY] = 2;
-        int lenEntryToEnd = pathfinder.getPathLength(new int[]{pathX, pathY}, new int[]{endX, endY});
-        int destX = -1, destY = -1;
-        int tempX = rand.nextInt(sizeX - 2) + 1;
-        int tempY = rand.nextInt(sizeY - 2) + 1;
-        while (destX == -1 || destY == -1){
-            if(map[tempX][tempY] == 0){
-                int lenExitToEnd = pathfinder.getPathLength(new int[]{tempX, tempY}, new int[]{endX, endY});
-                if(lenEntryToEnd <= lenExitToEnd){
-                    destX = tempX;
-                    destY = tempY;
-                }
+        int nbPaths = sizeX/5;
+        for (int i = 0; i < nbPaths; i++){
+            int x = -1, y = -1;
+            while((x <= 0 && y <= 0) || map[x][y] != 0 || (pathfinder.getPathLength(new int[]{x, y}, new int[]{1, 1}) <= sizeX/3) || (pathfinder.getPathLength(new int[]{x, y}, new int[]{endX, endY}) < sizeX / 3)){
+                x = rand.nextInt(sizeX-1) + 1;
+                y = rand.nextInt(sizeY-1) + 1;
             }
-            tempX = rand.nextInt(sizeX - 2) + 1;
-            tempY = rand.nextInt(sizeY - 2) + 1;
+            map[x][y] = 2;
+            int lenEntryToEnd = pathfinder.getPathLength(new int[]{x, y}, new int[]{endX, endY});
+            System.out.println("lenEntryToEnd - sizeX / 3 = " + (lenEntryToEnd - sizeX / 3));
+            int destX = -1, destY = -1;
+            while((destX <= 0 && destY <= 0) || map[destX][destY] != 0 || pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}) >= lenEntryToEnd - sizeX / 4 || pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}) == 0){
+                destX = rand.nextInt(sizeX - 2) + 1;
+                destY = rand.nextInt(sizeY - 2) + 1;
+                System.out.println("lenEndtofinish = " + pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}));
+            }
+            map[destX][destY] = 2;
+            paths.add(new CellPath(world, x, y, destX, destY, ratio - 5, ratio));
         }
-
-        path = new CellPath(world, pathX, pathY, destX, destY, ratio - 10, ratio);
-
 
         new Timer().scheduleAtFixedRate(
                 new TimerTask() {

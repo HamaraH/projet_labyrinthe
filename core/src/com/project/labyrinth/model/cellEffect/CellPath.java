@@ -6,6 +6,7 @@ import com.project.labyrinth.model.Player;
 public class CellPath {
 
     private int destinationX, destinationY;
+    private boolean activated = false;
     private Body body;
 
     public CellPath(World world, int x, int y, int destX, int destY, int size, int ratio){
@@ -27,6 +28,14 @@ public class CellPath {
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef);
         shape.dispose();
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public void getEffect(Player player){
