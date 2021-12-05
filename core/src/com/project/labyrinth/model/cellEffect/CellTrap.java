@@ -7,13 +7,15 @@ public class CellTrap  {
 
 
     private final static  int DAMAGE = 1;
-
+    private int size;
     private Body body;
 
     public CellTrap(World world, int x, int y, int size, int ratio){
 
         x *= ratio;
         y *= ratio;
+
+        this.size = size;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -38,6 +40,18 @@ public class CellTrap  {
 
     public Body getBody() {
         return body;
+    }
+
+    public float getPositionX(){
+        return body.getPosition().x;
+    }
+
+    public float getPositionY(){
+        return body.getPosition().y;
+    }
+
+    public int getSize() {
+        return size;
     }
 }
 

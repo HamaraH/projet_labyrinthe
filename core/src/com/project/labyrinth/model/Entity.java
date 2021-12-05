@@ -61,7 +61,6 @@ public abstract class Entity {
     }
 
    public float getPositionX(){
-
         return body.getPosition().x;
     }
 

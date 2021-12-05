@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.Labyrinth;
 import com.project.labyrinth.model.Potion;
+import com.project.labyrinth.model.cellEffect.CellPath;
+import com.project.labyrinth.model.cellEffect.CellTrap;
 import com.project.labyrinth.model.monster.Monster;
 import com.project.labyrinth.model.wall.Wall;
 
@@ -27,6 +29,14 @@ public class ViewLabyrinth {
             spriteBatch.draw(TextureFactory.getInstance().getWallTexture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
         }
 
+        for(CellTrap t : labyrinth.getTraps()) {
+            spriteBatch.draw(TextureFactory.getInstance().getTraps(), t.getPositionX(), t.getPositionY(), t.getSize(), t.getSize());
+        }
+
+        for (CellPath cp : labyrinth.getPaths()){
+            spriteBatch.draw(TextureFactory.getInstance().getPaths(), cp.getPositionX(), cp.getPositionY(), cp.getSize(), cp.getSize());
+        }
+
       //  spriteBatch.draw(TextureFactory.getInstance().getPlayerTexture(), labyrinth.getPlayer().getPositionX(), labyrinth.getPlayer().getPositionY(), labyrinth.getPlayer().getSize(), labyrinth.getPlayer().getSize());
 
         for(Monster m : labyrinth.getMonsters()) {
@@ -47,7 +57,6 @@ public class ViewLabyrinth {
 
         for(int i = 0; i < labyrinth.getPlayer().getHp(); i++){
             spriteBatch.draw(TextureFactory.getInstance().getHeart(), 0, i*32, labyrinth.getWalls().get(0).getSize(), labyrinth.getWalls().get(0).getSize());
-
         }
     }
 }

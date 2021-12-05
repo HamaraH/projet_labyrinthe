@@ -15,6 +15,8 @@ public class TextureFactory {
     private Texture gangway;
     private Texture heart;
     private Texture gameOver;
+    private Texture traps;
+    private Texture paths;
 
     /**
      * brings together the textures of the game
@@ -38,6 +40,12 @@ public class TextureFactory {
 
         //creating potions
         potionOfLife = new Texture("potionOfLife.png");
+
+        //creating traps
+        traps = new Texture("crack.png");
+
+        //creating hidden passages
+        paths = new Texture("path.png");
 
         win = new Texture("win.png");
 
@@ -66,6 +74,8 @@ public class TextureFactory {
         gangway.dispose();
         heart.dispose();
         gameOver.dispose();
+        traps.dispose();
+        paths.dispose();
 
 
     }
@@ -121,5 +131,13 @@ public class TextureFactory {
 
     public Texture getGameOver() {
         return gameOver;
+    }
+
+    public Texture getTraps() {
+        return traps;
+    }
+
+    public Texture getPaths() {
+        return paths;
     }
 }

@@ -540,12 +540,12 @@ public class Labyrinth {
             }
             map[x][y] = 2;
             int lenEntryToEnd = pathfinder.getPathLength(new int[]{x, y}, new int[]{endX, endY});
-            System.out.println("lenEntryToEnd - sizeX / 3 = " + (lenEntryToEnd - sizeX / 3));
+            //System.out.println("lenEntryToEnd - sizeX / 3 = " + (lenEntryToEnd - sizeX / 3));
             int destX = -1, destY = -1;
             while((destX <= 0 && destY <= 0) || map[destX][destY] != 0 || pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}) >= lenEntryToEnd - sizeX / 4 || pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}) == 0){
                 destX = rand.nextInt(sizeX - 2) + 1;
                 destY = rand.nextInt(sizeY - 2) + 1;
-                System.out.println("lenEndtofinish = " + pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}));
+                //System.out.println("lenEndtofinish = " + pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}));
             }
             map[destX][destY] = 2;
             paths.add(new CellPath(world, x, y, destX, destY, ratio, ratio));
@@ -602,5 +602,13 @@ public class Labyrinth {
 
     public CellEnd getEndCell() {
         return endCell;
+    }
+
+    public List<CellTrap> getTraps() {
+        return traps;
+    }
+
+    public List<CellPath> getPaths() {
+        return paths;
     }
 }

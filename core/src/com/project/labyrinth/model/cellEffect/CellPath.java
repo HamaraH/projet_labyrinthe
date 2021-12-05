@@ -7,11 +7,14 @@ public class CellPath {
 
     private int destinationX, destinationY;
     private boolean activated = false;
+    private int size;
     private Body body;
 
     public CellPath(World world, int x, int y, int destX, int destY, int size, int ratio){
         x *= ratio;
         y *= ratio;
+
+        this.size = size;
 
         destinationX = destX * ratio;
         destinationY = destY * ratio;
@@ -48,6 +51,18 @@ public class CellPath {
 
     public Body getBody(){
         return body;
+    }
+
+    public float getPositionX(){
+        return body.getPosition().x;
+    }
+
+    public float getPositionY(){
+        return body.getPosition().y;
+    }
+
+    public int getSize() {
+        return size;
     }
 
 }
