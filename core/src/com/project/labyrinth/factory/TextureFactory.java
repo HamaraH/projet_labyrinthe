@@ -17,6 +17,8 @@ public class TextureFactory {
     private Texture gameOver;
     private Texture traps;
     private Texture paths;
+    private Texture menu;
+    private Texture selector;
 
     /**
      * brings together the textures of the game
@@ -57,6 +59,9 @@ public class TextureFactory {
 
         gameOver = new Texture("gameOver.png");
 
+        menu = new Texture("Menu.png");
+
+        selector = new Texture("select.png");
 
     }
 
@@ -76,7 +81,8 @@ public class TextureFactory {
         gameOver.dispose();
         traps.dispose();
         paths.dispose();
-
+        menu.dispose();
+        selector.dispose();
 
     }
 
@@ -139,5 +145,13 @@ public class TextureFactory {
 
     public Texture getPaths() {
         return paths;
+    }
+
+    public Texture getMenu() {
+        return menu;
+    }
+
+    public Texture getSelector() {
+        return selector;
     }
 }

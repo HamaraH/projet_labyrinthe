@@ -1,22 +1,24 @@
 package com.project.labyrinth;
+import com.badlogic.gdx.Gdx;
 import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.Labyrinth;
 import com.project.labyrinth.view.GameScreen;
+import com.project.labyrinth.view.MenuScreen;
 
 public class Game extends com.badlogic.gdx.Game {
 
 
 	private GameScreen gameScreen;
+	private MenuScreen menuScreen;
+	private boolean started = false;
 
 	/**
 	 * create the labyrinth and the screen game
 	 */
 	@Override
 	public void create () {
-
-		Labyrinth labyrinth = new Labyrinth(19, 19);
-		gameScreen = new GameScreen(labyrinth, this);
-		this.setScreen(gameScreen);
+		menuScreen = new MenuScreen();
+		this.setScreen(menuScreen);
 	}
 
 
@@ -29,6 +31,19 @@ public class Game extends com.badlogic.gdx.Game {
 	{
 
 		super.render();
+
+		if (menuScreen.isStart() && !started) {
+			Labyrinth labyrinth = new Labyrinth(19, 19);
+			gameScreen = new GameScreen(labyrinth, this);
+			this.setScreen(gameScreen);
+			started = true;
+			menuScreen.setStart(false);
+		}
+
+		if(menuScreen.isQuit()){
+			Gdx.app.exit();
+		}
+
 	}
 
 
@@ -51,7 +66,10 @@ public class Game extends com.badlogic.gdx.Game {
 	 */
 	@Override
 	public void dispose () {
-		gameScreen.dispose();
+		if(started)
+			gameScreen.dispose();
+		else
+			menuScreen.dispose();
 
 		super.dispose();
 	}
