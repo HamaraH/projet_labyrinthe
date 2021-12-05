@@ -548,7 +548,7 @@ public class Labyrinth {
                 System.out.println("lenEndtofinish = " + pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}));
             }
             map[destX][destY] = 2;
-            paths.add(new CellPath(world, x, y, destX, destY, ratio - 5, ratio));
+            paths.add(new CellPath(world, x, y, destX, destY, ratio, ratio));
         }
 
         new Timer().scheduleAtFixedRate(
