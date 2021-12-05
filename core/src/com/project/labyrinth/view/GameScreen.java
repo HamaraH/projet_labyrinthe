@@ -12,6 +12,7 @@ import com.project.labyrinth.controller.Keyboard;
 import com.project.labyrinth.factory.SoundFactory;
 import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.Labyrinth;
+import com.project.labyrinth.model.Player;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -22,6 +23,7 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera ;
     private SpriteBatch spriteBatch;
     private Game game;
+    private PlayerAnimate playerAnimate;
 
 
 
@@ -43,6 +45,7 @@ public class GameScreen extends ScreenAdapter {
         keyboard = new Keyboard(labyrinth);
         Gdx.input.setInputProcessor(keyboard);
         Gdx.graphics.setTitle("PokéRPG");
+        playerAnimate = new PlayerAnimate(labyrinth.getPlayer());
 
         //play music in loop
         SoundFactory.getInstance().getBackgroundMusic().setLooping(true);
@@ -66,6 +69,8 @@ public class GameScreen extends ScreenAdapter {
 
 
 
+
+
         Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -73,7 +78,9 @@ public class GameScreen extends ScreenAdapter {
         spriteBatch.begin();
         if(!labyrinth.isTreasure()) {
             if(!labyrinth.isGameOver()){
-                viewLabyrinth.draw(spriteBatch);
+               viewLabyrinth.draw(spriteBatch);
+                playerAnimate.act(delta);
+                playerAnimate.draw(spriteBatch);
             }else{
                 game.setScreen(new GameOverScreen());
             }
@@ -97,6 +104,11 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+
+
+    private void update(){
+
+    }
 
     /**
      * resize of screen

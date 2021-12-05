@@ -13,9 +13,13 @@ public class Player extends Entity {
      * @param size ,size player
      */
 
+    public enum direction {RIGHT, LEFT, UP, DOWN } ;
+    private  direction sens;
+
     Player(World world, int x, int y, int size){
 
 
+        sens = direction.DOWN;
         this.hp = 10;
         this.attackPoints = 1;
         this.size = size;
@@ -42,4 +46,11 @@ public class Player extends Entity {
 
     }
 
+    public direction getSens() {
+        return sens;
+    }
+
+    public void setSens(direction sens) {
+        this.sens = sens;
+    }
 }

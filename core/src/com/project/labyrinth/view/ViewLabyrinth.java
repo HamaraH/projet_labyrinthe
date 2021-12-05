@@ -26,7 +26,8 @@ public class ViewLabyrinth {
         for(Wall w : labyrinth.getWalls()){
             spriteBatch.draw(TextureFactory.getInstance().getWallTexture(), w.getPosX(), w.getPosY(), w.getSize(), w.getSize());
         }
-        spriteBatch.draw(TextureFactory.getInstance().getPlayerTexture(), labyrinth.getPlayer().getPositionX(), labyrinth.getPlayer().getPositionY(), labyrinth.getPlayer().getSize(), labyrinth.getPlayer().getSize());
+
+      //  spriteBatch.draw(TextureFactory.getInstance().getPlayerTexture(), labyrinth.getPlayer().getPositionX(), labyrinth.getPlayer().getPositionY(), labyrinth.getPlayer().getSize(), labyrinth.getPlayer().getSize());
 
         for(Monster m : labyrinth.getMonsters()) {
             if (m.isMonster1())
@@ -46,6 +47,7 @@ public class ViewLabyrinth {
 
         for(int i = 0; i < labyrinth.getPlayer().getHp(); i++){
             spriteBatch.draw(TextureFactory.getInstance().getHeart(), 0, i*32, labyrinth.getWalls().get(0).getSize(), labyrinth.getWalls().get(0).getSize());
+
         }
     }
 }

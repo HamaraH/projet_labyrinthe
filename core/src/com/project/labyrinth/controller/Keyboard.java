@@ -1,9 +1,11 @@
 package com.project.labyrinth.controller;
 
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.project.labyrinth.model.Labyrinth;
+import com.project.labyrinth.model.Player;
 
 public class Keyboard implements InputProcessor {
 
@@ -41,20 +43,23 @@ public class Keyboard implements InputProcessor {
             //Z in MacOs is W
             case Input.Keys.W:
                 acc.y += coeff;
+                labyrinth.getPlayer().setSens(Player.direction.UP);
                 break;
             case Input.Keys.S:
-
                 acc.y -= coeff;
+                labyrinth.getPlayer().setSens(Player.direction.DOWN);
 
                 break;
             case Input.Keys.Q:
             //Q in MacOS is A
             case Input.Keys.A:
                 acc.x -= coeff;
-
+                labyrinth.getPlayer().setSens(Player.direction.LEFT);
                 break;
+
             case Input.Keys.D:
                 acc.x +=coeff;
+                labyrinth.getPlayer().setSens(Player.direction.RIGHT);
 
                 break;
 

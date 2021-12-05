@@ -27,7 +27,7 @@ public class TextureFactory {
         mapTexture= new Texture("grass.png");
 
         //creating the player object
-        playerTexture= new Texture("player_standing.png");
+        playerTexture= new Texture("player_animation.png");
 
         // creating the texture of walls
         wallTexture = new Texture("wall_texture.png");
