@@ -111,7 +111,7 @@ public class PlayerAnimate extends Actor {
 
 
     public void draw(Batch batch){
-        
+
         batch.draw(textureRegion,  player.getPositionX(), player.getPositionY(), player.getSize(), player.getSize());
     }
 
