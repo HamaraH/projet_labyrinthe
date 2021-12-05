@@ -34,7 +34,6 @@ public class Game extends com.badlogic.gdx.Game {
 		if (started) {
 			if (gameScreen.isBackToMenu()){
 				launchMenu();
-				gameScreen.dispose();
 				started = false;
 			}
 		}else {
@@ -86,6 +85,5 @@ public class Game extends com.badlogic.gdx.Game {
 		this.setScreen(gameScreen);
 		started = true;
 		menuScreen.setStart(false);
-		menuScreen.dispose();
 	}
 }
