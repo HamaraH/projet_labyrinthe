@@ -9,6 +9,7 @@ import com.project.labyrinth.factory.TextureFactory;
 
 
 import com.project.labyrinth.model.cellEffect.CellEnd;
+import com.project.labyrinth.model.cellEffect.CellPath;
 import com.project.labyrinth.model.cellEffect.CellTrap;
 import com.project.labyrinth.model.cellEffect.CellTreasure;
 import com.project.labyrinth.model.monster.Monster;
@@ -35,6 +36,7 @@ public class Labyrinth {
     //private AtomicBoolean monsterAttack;
     private List<Potion> potions;
     private List<CellTrap> traps;
+    private CellPath path;
     private CellEnd endCell;
     private int cptLaby ;
     private Random rand;
@@ -356,6 +358,10 @@ public class Labyrinth {
 
                 }
 
+                if (contact.getFixtureB().getBody() == path.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
+                    path.getEffect(player);
+                }
+
                 if(player.getHp() <= 0){
                     gameOver = true;
                 }
@@ -431,16 +437,28 @@ public class Labyrinth {
         int lenOpt0 = pathfinder.getPathLength(new int[]{sizeX - 2, sizeY - 2}, new int[]{1, 1}); // top right
         int lenOpt1 = pathfinder.getPathLength(new int[]{1, sizeY - 2}, new int[]{1, 1}); // top left
         int lenOpt2 = pathfinder.getPathLength(new int[]{sizeX - 2, 1}, new int[]{1, 1}); // bottom right
-        int opt;
-        if(lenOpt0 > lenOpt1)
+        int opt, endX, endY;
+        if(lenOpt0 > lenOpt1) {
             opt = 0;
-        else
+            endX = sizeX - 2;
+            endY = sizeY - 2;
+        }
+        else {
             opt = 1;
+            endX = 1;
+            endY = sizeY - 2;
+        }
         if(opt == 0) {
-            if (lenOpt0 < lenOpt2)
+            if (lenOpt0 < lenOpt2) {
                 opt = 2;
-        }else if (lenOpt1 < lenOpt2)
-                opt = 2;
+                endX = sizeX - 2;
+                endY = 1;
+            }
+        }else if (lenOpt1 < lenOpt2) {
+            opt = 2;
+            endX = sizeX - 2;
+            endY = 1;
+        }
 
 
         switch (opt){
@@ -522,6 +540,33 @@ public class Labyrinth {
             traps.add(nT);
             map[x][y] = 2;
         }
+
+        //Place the secret passages randomly
+        int pathX = 1;
+        int pathY = 2;
+        if(map[1][2] != 0) {
+            pathX = 2;
+            pathY = 1;
+        }
+        map[pathX][pathY] = 2;
+        int lenEntryToEnd = pathfinder.getPathLength(new int[]{pathX, pathY}, new int[]{endX, endY});
+        int destX = -1, destY = -1;
+        int tempX = rand.nextInt(sizeX - 2) + 1;
+        int tempY = rand.nextInt(sizeY - 2) + 1;
+        while (destX == -1 || destY == -1){
+            if(map[tempX][tempY] == 0){
+                int lenExitToEnd = pathfinder.getPathLength(new int[]{tempX, tempY}, new int[]{endX, endY});
+                if(lenEntryToEnd <= lenExitToEnd){
+                    destX = tempX;
+                    destY = tempY;
+                }
+            }
+            tempX = rand.nextInt(sizeX - 2) + 1;
+            tempY = rand.nextInt(sizeY - 2) + 1;
+        }
+
+        path = new CellPath(world, pathX, pathY, destX, destY, ratio - 10, ratio);
+
 
         new Timer().scheduleAtFixedRate(
                 new TimerTask() {
