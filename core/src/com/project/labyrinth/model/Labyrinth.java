@@ -414,7 +414,7 @@ public class Labyrinth {
         paths = new ArrayList<>();
         playerAttack = new AtomicBoolean(false);
         world = new World(new Vector2(0, 0), true);
-        player = new Player(world, ratio , ratio  , (ratio) - 10);
+        player = new Player(world, ratio , ratio  , (ratio) - 10, cptLaby - 1);
         this.sizeX = sizeX;
         this.sizeY = sizeY;
 

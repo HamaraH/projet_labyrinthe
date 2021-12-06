@@ -5,11 +5,6 @@ import com.project.labyrinth.factory.Constante;
 public class Player extends Entity {
 
 
-
-
-    public enum direction {RIGHT, LEFT, UP, DOWN } ;
-    private  direction sens;
-
     /**
      * create a player
      * @param world ,the world of game (manage all physics entities)
@@ -17,11 +12,17 @@ public class Player extends Entity {
      * @param y ,position in y
      * @param size ,size player
      */
-    Player(World world, int x, int y, int size){
+
+    public enum direction {RIGHT, LEFT, UP, DOWN } ;
+    private  direction sens;
+    private static final int BASEHP = 10;
+    private static final int BOOSTHP = 3;
+
+    Player(World world, int x, int y, int size, int lvl){
 
 
         sens = direction.DOWN;
-        this.hp = 10;
+        this.hp = BASEHP + (BOOSTHP * lvl);
         this.attackPoints = 1;
         this.size = size;
         BodyDef bodyDef = new BodyDef();
