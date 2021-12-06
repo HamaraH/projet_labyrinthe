@@ -20,8 +20,7 @@ public class PlayerAnimate extends Actor {
     private final static float SPEED = 0.100f;
     private TextureRegion textureRegion;
     private float stateTime;
-
-    Labyrinth labyrinth;
+    private Labyrinth labyrinth;
 
 
     /**

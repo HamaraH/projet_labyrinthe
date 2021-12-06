@@ -2,6 +2,7 @@ package com.project.labyrinth.model;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.Constante;
+import com.project.labyrinth.factory.SoundFactory;
 
 public class Potion {
 
@@ -44,6 +45,12 @@ public class Potion {
 
     }
 
+    public void getEffect(Player player){
+        SoundFactory.getInstance().getPotion().play();
+        player.setHp(player.getHp() + 1);
+        setActive(false);
+
+    }
 
     public Boolean isActive() {
         return active;

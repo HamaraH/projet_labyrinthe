@@ -1,6 +1,7 @@
 package com.project.labyrinth.model.cellEffect;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.project.labyrinth.factory.SoundFactory;
 import com.project.labyrinth.model.Player;
 
 
@@ -52,6 +53,7 @@ public class CellTrap  {
 
     public void getEffect(Player player)
     {
+        SoundFactory.getInstance().getHurt().play();
         player.setHp(player.getHp() - DAMAGE);
     }
 

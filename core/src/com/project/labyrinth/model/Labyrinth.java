@@ -246,8 +246,7 @@ public class Labyrinth {
                 for(Monster m : monsters) {
                     if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()){
                         if(playerAttack.get()) {
-                            SoundFactory.getInstance().getAttack().play();
-                            m.setHp(m.getHp() - player.getAttackPoints());
+                            player.attack(m);
                             playerAttack.set(false);
 
                         }
@@ -326,7 +325,6 @@ public class Labyrinth {
                 for(CellTrap c : traps) {
 
                     if (contact.getFixtureB().getBody() == c.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
-                        SoundFactory.getInstance().getHurt().play();
                         c.getEffect(player);
 
                     }
@@ -344,18 +342,15 @@ public class Labyrinth {
 
                     if (contact.getFixtureB().getBody() == m.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
                         if(rand.nextInt(10) == 3) {
-                            SoundFactory.getInstance().getHurt().play();
-                        player.setHp(player.getHp() - m.getAttackPoints());
-
+                            m.attack(player);
                         }
                     }
                 }
 
                 for(Potion p : potions){
                     if (contact.getFixtureB().getBody() == p.getBody() && contact.getFixtureA().getBody() == player.getBody()) {
-                        SoundFactory.getInstance().getPotion().play();
-                        player.setHp(player.getHp() + 1);
-                        p.setActive(false);}
+                        p.getEffect(player);
+                    }
 
                 }
 

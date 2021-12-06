@@ -1,9 +1,17 @@
 package com.project.labyrinth.model;
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.factory.Constante;
+import com.project.labyrinth.factory.SoundFactory;
+import com.project.labyrinth.model.monster.Monster;
 
 public class Player extends Entity {
 
+
+
+    public enum direction {RIGHT, LEFT, UP, DOWN } ;
+    private  direction sens;
+    private static final int BASEHP = 10;
+    private static final int BOOSTHP = 3;
 
     /**
      * create a player
@@ -12,12 +20,6 @@ public class Player extends Entity {
      * @param y ,position in y
      * @param size ,size player
      */
-
-    public enum direction {RIGHT, LEFT, UP, DOWN } ;
-    private  direction sens;
-    private static final int BASEHP = 10;
-    private static final int BOOSTHP = 3;
-
     Player(World world, int x, int y, int size, int lvl){
 
 
@@ -47,7 +49,11 @@ public class Player extends Entity {
         shape.dispose();
 
     }
+    public void attack(Monster m){
+        SoundFactory.getInstance().getAttack().play();
+        m.setHp(m.getHp() - getAttackPoints());
 
+    }
     public direction getSens() {
         return sens;
     }

@@ -1,7 +1,9 @@
 package com.project.labyrinth.model.monster;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.project.labyrinth.factory.SoundFactory;
 import com.project.labyrinth.model.Entity;
+import com.project.labyrinth.model.Player;
 
 /**
  * entity monster
@@ -51,7 +53,10 @@ public abstract class Monster extends Entity {
 
 
     }
-
+    public void attack(Player player){
+        SoundFactory.getInstance().getHurt().play();
+        player.setHp(player.getHp() - getAttackPoints());
+    }
     public int[] getGoal() {
         return goal;
     }
