@@ -3,12 +3,28 @@ package com.project.labyrinth.model.cellEffect;
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.model.Player;
 
+/**
+ * secret passage: player teleport
+ */
+
+
 public class CellPath {
 
     private int destinationX, destinationY;
     private boolean activated = false;
     private int size;
     private Body body;
+
+    /**
+     *
+     * @param world, the world of game (manage all physics entities)
+     * @param x position in x
+     * @param y position in y
+     * @param destX position destination in x
+     * @param destY position destination in y
+     * @param size size body in the world
+     * @param ratio screen ratio
+     */
 
     public CellPath(World world, int x, int y, int destX, int destY, int size, int ratio){
         x *= ratio;
@@ -41,12 +57,15 @@ public class CellPath {
         this.activated = activated;
     }
 
+    /**
+     * cell effect teleport player
+     * @param player player of  world
+     */
     public void getEffect(Player player){
-        System.out.println("Teleport to : " + destinationX + " ; " + destinationY);
+
         player.getBody().setLinearVelocity(0, 0);
         player.getBody().setTransform(destinationX, destinationY, player.getBody().getAngle());
-        System.out.println("Wesh");
-        player.getBody().setAwake(true);
+
     }
 
     public Body getBody(){

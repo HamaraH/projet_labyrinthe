@@ -8,6 +8,12 @@ public class MenuKeyboard implements InputProcessor {
 
     private MenuScreen ms;
 
+
+    /**
+     * Controller for menu
+     * @param ms MenuScreen
+     */
+
     public MenuKeyboard(MenuScreen ms){
         this.ms = ms;
     }

@@ -32,10 +32,6 @@ public abstract class Entity {
         return attackPoints;
     }
 
-    public void setAttackPoints(int attackPoints) {
-        this.attackPoints = attackPoints;
-    }
-
     public void setSize(int size) {
         this.size = size;
     }

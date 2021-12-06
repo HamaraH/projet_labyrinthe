@@ -3,12 +3,25 @@ package com.project.labyrinth.model.cellEffect;
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.model.Player;
 
+
+/**
+ * trap cell, does damage to the hero
+ */
 public class CellTrap  {
 
 
     private final static  int DAMAGE = 1;
     private int size;
     private Body body;
+
+    /**
+     *
+     * @param world
+     * @param x
+     * @param y
+     * @param size
+     * @param ratio
+     */
 
     public CellTrap(World world, int x, int y, int size, int ratio){
 
@@ -32,6 +45,10 @@ public class CellTrap  {
 
     }
 
+    /**
+     *effect damage on the player
+     * @param player , player of world
+     */
 
     public void getEffect(Player player)
     {

@@ -26,6 +26,9 @@ public class SoundFactory {
     }
 
 
+    /**
+     * free memory
+     */
     public void dispose(){
         backgroundMusic.dispose();
         potion.dispose();

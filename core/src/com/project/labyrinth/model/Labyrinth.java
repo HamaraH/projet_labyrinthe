@@ -33,7 +33,6 @@ public class Labyrinth {
     private List<Wall> walls;
     private World world;
     private AtomicBoolean playerAttack ;
-    //private AtomicBoolean monsterAttack;
     private List<Potion> potions;
     private List<CellTrap> traps;
     private List<CellPath> paths;
@@ -136,7 +135,7 @@ public class Labyrinth {
     }
 
     /**
-     *
+     * gives an objective square for the movement of the monster
      */
     private void actionMonsters(){
         for(Monster m : monsters){
@@ -170,8 +169,8 @@ public class Labyrinth {
     }
 
     /**
-     *
-     * @return ,Integer table
+     * give a random direction
+     * @return ,Integer table with direction
      */
     private Integer[] randomDirection(){
         ArrayList<Integer> dir = new ArrayList<>(4);
@@ -183,18 +182,6 @@ public class Labyrinth {
         return dir.toArray(new Integer[4]);
     }
 
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0 ; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++)
-                if (map[j][i] == 1)
-                    sb.append("# ");
-                else
-                    sb.append("; ");
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
 
 
     /**
@@ -231,6 +218,10 @@ public class Labyrinth {
 
     }
 
+    /**
+     * player movement
+     * @param vector2
+     */
     public void movePlayer(Vector2 vector2){
         player.applyForce(vector2);
     }
@@ -294,11 +285,12 @@ public class Labyrinth {
         //delete monster in arraylist
         monsters.removeIf(m -> m.getHp() <= 0);
 
-
-
     }
 
 
+    /**
+     * remove potions drunk
+     */
     private void deletePotionOfLife(){
         for(Potion p : potions){
             if(!p.isActive()) {
@@ -320,7 +312,9 @@ public class Labyrinth {
     }
 
 
-
+    /**
+     * cell effect
+     */
     public void effectCell(){
 
         world.setContactListener(new ContactListener() {
@@ -405,6 +399,13 @@ public class Labyrinth {
 
     }
 
+
+    /**
+     * initialise the level
+     * @param sizeX
+     * @param sizeY
+     */
+
     private void initialisation(int sizeX, int sizeY){
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
@@ -418,8 +419,6 @@ public class Labyrinth {
         this.sizeY = sizeY;
 
         gameOver = false;
-
-
 
         rand = new Random();
 
@@ -436,12 +435,6 @@ public class Labyrinth {
         mazeRecursion(1, 1);
 
         pathfinder = new AStar(map);
-
-        /*if(cptLaby == 5) {
-            cellNext = null;
-        }else{
-            cellTreasure = null;
-        }*/
 
         //Searching for the corner the furthest away from the player to place the exit
         int lenOpt0 = pathfinder.getPathLength(new int[]{sizeX - 2, sizeY - 2}, new int[]{1, 1}); // top right
@@ -540,12 +533,12 @@ public class Labyrinth {
             }
             map[x][y] = 2;
             int lenEntryToEnd = pathfinder.getPathLength(new int[]{x, y}, new int[]{endX, endY});
-            //System.out.println("lenEntryToEnd - sizeX / 3 = " + (lenEntryToEnd - sizeX / 3));
+
             int destX = -1, destY = -1;
             while((destX <= 0 && destY <= 0) || map[destX][destY] != 0 || pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}) >= lenEntryToEnd - sizeX / 4 || pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}) == 0){
                 destX = rand.nextInt(sizeX - 2) + 1;
                 destY = rand.nextInt(sizeY - 2) + 1;
-                //System.out.println("lenEndtofinish = " + pathfinder.getPathLength(new int[]{destX, destY}, new int[]{endX, endY}));
+
             }
             map[destX][destY] = 2;
             paths.add(new CellPath(world, x, y, destX, destY, ratio, ratio));

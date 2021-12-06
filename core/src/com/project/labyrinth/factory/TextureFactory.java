@@ -65,8 +65,9 @@ public class TextureFactory {
 
     }
 
-    public void dispose(){
 
+
+    public void dispose(){
 
         mapTexture.dispose();
         playerTexture.dispose();

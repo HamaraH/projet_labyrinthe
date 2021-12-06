@@ -10,6 +10,14 @@ public class Potion {
     private Body body;
     private Boolean active;
 
+    /**
+     * create potion
+     * @param world ,the world of game
+     * @param x position in x
+     * @param y poistion in y
+     * @param size size world
+     * @param ratio screen ratio
+     */
 
     Potion(World world, int x, int y, int size, int ratio) {
 

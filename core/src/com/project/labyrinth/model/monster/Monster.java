@@ -3,6 +3,9 @@ package com.project.labyrinth.model.monster;
 import com.badlogic.gdx.physics.box2d.*;
 import com.project.labyrinth.model.Entity;
 
+/**
+ * entity monster
+ */
 
 public abstract class Monster extends Entity {
 
