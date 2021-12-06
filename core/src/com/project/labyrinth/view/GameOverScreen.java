@@ -12,6 +12,9 @@ public class GameOverScreen extends ScreenAdapter {
     private SpriteBatch spriteBatch;
     private OrthographicCamera camera ;
 
+    /**
+     * Create gameOver screen
+     */
     public GameOverScreen(){
 
         spriteBatch = new SpriteBatch();

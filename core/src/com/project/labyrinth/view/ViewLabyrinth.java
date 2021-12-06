@@ -14,6 +14,11 @@ public class ViewLabyrinth {
 
     private Labyrinth labyrinth;
 
+
+    /**
+     * view labyrinth for display
+     * @param l ,labyrinth
+     */
     public ViewLabyrinth(Labyrinth l){
         this.labyrinth = l;
     }

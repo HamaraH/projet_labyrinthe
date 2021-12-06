@@ -16,7 +16,9 @@ public class Game extends com.badlogic.gdx.Game {
 	 * create the labyrinth and the screen game
 	 */
 	@Override
-	public void create () {
+	public void create ()
+	{
+		Gdx.graphics.setTitle("PokéRPG");
 		launchMenu();
 	}
 

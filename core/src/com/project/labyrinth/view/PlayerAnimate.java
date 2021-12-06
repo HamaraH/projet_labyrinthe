@@ -1,42 +1,36 @@
 package com.project.labyrinth.view;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.project.labyrinth.Game;
 import com.project.labyrinth.factory.TextureFactory;
 import com.project.labyrinth.model.Labyrinth;
-import com.project.labyrinth.model.Player;
 
+
+/**
+ * management of the animation of the sprite
+ */
 public class PlayerAnimate extends Actor {
 
     private static final int COLS = 4, ROWS = 4;
-    Animation<TextureRegion> animationDown, animationUp, animationRight, animationLeft;
-
-
+    private Animation<TextureRegion> animationDown, animationUp, animationRight, animationLeft;
     private final static float SPEED = 0.100f;
-    TextureRegion textureRegion;
-    float stateTime;
+    private TextureRegion textureRegion;
+    private float stateTime;
 
     Labyrinth labyrinth;
 
 
+    /**
+     * Create animation
+     * @param labyrinth ,labyrinth that contains the player
+     */
     public PlayerAnimate(Labyrinth labyrinth){
 
-
         this.labyrinth =labyrinth ;
-
-
         Texture sheet = TextureFactory.getInstance().getPlayerTexture() ;
 
         TextureRegion[][] tmp = TextureRegion.split(sheet, sheet.getWidth() / COLS, sheet.getHeight() / ROWS);
@@ -110,7 +104,10 @@ public class PlayerAnimate extends Actor {
         }
     }
 
-
+    /**
+     * draw player
+     * @param batch batch
+     */
     public void draw(Batch batch){
 
         batch.draw(textureRegion,  labyrinth.getPlayer().getPositionX(), labyrinth.getPlayer().getPositionY(), labyrinth.getPlayer().getSize(), labyrinth.getPlayer().getSize());

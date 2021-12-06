@@ -18,6 +18,10 @@ public class MenuScreen extends ScreenAdapter {
     private MenuKeyboard menuKeyboard;
     private boolean quit = false, start = false;
 
+
+    /**
+     * dispplay menu
+     */
     public MenuScreen(){
         menuKeyboard = new MenuKeyboard(this);
         Gdx.input.setInputProcessor(menuKeyboard);
@@ -29,7 +33,7 @@ public class MenuScreen extends ScreenAdapter {
         camera.update();
         menuKeyboard = new MenuKeyboard(this);
         Gdx.input.setInputProcessor(menuKeyboard);
-        Gdx.graphics.setTitle("PokéRPG");
+
     }
 
     @Override

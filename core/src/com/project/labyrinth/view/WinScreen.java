@@ -14,6 +14,9 @@ public class WinScreen extends ScreenAdapter {
     private OrthographicCamera camera ;
 
 
+    /**
+     * create win screen
+     */
     public WinScreen(){
 
         spriteBatch = new SpriteBatch();
