@@ -1,0 +1,36 @@
+
+review :
+
+Fonctionnalité :
+- Passage secret (fait guillaume)
+
+Autre :
+- Héros de + en + fort a chaque niveaux (amélioration de la fonctionnalité passage de level) (fait guillaume)
+- Son pour certaines action (amélioration de la fonctionnaliaité en rapport avec le son) (fait lindsay)
+- menu (fait guillaume)
+
+- fix la caméra au changement de niveaux (fait lindsay)
+- fix point de vie de l'héros (fait lindsay)
+
+
+retrospective :
+
+point positif :
+    - toute les fonctionnalitées ont été faites
+    - tout les beugs connus ont été fix
+
+point negatif :
+    - le conception MVC n'a pas toujours été respecté
+    - priviliégier l'implémentation des fonctionnalités au détriment de la conception
+
+
+Bilan du projet :
+il est compliqué d'intégrer parfaitement un MVC sur un moteur de jeux déjà existant, de + des choix de patron de
+conception spécialisé pour les jeux vidéos tels que ECS aurait été surement mieux adapté.
+Il est important de bien se renseigner sur le moteur de jeux utilisée afin de pouvoir adapté la conception
+
+
+
+
+
+

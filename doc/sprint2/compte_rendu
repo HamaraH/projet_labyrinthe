@@ -13,15 +13,21 @@ point positif :
 
 point négatif :
     - ne pas faire la documentation au fur a mesure
+    - surchage de travail
+    - toute les fonctionalités n'ont pas été faites
 
 
 review :
+
+Fonctionnalité :
     - Les monstres attaquent le héros qui perd des points de vie (lindsay)
-    - Les points de vie du joueur sont affichées (lindsay)
-    - les monstres intégrent un déplacement intélligent vers le héros (guillaume)
     - Le labyrinthe a un trésor (sortie) et une cases qui permet d'accéder au niveaux suivant (lindsay et guillaume)
     - Intégration d'une potion qui permet au joueurs de récupérer des points de vie (lindsay et guillaume)
     - Intégration de nouveaux monstres qui peuvent traverser les murs (lindsay)
     - Intégration des cases pièges qui font subir des dégats à l'héros (lindsay et guillaume)
-    - Le héros avance dans le sens de sa direction (PAS FAIT)
 
+
+ Autres :
+    - Les points de vie du joueur sont affichées (lindsay)
+    - les monstres intégrent un déplacement intélligent vers le héros (amélioration de la fonctionalité de déplacement d'héros) (guillaume)
+    - Le héros avance dans le sens de sa direction (amélioration de la fonctionnalité déplacement de l'héros) (PAS FAIT)
