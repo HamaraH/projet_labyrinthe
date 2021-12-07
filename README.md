@@ -1,6 +1,6 @@
 # projet_labyrinthe
 To play, enter the following command in a terminal positionned on this folder :
-graddle wrapper 
+./gradlew wrapper and
 ./gradlew desktop:run
 
 For play : 
