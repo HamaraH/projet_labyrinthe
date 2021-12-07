@@ -2,7 +2,7 @@ Fonctionalité :
 
 	- Mise en place de la musique (arno et manon)
 	- Afficher le plateau de jeu (arno et manon)
-    - Création de l'héros sur le plateau (arno et manon)
+    	- Création du héros sur le plateau (arno et manon)
 	- Intégration des murs sur le plateau (arno et manon)
 
 	- Le héros peut se déplacer sur le plateau (lindsay)
@@ -14,5 +14,5 @@ Fonctionalité :
 
 Autres :
     - Des monstres sont placés aléatoirement sur le labyrinthe (guillaume)
-    - Le héros et les monstres ne peut pas traverser les murs (améloiration de la fonctionalité déplacement du heros) (guillaume)
+    - Le héros et les monstres ne peuvent pas traverser les murs (amélioration de la fonctionnalité déplacement du heros) (guillaume)
     - Le labyrinthe les obstacles le héros et les monstres sont texturés (arno et manon)

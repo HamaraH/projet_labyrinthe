@@ -1,13 +1,13 @@
 Fonctionnalité
     - Les monstres attaquent le héros qui perd des points de vie (arno et manon)
-    - Le labyrinthe a un trésor (sortie) et une cases qui permet d'accéder au niveaux suivant (lindsay et guillaume)
-    - Intégration d'une potion qui permet au joueurs de récupérer des points de vie (lindsay et guillaume)
+    - Le labyrinthe a un trésor (sortie) et une case qui permet d'accéder au niveau suivant (lindsay et guillaume)
+    - Intégration d'une potion qui permet au joueur de récupérer des points de vie (lindsay et guillaume)
     - Intégration de nouveaux monstres qui peuvent traverser les murs (lindsay)
-    - Intégration des cases pièges qui font subir des dégats à l'héros (lindsay et guillaume)
+    - Intégration de cases pièges qui font subir des dégats au héros (lindsay et guillaume)
 
 
 Autres :
-    - Les points de vie du joueur sont affichées (lindsay)
-    - les monstres intégrent un déplacement intélligent vers le héros
+    - Les points de vie du joueur sont affichés (lindsay)
+    - les monstres intègrent un déplacement intelligent vers le héros
     (amélioration de la fonctionalité deplacement monstre) (guillaume)
-    - Le héros avance dans le sens de sa direction (arno et manon)
+    - Le sprite du héros se tourne selon sa direction (arno et manon)
