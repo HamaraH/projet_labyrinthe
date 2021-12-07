@@ -3,7 +3,7 @@ To play, enter the following command in a terminal positionned on this folder :
 ./gradlew wrapper and
 ./gradlew desktop:run
 
-For play : 
+To play : 
 <ul>
   <li> z : walk up </li>
   <li> s : walk down </li>
