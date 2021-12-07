@@ -7,7 +7,7 @@ Fonctionalité :
 
 	- Mise en place de la musique (arno et manon) (fait)
 	- Afficher le plateau de jeu (arno et manon) (fait)
-    - Création de l'héros sur le plateau (arno et manon) (fait par lindsay)
+    	- Création du héros sur le plateau (arno et manon) (fait par lindsay)
 	- Intégration des murs sur le plateau (arno et manon)  (fait par lindsay)
 
 	- Le héros peut se déplacer sur le plateau (lindsay) (fait)
@@ -19,24 +19,23 @@ Fonctionalité :
 
 Autres :
     - Des monstres sont placés aléatoirement sur le labyrinthe (guillaume) (fait)
-    - Le héros et les monstres ne peut pas traverser les murs
-    (améloiration de la fonctionalité déplacement du heros et monstre) (guillaume) (fait guillaume et lindsay)
+    - Le héros et les monstres ne peut pas traverser les murs (amélioration de la fonctionnalité déplacement du heros et monstre) (guillaume) (fait guillaume et lindsay)
     - Le labyrinthe les obstacles le héros et les monstres sont texturés (arno et manon) (fait)
 
 
 
 Point positif :
     - Toutes les fonctionalitées ont été réalisées
-    - javadoc et commentaire présent
+    - javadoc et commentaires présents
 
 
 Point négatif :
-       - Certaines personne ont réaliser leurs tâches partiellement
-       ce qui a du être reprit par d'autres personne
-       - certaine tache ont été réalisée trop tard ce qui a impliqué un retard dans le sprint
-       et une surcharge de travaille a la fin du sprint
+       - Certaines personnes ont réalisé leurs tâches partiellement
+       ce qui a du être reprit par d'autres personnes
+       - certaines tâches ont été réalisées trop tard ce qui a impliqué un retard dans le sprint
+       et une surcharge de travail à la fin du sprint
        - le diagramme de classe n'a pas été respecté par tout le monde,
-       les modifications pour le respecté on du etre fait par d'autres membres
+       les modifications pour le respecter on dû etre faites par d'autres membres
 
 
 
