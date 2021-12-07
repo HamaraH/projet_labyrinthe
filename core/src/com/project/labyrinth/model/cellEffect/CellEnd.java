@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class CellEnd {
 
+    
     protected Body body;
     protected int size;
 
