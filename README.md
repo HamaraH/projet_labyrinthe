@@ -23,7 +23,7 @@ Version :
   <li> ashleyVersion = 1.7.3 </li>
   <li> aiVersion = 1.8.2 </li>
   <li> gdxControllersVersion = 2.1.0 </li>
-  <li> graddle = 1.8 </li> 
+  <li> graddle = 7.3 </li> 
   <li> java = 11 </li> 
   <li> lwgl = 2.9 </li> 
 </ul> 
