@@ -11,9 +11,9 @@ To play :
   <li> d : walk rit </li> 
 </ul>
 To attack you must collide with the monster and left click </br> 
-You can collect potions that gain a life point but you can lose some by stepping on a trap. </br> 
-Secret passage to conceal, represented by small yellow stars will teleport you to a point on the map </br> 
-the objective is to go through 5 levels thanks to the ladders and to arrive at the treasures </br> 
+You can collect potions that give you a life point but you can lose some by stepping on a trap. </br> 
+Secret passages are concealed, represented by small yellow stars and will teleport you to a point on the map closer to the end</br> 
+the objective is to go through 5 levels thanks to the ladders and to arrive at the treasure </br> 
 
 Version : 
 <ul>
