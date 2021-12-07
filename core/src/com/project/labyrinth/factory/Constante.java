@@ -2,7 +2,7 @@ package com.project.labyrinth.factory;
 
 
 /**
- * Consranre for collisions
+ * Constants for collisions
  */
 public class Constante {
 

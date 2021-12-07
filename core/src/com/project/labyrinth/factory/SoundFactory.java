@@ -14,7 +14,7 @@ public class SoundFactory {
     private static SoundFactory instance = new SoundFactory();
 
     /**
-     * brings together the music of the game
+     * brings together the sounds of the game
      */
     private SoundFactory(){
 

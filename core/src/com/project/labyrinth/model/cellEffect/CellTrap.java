@@ -17,11 +17,11 @@ public class CellTrap  {
 
     /**
      *
-     * @param world
-     * @param x
-     * @param y
-     * @param size
-     * @param ratio
+     * @param world :  the world of game (manage all physics entities)
+     * @param x : the x position of the cell
+     * @param y : the y position of the cell
+     * @param size : the size of the cell
+     * @param ratio : screen ratio
      */
 
     public CellTrap(World world, int x, int y, int size, int ratio){

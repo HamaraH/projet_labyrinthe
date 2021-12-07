@@ -15,7 +15,7 @@ public class CellTreasure extends CellEnd {
      * @param world, ,the world of game (manage all physics entities)
      * @param x , position in x
      * @param y , posisition in y
-     * @param size , size entity
+     * @param size , size of the cell
      */
     public CellTreasure(World world, int x, int y, int size){
         super(world, x, y, size);

@@ -135,33 +135,31 @@ public class Labyrinth {
     }
 
     /**
-     * gives an objective square for the movement of the monster
+     * gives an objective placement for the movement of the monster if the monster has finished moving to its previous goal
      */
     private void actionMonsters(){
         for(Monster m : monsters){
-            if(true) { // the monster isn't attacking and will move
-                if (m.isFinishedMoving()){
-                    m.setFinishedMoving(false);
-                    m.setPosX((int) (m.getPositionX() + (m.getSize() / 2)) / ratio);
-                    m.setPosY((int) (m.getPositionY() + (m.getSize() / 2)) / ratio);
-                    player.setPosX((int) (player.getPositionX() + (player.getSize() / 2)) / ratio);
-                    player.setPosY((int) (player.getPositionY() + (player.getSize() / 2)) / ratio);
-                    if (m.isMonster1()) {
-                        //System.out.println("Monster1");
-                        m.setGoal(pathfinder.getNextMove(new int[]{m.getPosX(), m.getPosY()}, new int[]{player.getPosX(), player.getPosY()}));
+            if (m.isFinishedMoving()){
+                m.setFinishedMoving(false);
+                m.setPosX((int) (m.getPositionX() + (m.getSize() / 2)) / ratio);
+                m.setPosY((int) (m.getPositionY() + (m.getSize() / 2)) / ratio);
+                player.setPosX((int) (player.getPositionX() + (player.getSize() / 2)) / ratio);
+                player.setPosY((int) (player.getPositionY() + (player.getSize() / 2)) / ratio);
+                if (m.isMonster1()) {
+                    //System.out.println("Monster1");
+                    m.setGoal(pathfinder.getNextMove(new int[]{m.getPosX(), m.getPosY()}, new int[]{player.getPosX(), player.getPosY()}));
+                } else {
+                    //System.out.println("Monster2");
+                    if (Math.abs(m.getPosX() - player.getPosX()) > Math.abs(m.getPosY() - player.getPosY())) {
+                        if (m.getPosX() > player.getPosX())
+                            m.setGoal(new int[]{m.getPosX() - 1, m.getPosY()});
+                        else
+                            m.setGoal(new int[]{m.getPosX() + 1, m.getPosY()});
                     } else {
-                        //System.out.println("Monster2");
-                        if (Math.abs(m.getPosX() - player.getPosX()) > Math.abs(m.getPosY() - player.getPosY())) {
-                            if (m.getPosX() > player.getPosX())
-                                m.setGoal(new int[]{m.getPosX() - 1, m.getPosY()});
-                            else
-                                m.setGoal(new int[]{m.getPosX() + 1, m.getPosY()});
-                        } else {
-                            if (m.getPosY() > player.getPosY())
-                                m.setGoal(new int[]{m.getPosX(), m.getPosY() - 1});
-                            else
-                                m.setGoal(new int[]{m.getPosX(), m.getPosY() + 1});
-                        }
+                        if (m.getPosY() > player.getPosY())
+                            m.setGoal(new int[]{m.getPosX(), m.getPosY() - 1});
+                        else
+                            m.setGoal(new int[]{m.getPosX(), m.getPosY() + 1});
                     }
                 }
             }
@@ -169,8 +167,8 @@ public class Labyrinth {
     }
 
     /**
-     * give a random direction
-     * @return ,Integer table with direction
+     * gives a random direction
+     * @return ,Integer table with shuffled directions
      */
     private Integer[] randomDirection(){
         ArrayList<Integer> dir = new ArrayList<>(4);
@@ -220,7 +218,7 @@ public class Labyrinth {
 
     /**
      * player movement
-     * @param vector2
+     * @param vector2 the direction and force in which the player moves
      */
     public void movePlayer(Vector2 vector2){
         player.applyForce(vector2);
@@ -397,8 +395,8 @@ public class Labyrinth {
 
     /**
      * initialise the level
-     * @param sizeX
-     * @param sizeY
+     * @param sizeX the horizontal size of the level
+     * @param sizeY the vertical size of the level
      */
 
     private void initialisation(int sizeX, int sizeY){

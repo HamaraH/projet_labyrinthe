@@ -19,6 +19,11 @@ public class MenuKeyboard implements InputProcessor {
     }
 
 
+    /**
+     * What to do when a key is pressed
+     * @param i : key pressed
+     * @return true
+     */
     @Override
     public boolean keyDown(int i) {
         switch (i){
@@ -35,7 +40,7 @@ public class MenuKeyboard implements InputProcessor {
                 else
                     ms.setQuit(true);
         }
-        return false;
+        return true;
     }
 
     @Override

@@ -20,7 +20,7 @@ public class MenuScreen extends ScreenAdapter {
 
 
     /**
-     * dispplay menu
+     * display menu
      */
     public MenuScreen(){
         menuKeyboard = new MenuKeyboard(this);

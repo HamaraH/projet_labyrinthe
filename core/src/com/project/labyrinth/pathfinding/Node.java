@@ -1,5 +1,9 @@
 package com.project.labyrinth.pathfinding;
 
+
+/**
+ * A class representing a node in a graph
+ */
 public class Node implements Comparable<Node>{
     private Node parent = null;
     private int totalPathWeight = Integer.MAX_VALUE, weightToGetHere = Integer.MAX_VALUE, heuristic, x, y;
@@ -13,7 +17,6 @@ public class Node implements Comparable<Node>{
     public Node getParent() {
         return parent;
     }
-
     public void setParent(Node parent) {
         this.parent = parent;
     }
@@ -26,6 +29,11 @@ public class Node implements Comparable<Node>{
         return weightToGetHere;
     }
 
+    /**
+     * Calculates the heuristic between this node and a target node, saving and returning it
+     * @param target the node to which we want the heuristic
+     * @return the heuristic between this node and the target
+     */
     public int calculateAndSetHeuristic(Node target){
         this.heuristic = Math.abs(this.x - target.getX()) + Math.abs(this.y - target.getY());
         return this.heuristic;
@@ -59,6 +67,12 @@ public class Node implements Comparable<Node>{
         this.y = y;
     }
 
+
+    /**
+     * Compares this node to another using their weight
+     * @param n the node to which we compare this node
+     * @return an indicator of the best node
+     */
     @Override
     public int compareTo(Node n) {
         return Integer.compare(this.totalPathWeight, n.getTotalPathWeight());
